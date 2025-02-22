@@ -80,12 +80,12 @@ if [ ! -f ./config/settings.inc.php ]; then
                 echo "\n* Dropping existing database $DB_NAME..."
                 mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER -e "drop database if exists $DB_NAME;"
                 echo "\n* Creating database $DB_NAME..."
-                mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER create $DB_NAME --force;
+                mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER create database $DB_NAME;
             else
                 echo "\n* Dropping existing database $DB_NAME..."
                 mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER -p$DB_PASSWD -e "drop database if exists $DB_NAME;"
                 echo "\n* Creating database $DB_NAME..."
-                mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER -p$DB_PASSWD create $DB_NAME --force;
+                mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER -p$DB_PASSWD create database $DB_NAME;
             fi
         fi
 
