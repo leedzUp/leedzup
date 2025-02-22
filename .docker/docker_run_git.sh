@@ -73,7 +73,13 @@ if [ ! -f ./config/settings.inc.php ]; then
     if [ $PS_INSTALL_AUTO = 1 ]; then
 
         echo "\n* Installing PrestaShop, this may take a while ...";
-
+	echo -e "\n* Variables:"
+	echo -e "PS_ERASE_DB: $PS_ERASE_DB"
+	echo -e "DB_SERVER: $DB_SERVER"
+	echo -e "DB_PORT: $DB_PORT"
+	echo -e "DB_USER: $DB_USER"
+	echo -e "DB_PASSWD: $DB_PASSWD"
+	echo -e "DB_NAME: $DB_NAME"
         if [ $PS_ERASE_DB = 1 ]; then
             echo "\n* Drop & recreate mysql database...";
             if [ $DB_PASSWD = "" ]; then
