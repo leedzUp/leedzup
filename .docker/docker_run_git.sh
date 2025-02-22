@@ -80,18 +80,20 @@ if [ ! -f ./config/settings.inc.php ]; then
 	echo -e "DB_USER: $DB_USER"
 	echo -e "DB_PASSWD: $DB_PASSWD"
 	echo -e "DB_NAME: $DB_NAME"
+	mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER -p$DB_PASSWD -e "SHOW DATABASES;"
+
         if [ $PS_ERASE_DB = 1 ]; then
             echo "\n* Drop & recreate mysql database...";
             if [ $DB_PASSWD = "" ]; then
                 echo "\n* Dropping existing database $DB_NAME..."
                 mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER -e "drop database if exists $DB_NAME;"
                 echo "\n* Creating database $DB_NAME..."
-                mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER create database $DB_NAME;
+                mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER "create database if not exists $DB_NAME;"
             else
                 echo "\n* Dropping existing database $DB_NAME..."
                 mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER -p$DB_PASSWD -e "drop database if exists $DB_NAME;"
                 echo "\n* Creating database $DB_NAME..."
-                mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER -p$DB_PASSWD create database $DB_NAME;
+                mariadb -h $DB_SERVER -P $DB_PORT -u $DB_USER -p$DB_PASSWD "create database if not exists $DB_NAME;"
             fi
         fi
 
