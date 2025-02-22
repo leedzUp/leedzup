@@ -115,7 +115,8 @@ class InstallControllerConsoleProcess extends InstallControllerConsole implement
         $this->clearConfigXML() && $this->clearConfigThemes();
         $steps = explode(',', $this->datas->step);
         if (in_array('all', $steps)) {
-            $steps = ['database', 'modules', 'theme', 'fixtures', 'postInstall'];
+           // $steps = ['database', 'modules', 'theme', 'fixtures', 'postInstall'];
+	   $steps = ['database', 'theme', 'postInstall'];
         }
         if (!file_exists(PS_INSTALLATION_LOCK_FILE)) {
             // Set the install lock file
