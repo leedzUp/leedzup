@@ -50,75 +50,7 @@ assets:
 global_settings:
   configuration:
     PS_IMAGE_QUALITY: png
-  modules:
-    to_enable:
-      - ps_linklist
-  hooks:
-    modules_to_hook:
-      displayAfterBodyOpeningTag:
-        - blockreassurance
-      displayNavFullWidth:
-        - blockreassurance
-      displayAdminCustomers:
-        - blockwishlist
-      displayCustomerAccount:
-        - blockwishlist
-        - psgdpr
-      displayMyAccountBlock:
-        - blockwishlist
-      displayNav1:
-        - ps_contactinfo
-      displayNav2:
-        - ps_languageselector
-        - ps_currencyselector
-        - ps_customersignin
-        - ps_shoppingcart
-      displayTop:
-        - ps_mainmenu
-        - ps_searchbar
-      displayHome:
-        - ps_imageslider
-        - ps_featuredproducts
-        - ps_banner
-        - ps_customtext
-        - ps_specials
-        - ps_newproducts
-        - ps_bestsellers
-      displayFooterBefore:
-        - ps_emailsubscription
-        - ps_socialfollow
-        - blockreassurance
-      displayFooter:
-        - ps_linklist
-        - ps_customeraccountlinks
-        - ps_contactinfo
-        - blockwishlist
-      displayFooterAfter:
-        - blockreassurance
-      displayFooterProduct:
-        - productcomments
-      displayLeftColumn:
-        - ps_categorytree
-        - ps_facetedsearch
-      displayContactLeftColumn:
-        - ps_contactinfo
-      displayContactRightColumn:
-        - ps_contactinfo
-      displayContactContent:
-        - contactform
-      displaySearch:
-        - ps_searchbar
-      displayProductAdditionalInfo:
-        - ps_sharebuttons
-        - productcomments
-      displayProductListReviews:
-        - productcomments
-      displayReassurance:
-        - blockreassurance
-      displayOrderConfirmation2:
-        - ps_featuredproducts
-      displayProductActions:
-        - blockwishlist
+  modules: []
 
   image_types:
     cart_default:
@@ -128,7 +60,7 @@ global_settings:
     small_default:
       width: 98
       height: 98
-      scope: [ products, categories, manufacturers, suppliers ]
+      scope: [ products ]
     medium_default:
       width: 452
       height: 452
@@ -154,8 +86,8 @@ global_settings:
 theme_settings:
   default_layout: layout-full-width
   layouts:
-    category: layout-left-column
-    best-sales: layout-left-column
-    new-products: layout-left-column
-    prices-drop: layout-left-column
-    contact: layout-left-column
+    category: layout-full-width
+    best-sales: layout-full-width
+    new-products: layout-full-width
+    prices-drop: layout-full-width
+    contact: layout-full-width
