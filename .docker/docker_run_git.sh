@@ -86,18 +86,18 @@ if [ ! -f ./config/settings.inc.php ]; then
             echo "\n* Drop & recreate mysql database...";
             if [ $DB_PASSWD = "" ]; then
                 echo "\n* Dropping existing database $DB_NAME..."
-                mariadb -h $DB_SERVER -P $DB_PORT -u root -e "drop database if exists $DB_NAME;"
+                mariadb -h $DB_SERVER -P $DB_PORT -u root -p$DB_PASSWD -e "drop database if exists $DB_NAME;"
                 echo "\n* Creating database $DB_NAME..."
-                mariadb -h $DB_SERVER -P $DB_PORT -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+                mariadb -h $DB_SERVER -P $DB_PORT -u root -p$DB_PASSWD -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 		echo "\n* Granting privileges to $DB_USER on $DB_NAME..."
-        	mariadb -h $DB_SERVER -P $DB_PORT -u root -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';"
+        	mariadb -h $DB_SERVER -P $DB_PORT -u root -p$DB_PASSWD -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';"
             else
                 echo "\n* Dropping existing database $DB_NAME..."
                 mariadb -h $DB_SERVER -P $DB_PORT -u root -p$DB_PASSWD -e "drop database if exists $DB_NAME;"
                 echo "\n* Creating database $DB_NAME..."
                 mariadb -h $DB_SERVER -P $DB_PORT -u root -p$DB_PASSWD -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 		echo "\n* Granting privileges to $DB_USER on $DB_NAME..."
-        	mariadb -h $DB_SERVER -P $DB_PORT -u root -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';"
+        	mariadb -h $DB_SERVER -P $DB_PORT -u root -p$DB_PASSWD -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';"
             fi
         fi
 
