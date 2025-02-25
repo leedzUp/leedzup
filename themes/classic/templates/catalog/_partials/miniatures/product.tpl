@@ -27,7 +27,7 @@
   <article class="product-miniature js-product-miniature" data-id-product="{$product.id_product}" data-id-product-attribute="{$product.id_product_attribute}">
     <div class="thumbnail-container">
       <div class="thumbnail-top">
-        {block name='product_thumbnail'}
+        {block name='img-fluid'}
           {if $product.cover}
             <a href="{$product.url}" class="thumbnail product-thumbnail">
               <picture>
@@ -37,6 +37,7 @@
                   src="{$product.cover.bySize.home_default.url}"
                   alt="{if !empty($product.cover.legend)}{$product.cover.legend}{else}{$product.name|truncate:30:'...'}{/if}"
                   loading="lazy"
+		  class="img-fluid"
                   data-full-size-image-url="{$product.cover.large.url}"
                   width="{$product.cover.bySize.home_default.width}"
                   height="{$product.cover.bySize.home_default.height}"
@@ -60,11 +61,11 @@
         {/block}
 
         <div class="highlighted-informations{if !$product.main_variants} no-variants{/if}">
-          {block name='quick_view'}
+          {*{block name='quick_view'}
             <a class="quick-view js-quick-view" href="#" data-link-action="quickview">
               <i class="material-icons search">&#xE8B6;</i> {l s='Quick view' d='Shop.Theme.Actions'}
             </a>
-          {/block}
+          {/block}*}
 
           {block name='product_variants'}
             {if $product.main_variants}
