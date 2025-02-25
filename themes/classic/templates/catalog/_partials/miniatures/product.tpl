@@ -78,9 +78,9 @@
       <div class="product-description">
         {block name='product_name'}
           {if $page.page_name == 'index'}
-            <h3 class="h3 product-title"><a href="{$product.url}" content="{$product.url}">{$product.name|truncate:30:'...'}</a></h3>
+            <h2 class="h3 product-title"><a href="{$product.url}" content="{$product.url}">{$product.name|truncate:30:'...'}</a></h3>
           {else}
-            <h2 class="h3 product-title"><a href="{$product.url}" content="{$product.url}">{$product.name|truncate:30:'...'}</a></h2>
+            <p class="product-title"><a href="{$product.url}" content="{$product.url}">{$product.name}</a></p>
           {/if}
         {/block}
 
@@ -121,7 +121,7 @@
         {/block}
       </div>
 
-      {include file='catalog/_partials/product-flags.tpl'}
+      {*{include file='catalog/_partials/product-flags.tpl'}*}
     </div>
   </article>
 </div>
