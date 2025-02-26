@@ -93,6 +93,99 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 🔹 Gestion des sliders de prix
+    document.querySelectorAll(".js-faceted-slider-container").forEach(sliderContainer => {
+        let sliderId = sliderContainer.getAttribute("id").replace("slider-", "");
+        let min = parseFloat(sliderContainer.dataset.sliderMin);
+        let max = parseFloat(sliderContainer.dataset.sliderMax);
+        let valuesRaw = sliderContainer.dataset.sliderValues;
+        let values = (valuesRaw && valuesRaw !== "null") ? JSON.parse(valuesRaw) : [min, max];
+
+        let slider = document.getElementById('slider-' + sliderId);
+        noUiSlider.create(slider, {
+            start: values,
+            connect: true,
+            range: { 'min': min, 'max': max },
+            step: 10000,
+            tooltips: false,
+            format: {
+                to: value => new Intl.NumberFormat('fr-FR', { 
+                    style: 'currency', 
+                    currency: 'EUR', 
+                    minimumFractionDigits: 0, // ❌ Supprime les centimes
+                    maximumFractionDigits: 0  // ❌ Supprime les centimes
+                }).format(value),
+                from: value => Number(value.replace(/[^0-9-]+/g, ""))
+            }
+            
+        });
+
+        let startInput = document.getElementById(`slider-range-${sliderId}-start`);
+        let endInput = document.getElementById(`slider-range-${sliderId}-end`);
+        let startValue = document.getElementById(`slider-${sliderId}-start`);
+        let endValue = document.getElementById(`slider-${sliderId}-end`);
+
+        slider.noUiSlider.on("update", function (values) {
+            startValue.textContent = values[0];
+            endValue.textContent = values[1];
+
+            startInput.value = parseInt(values[0].replace(/\D/g, ""), 10);
+            endInput.value = parseInt(values[1].replace(/\D/g, ""), 10);
+        });
+
+        // 🔹 Rafraîchir la liste des produits au changement du prix
+        slider.noUiSlider.on("change", function () {
+
+            let currentUrl = new URL(window.location.href);
+
+            let selectedFilters = [];
+
+        // 🔹 Ajout des villes sélectionnées
+        // 🔹 Récupération des filtres de ville et suppression des anciens filtres de prix
+        selectedFilters = Array.from(document.querySelectorAll('.form-check-input:checked'))
+            .map(input => {
+                const searchUrl = input.getAttribute('data-search-url');
+                if (searchUrl) {
+                    const searchParams = new URL(searchUrl).searchParams;
+                    return searchParams.get('q');
+                }
+                return null;
+            })
+            .filter(f => f && !f.startsWith("price-")); // 🔥 Supprime directement les anciens `price-xxx-xxx`
+
+            // 🔹 Ajout des valeurs du slider de prix (CORRECTION : suppression des doublons)
+        let startPrice = document.querySelector('.js-faceted-slider-start')?.value || "";
+        let endPrice = document.querySelector('.js-faceted-slider-end')?.value || "";
+
+        if (startPrice && endPrice) {
+            let priceFilter = `Prix-%E2%82%AC-${startPrice}-${endPrice}`;
+            selectedFilters = selectedFilters.filter(f => !f.startsWith("Price-%E2%82%AC-")); // 🔥 Supprime d'abord les anciens filtres de prix
+            selectedFilters.push(priceFilter); // Ajoute la nouvelle fourchette de prix
+        }
+
+        // 🔹 Génération de la nouvelle URL (avec un seul `q` et sans doublons)
+        let combinedQuery = selectedFilters.length > 0 ? encodeURIComponent(selectedFilters.join('/')) : "";
+        let otherParams = new URLSearchParams(currentUrl.search);
+        otherParams.delete('q'); // Supprime l'ancien paramètre `q`
+        if (selectedFilters.length > 0) {
+            let combinedQuery = encodeURIComponent(selectedFilters.join('/'));
+            otherParams.set('q', combinedQuery);
+        }
+
+        if (combinedQuery) {
+            otherParams.set('q', combinedQuery);
+        }
+
+        // ✅ Ajout du tri par prix (ordre croissant par défaut)
+        otherParams.set('order', 'product.price.asc');
+
+        currentUrl.search = otherParams.toString();
+        console.log('Nouvelle URL :', currentUrl.toString());
+
+            refreshProductList(currentUrl.toString());
+        });
+    });
+
     // Fonction pour extraire la catégorie du filtre
     function extractCategory(qValue) {
         const parts = qValue.split('-');
