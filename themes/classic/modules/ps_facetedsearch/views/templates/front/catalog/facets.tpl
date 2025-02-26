@@ -195,38 +195,33 @@
                 </ul>
               {/block}
 
-            {elseif $facet.widgetType == 'slider'}
-              {block name='facet_item_slider'}
-                {foreach from=$facet.filters item="filter"}
-                  <div class="accordion-body faceted-filter px-0 js-faceted-filter-slider">
-                    <div
-                      class="faceted-slider js-faceted-slider-container"
-                      data-slider-min="{$facet.properties.min}"
-                      data-slider-max="{$facet.properties.max}"
-                      data-slider-id="{$_expand_id}"
-                      data-slider-values="{$filter.value|@json_encode}"
-                      data-slider-unit="{$facet.properties.unit}"
-                      data-slider-label="{$facet.label}"
-                      data-slider-specifications="{$facet.properties.specifications|@json_encode}"
-                      data-slider-encoded-url="{$filter.nextEncodedFacetsURL}"
-                      data-slider-direction="{$language.is_rtl}"
-                  >
+              {elseif $facet.widgetType == 'slider'}
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.6.1/dist/nouislider.min.css">
+                <script src="https://cdn.jsdelivr.net/npm/nouislider@15.6.1/dist/nouislider.min.js"></script>
+                {block name='facet_item_slider'}
+                  {foreach from=$facet.filters item="filter"}
+                    <div class="accordion-body faceted-filter px-0 js-faceted-filter-slider">
+                      <div id="slider-{$_expand_id}" class="faceted-slider js-faceted-slider-container"
+                        data-slider-min="{$facet.properties.min}" data-slider-max="{$facet.properties.max}"
+                        data-slider-values="{if isset($filter.value) && $filter.value}[{$filter.value[0]}, {$filter.value[1]}]{else}[{$facet.properties.min}, {$facet.properties.max}]{/if}"
+                        data-slider-unit="{$facet.properties.unit}" data-slider-label="{$facet.label}"
+                        data-slider-specifications="{$facet.properties.specifications|@json_encode}"
+                        data-slider-encoded-url="{$filter.nextEncodedFacetsURL}" data-slider-direction="{$language.is_rtl}">
+                      </div>
+                      <div class="slider-values">
+                        <span id="slider-{$_expand_id}-start"></span> -
+                        <span id="slider-{$_expand_id}-end"></span>
+                      </div>
+                      <input type="hidden" class="form-range-start js-faceted-slider js-faceted-slider-start"
+                        id="slider-range-{$_expand_id}-start">
+                      <input type="hidden" class="form-range-end js-faceted-slider js-faceted-slider-end"
+                        id="slider-range-{$_expand_id}-end">
                     </div>
-                    <div class="js-faceted-values"></div>  
-                  <input 
-                    type="hidden"
-                    class="form-range-start js-faceted-slider js-faceted-slider-start"
-                    id="slider-range_{$_expand_id}-start"
-                  >
-                  <input 
-                    type="hidden"
-                    class="form-range-start js-faceted-slider js-faceted-slider-end"
-                    id="slider-range_{$_expand_id}-end"
-                  >
-                </div>
-                {/foreach}
-              {/block}
-            {/if}
+                  {/foreach}
+  
+                  
+                {/block}
+              {/if}
           </div>
         </section>
       {/foreach}
