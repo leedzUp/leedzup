@@ -262,8 +262,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return parts.length > 1 ? parts[0] : 'Autre';
     }
 
-    // Fonction pour rafraîchir uniquement la liste des produits
     function refreshProductList(url) {
+        // Ajoute une classe de chargement pour la transition
+        productListContainer.classList.add('loading');
+    
         fetch(url, { method: 'GET' })
             .then(response => {
                 if (!response.ok) {
@@ -275,15 +277,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const newProductList = doc.querySelector('#js-product-list');
-
+    
                 if (newProductList && newProductList.querySelector('section').textContent.trim() !== '') {
+                    // Mettre à jour la liste des produits
                     productListContainer.innerHTML = newProductList.innerHTML;
-                    console.log('Liste des produits mise à jour.');
+    
+                    // Retirer la classe de chargement pour afficher les nouveaux produits avec transition
+                    setTimeout(() => {
+                        productListContainer.classList.remove('loading');
+                        console.log('Liste des produits mise à jour.');
+                    }, 500); // Le délai doit correspondre à la durée de la transition
                 } else {
                     console.log('Pas de produits trouvés.');
                 }
             })
-            .catch(error => console.error('Erreur AJAX :', error));
+            .catch(error => {
+                console.error('Erreur AJAX :', error);
+                productListContainer.classList.remove('loading');
+            });
     }
 });
 
