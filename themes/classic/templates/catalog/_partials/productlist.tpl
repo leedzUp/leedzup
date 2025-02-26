@@ -25,7 +25,7 @@
 
 {capture assign="productClasses"}{if !empty($productClass)}{$productClass}{else}col-xs-6 col-md-4{/if}{/capture}
 
-<div class="products row{if !empty($cssClass)} {$cssClass}{/if}">
+<div class="products row p-0 m-0 {if !empty($cssClass)} {$cssClass}{/if}">
     {foreach from=$products item="product" key="position"}
         {include file="catalog/_partials/miniatures/product.tpl" product=$product position=$position productClasses=$productClasses}
     {/foreach}
