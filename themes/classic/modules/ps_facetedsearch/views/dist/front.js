@@ -93,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 🔹 Gestion des sliders de prix
     document.querySelectorAll(".js-faceted-slider-container").forEach(sliderContainer => {
         let sliderId = sliderContainer.getAttribute("id").replace("slider-", "");
         let min = parseFloat(sliderContainer.dataset.sliderMin);
@@ -106,18 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
             start: values,
             connect: true,
             range: { 'min': min, 'max': max },
-            step: 10000,
+            step: 1000,
             tooltips: false,
             format: {
                 to: value => new Intl.NumberFormat('fr-FR', { 
                     style: 'currency', 
                     currency: 'EUR', 
-                    minimumFractionDigits: 0, // ❌ Supprime les centimes
-                    maximumFractionDigits: 0  // ❌ Supprime les centimes
+                    minimumFractionDigits: 0, 
+                    maximumFractionDigits: 0  
                 }).format(value),
                 from: value => Number(value.replace(/[^0-9-]+/g, ""))
             }
-            
         });
 
         let startInput = document.getElementById(`slider-range-${sliderId}-start`);
@@ -125,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let startValue = document.getElementById(`slider-${sliderId}-start`);
         let endValue = document.getElementById(`slider-${sliderId}-end`);
 
+        // Synchronisation : Mise à jour des inputs quand le slider change
         slider.noUiSlider.on("update", function (values) {
             startValue.textContent = values[0];
             endValue.textContent = values[1];
@@ -133,54 +132,125 @@ document.addEventListener('DOMContentLoaded', () => {
             endInput.value = parseInt(values[1].replace(/\D/g, ""), 10);
         });
 
-        // 🔹 Rafraîchir la liste des produits au changement du prix
-        slider.noUiSlider.on("change", function () {
+        // Synchronisation inverse : Mise à jour du slider quand les inputs sont modifiés
+        [startInput, endInput].forEach((input, index) => {
+            input.addEventListener("change", function () {
+                let minValue = parseInt(startInput.value, 10) || min;
+                let maxValue = parseInt(endInput.value, 10) || max;
 
+                // Empêcher les valeurs incorrectes
+                if (minValue < min) minValue = min;
+                if (maxValue > max) maxValue = max;
+                if (minValue > maxValue) minValue = maxValue;
+
+                slider.noUiSlider.set([minValue, maxValue]);
+            });
+        });
+
+        // Ajout d'un gestionnaire d'événements pour "Enter" dans les champs min et max
+[startInput, endInput].forEach((input) => {
+    input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            // Empêcher l'événement de se propager pour éviter d'autres actions
+            event.preventDefault();
+
+            // Mettre à jour le slider avec les nouvelles valeurs des inputs
+            let minValue = parseInt(startInput.value, 10) || min;
+            let maxValue = parseInt(endInput.value, 10) || max;
+
+            // Empêcher les valeurs incorrectes
+            if (minValue < min) minValue = min;
+            if (maxValue > max) maxValue = max;
+            if (minValue > maxValue) minValue = maxValue;
+
+            slider.noUiSlider.set([minValue, maxValue]);
+
+            // Rafraîchir la liste des produits
             let currentUrl = new URL(window.location.href);
 
             let selectedFilters = [];
 
-        // 🔹 Ajout des villes sélectionnées
-        // 🔹 Récupération des filtres de ville et suppression des anciens filtres de prix
-        selectedFilters = Array.from(document.querySelectorAll('.form-check-input:checked'))
-            .map(input => {
-                const searchUrl = input.getAttribute('data-search-url');
-                if (searchUrl) {
-                    const searchParams = new URL(searchUrl).searchParams;
-                    return searchParams.get('q');
-                }
-                return null;
-            })
-            .filter(f => f && !f.startsWith("price-")); // 🔥 Supprime directement les anciens `price-xxx-xxx`
+            // Ajout des villes sélectionnées
+            selectedFilters = Array.from(document.querySelectorAll('.form-check-input:checked'))
+                .map(input => {
+                    const searchUrl = input.getAttribute('data-search-url');
+                    if (searchUrl) {
+                        const searchParams = new URL(searchUrl).searchParams;
+                        return searchParams.get('q');
+                    }
+                    return null;
+                })
+                .filter(f => f && !f.startsWith("price-"));
 
-            // 🔹 Ajout des valeurs du slider de prix (CORRECTION : suppression des doublons)
-        let startPrice = document.querySelector('.js-faceted-slider-start')?.value || "";
-        let endPrice = document.querySelector('.js-faceted-slider-end')?.value || "";
+            // Ajout des valeurs du slider de prix (avec suppression des doublons)
+            let startPrice = startInput.value || "";
+            let endPrice = endInput.value || "";
 
-        if (startPrice && endPrice) {
-            let priceFilter = `Prix-%E2%82%AC-${startPrice}-${endPrice}`;
-            selectedFilters = selectedFilters.filter(f => !f.startsWith("Price-%E2%82%AC-")); // 🔥 Supprime d'abord les anciens filtres de prix
-            selectedFilters.push(priceFilter); // Ajoute la nouvelle fourchette de prix
+            if (startPrice && endPrice) {
+                let priceFilter = `Prix-%E2%82%AC-${startPrice}-${endPrice}`;
+                selectedFilters = selectedFilters.filter(f => !f.startsWith("Price-%E2%82%AC-")); // Supprime les anciens filtres de prix
+                selectedFilters.push(priceFilter);
+            }
+
+            // Génération de la nouvelle URL (avec un seul `q` et sans doublons)
+            let combinedQuery = selectedFilters.length > 0 ? encodeURIComponent(selectedFilters.join('/')) : "";
+            let otherParams = new URLSearchParams(currentUrl.search);
+            otherParams.delete('q');
+            if (selectedFilters.length > 0) {
+                otherParams.set('q', combinedQuery);
+            }
+
+            otherParams.set('order', 'product.price.asc'); // Ordre par prix croissant
+
+            currentUrl.search = otherParams.toString();
+            console.log('Nouvelle URL :', currentUrl.toString());
+
+            refreshProductList(currentUrl.toString());
         }
+    });
+});
 
-        // 🔹 Génération de la nouvelle URL (avec un seul `q` et sans doublons)
-        let combinedQuery = selectedFilters.length > 0 ? encodeURIComponent(selectedFilters.join('/')) : "";
-        let otherParams = new URLSearchParams(currentUrl.search);
-        otherParams.delete('q'); // Supprime l'ancien paramètre `q`
-        if (selectedFilters.length > 0) {
-            let combinedQuery = encodeURIComponent(selectedFilters.join('/'));
-            otherParams.set('q', combinedQuery);
-        }
 
-        if (combinedQuery) {
-            otherParams.set('q', combinedQuery);
-        }
+        // Rafraîchir la liste des produits au changement du prix
+        slider.noUiSlider.on("change", function () {
+            let currentUrl = new URL(window.location.href);
 
-        // ✅ Ajout du tri par prix (ordre croissant par défaut)
-        otherParams.set('order', 'product.price.asc');
+            let selectedFilters = [];
 
-        currentUrl.search = otherParams.toString();
-        console.log('Nouvelle URL :', currentUrl.toString());
+            // Ajout des villes sélectionnées
+            selectedFilters = Array.from(document.querySelectorAll('.form-check-input:checked'))
+                .map(input => {
+                    const searchUrl = input.getAttribute('data-search-url');
+                    if (searchUrl) {
+                        const searchParams = new URL(searchUrl).searchParams;
+                        return searchParams.get('q');
+                    }
+                    return null;
+                })
+                .filter(f => f && !f.startsWith("price-"));
+
+            // Ajout des valeurs du slider de prix (avec suppression des doublons)
+            let startPrice = startInput.value || "";
+            let endPrice = endInput.value || "";
+
+            if (startPrice && endPrice) {
+                let priceFilter = `Prix-%E2%82%AC-${startPrice}-${endPrice}`;
+                selectedFilters = selectedFilters.filter(f => !f.startsWith("Price-%E2%82%AC-")); // Supprime les anciens filtres de prix
+                selectedFilters.push(priceFilter);
+            }
+
+            // Génération de la nouvelle URL (avec un seul `q` et sans doublons)
+            let combinedQuery = selectedFilters.length > 0 ? encodeURIComponent(selectedFilters.join('/')) : "";
+            let otherParams = new URLSearchParams(currentUrl.search);
+            otherParams.delete('q');
+            if (selectedFilters.length > 0) {
+                otherParams.set('q', combinedQuery);
+            }
+
+            otherParams.set('order', 'product.price.asc'); // Ordre par prix croissant
+
+            currentUrl.search = otherParams.toString();
+            console.log('Nouvelle URL :', currentUrl.toString());
 
             refreshProductList(currentUrl.toString());
         });
