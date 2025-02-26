@@ -62,8 +62,8 @@ global_settings:
       height: 98
       scope: [ products ]
     medium_default:
-      width: 452
-      height: 452
+      width: 433
+      height: 322
       scope: [ products, manufacturers, suppliers ]
     home_default:
       width: 250
