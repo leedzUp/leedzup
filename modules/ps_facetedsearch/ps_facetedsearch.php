@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -35,28 +36,28 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
     /**
      * @var string Name of the module running on PS 1.6.x. Used for data migration.
      */
-    const PS_16_EQUIVALENT_MODULE = 'blocklayered';
+    public const PS_16_EQUIVALENT_MODULE = 'blocklayered';
 
     /**
      * Lock indexation if too many products
      *
      * @var int
      */
-    const LOCK_TOO_MANY_PRODUCTS = 5000;
+    public const LOCK_TOO_MANY_PRODUCTS = 5000;
 
     /**
      * Lock template filter creation if too many products
      *
      * @var int
      */
-    const LOCK_TEMPLATE_CREATION = 20000;
+    public const LOCK_TEMPLATE_CREATION = 20000;
 
     /**
      * US iso code, used to prevent taxes usage while computing prices
      *
      * @var array
      */
-    const ISO_CODE_TAX_FREE = [
+    public const ISO_CODE_TAX_FREE = [
         'US',
     ];
 
@@ -65,7 +66,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
      *
      * @var int
      */
-    const DECIMAL_DIGITS = 6;
+    public const DECIMAL_DIGITS = 6;
 
     /**
      * @var array List of controllers supported by this module
@@ -172,6 +173,10 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
                 'label' => 'Product price filter (slider)',
                 'slider' => true,
             ],
+            'layered_selection_surface_slider' => [
+                'label' => 'Product surface filter (slider)',
+                'slider' => true,
+            ],
             'layered_selection_extras' => [
                 'label' => 'Product extras filter',
             ],
@@ -195,6 +200,8 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
             $this->buildLayeredCategories();
 
             $this->rebuildPriceIndexTable();
+            $this->rebuildSurfaceIndexTable();
+
 
             $this->getDatabase()->execute('ALTER TABLE ' . _DB_PREFIX_ . 'layered_filter CHANGE `filters` `filters` LONGTEXT NULL');
             $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_friendly_url');
@@ -223,8 +230,13 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
             }
 
             $this->rebuildPriceIndexTable();
+            $this->rebuildSurfaceIndexTable();
+
             $this->installIndexableAttributeTable();
             $this->installProductAttributeTable();
+
+            //$this->alterProductTable();
+
 
             if ($productsCount < static::LOCK_TOO_MANY_PRODUCTS) {
                 $this->fullPricesIndexProcess();
@@ -234,6 +246,17 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
 
         return true;
     }
+
+    /* private function alterProductTable() {
+         $columnExists = $this->getDatabase()->getValue('SHOW COLUMNS FROM `' . _DB_PREFIX_ . 'product` LIKE "surface"');
+
+         if (!$columnExists) {
+
+             // Ajouter la colonne surface si elle n'existe pas
+             $this->getDatabase()->execute('ALTER TABLE `' . _DB_PREFIX_ . 'product` ADD `surface` INT(10) UNSIGNED NOT NULL DEFAULT 0 AFTER `active`');
+         }
+     }*/
+
 
     public function uninstall()
     {
@@ -259,6 +282,8 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
         $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_indexable_feature_lang_value');
         $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_indexable_feature_value_lang_value');
         $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_price_index');
+        $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_surface_index');
+
         $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_product_attribute');
 
         return parent::uninstall();
@@ -373,6 +398,23 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
     }
 
     /**
+    * Full surface index process
+    *
+    * @param int $cursor in order to restart indexing from the last state
+    * @param bool $ajax
+    * @param bool $smart
+    */
+    public function fullSurfacesIndexProcess($cursor = 0, $ajax = false, $smart = false)
+    {
+        if ($cursor == 0 && !$smart) {
+            $this->rebuildSurfaceIndexTable();
+        }
+
+        return $this->indexSurfaces($cursor, true, $ajax, $smart);
+    }
+
+
+    /**
      * Prices index process
      *
      * @param int $cursor in order to restart indexing from the last state
@@ -381,6 +423,17 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
     public function pricesIndexProcess($cursor = 0, $ajax = false)
     {
         return $this->indexPrices($cursor, false, $ajax);
+    }
+
+    /**
+    * Surfaces index process
+    *
+    * @param int $cursor in order to restart indexing from the last state
+    * @param bool $ajax
+    */
+    public function surfacesIndexProcess($cursor = 0, $ajax = false)
+    {
+        return $this->indexSurfaces($cursor, false, $ajax);
     }
 
     /**
@@ -589,6 +642,76 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
         }
     }
 
+
+    /**
+     * Index product surfaces
+     *
+     * @param int $idProduct
+     * @param bool $smart Delete before reindex
+     */
+    public function indexProductSurfaces($idProduct, $smart = true)
+    {
+
+        $shopList = Shop::getShops(false, null, true);
+
+        foreach ($shopList as $idShop) {
+
+            // if ($smart) {
+            $this->getDatabase()->execute('DELETE FROM `' . _DB_PREFIX_ . 'layered_surface_index` WHERE `id_product` = ' . (int) $idProduct . ' AND `id_shop` = ' . (int) $idShop);
+            // }
+
+            $product = new Product((int) $idProduct, false, $idShop);
+            $features = $product->getFeatures(); // Récupère toutes les caractéristiques du produit
+
+            $surfaceValue = null;
+            foreach ($features as $feature) {
+                if ((int) $feature['id_feature'] === 28) { // Vérifie si c'est la surface habitable
+                    $surfaceValue = $feature['id_feature_value'];
+                    break;
+                }
+            }
+
+            // Si une valeur a été trouvée, récupérer son texte associé
+            if ($surfaceValue) {
+                $surfaceText = FeatureValue::getFeatureValueLang((int) $surfaceValue, 1);
+            }
+
+            $realValue = $surfaceText[0]['value'];
+
+            $minSurface = (int)$realValue;
+            $maxSurface = (int)$realValue;
+
+            $values = [];
+            $values[] = '(' . (int) $idProduct . ',
+                        '. (int)$idShop.',
+                        '. (int)$minSurface.',
+                        '. (int)$maxSurface.'
+                        )';
+
+            $valuesProduct = [];
+            $valuesProduct[] = '(' . (int) $idProduct . ',
+                                    '. (int)$realValue.'
+                                    )';
+
+            if (!empty($values)) {
+                $this->getDatabase()->execute(
+                    'INSERT INTO `' . _DB_PREFIX_ . 'layered_surface_index` (id_product, id_shop, surface_min, surface_max)
+                     VALUES ' . implode(',', $values) . '
+                    ON DUPLICATE KEY UPDATE surface_min = VALUES(surface_min), surface_max = VALUES(surface_max)'
+
+                );
+
+                // Mise à jour de la table `product`
+                $this->getDatabase()->execute(
+                    'UPDATE `' . _DB_PREFIX_ . 'product` 
+                    SET surface = ' . (int) $realValue . ' 
+                    WHERE id_product = ' . (int) $idProduct
+                );
+            }
+
+        }
+    }
+
     /**
      * Get page content
      */
@@ -789,6 +912,10 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
             'id_lang' => $this->getContext()->cookie->id_lang,
             'token' => $cronToken,
             'base_folder' => urlencode(_PS_ADMIN_DIR_),
+
+            'surface_indexer_url' => $this->context->link->getModuleLink('ps_facetedsearch', 'cron', ['ajax' => true, 'action' => 'indexSurfaces', 'token' => $cronToken]),
+
+
             'price_indexer_url' => $this->context->link->getModuleLink('ps_facetedsearch', 'cron', ['ajax' => true, 'action' => 'indexPrices', 'token' => $cronToken]),
             'full_price_indexer_url' => $this->context->link->getModuleLink('ps_facetedsearch', 'cron', ['ajax' => true, 'action' => 'indexPrices', 'full' => 1, 'token' => $cronToken]),
             'attribute_indexer_url' => $this->context->link->getModuleLink('ps_facetedsearch', 'cron', ['ajax' => true, 'action' => 'indexAttributes', 'token' => $cronToken]),
@@ -999,7 +1126,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
             `controller` VARCHAR(64) NOT NULL,
             `id_category` INT(10) UNSIGNED NOT NULL,
             `id_value` INT(10) UNSIGNED NULL DEFAULT \'0\',
-            `type` ENUM(\'category\',\'id_feature\',\'id_attribute_group\',\'availability\',\'condition\',\'manufacturer\',\'weight\',\'price\',\'extras\') NOT NULL,
+            `type` ENUM(\'category\',\'id_feature\',\'id_attribute_group\',\'availability\',\'condition\',\'manufacturer\',\'weight\',\'price\',\'surface\',\'extras\') NOT NULL,
             `position` INT(10) UNSIGNED NOT NULL,
             `filter_type` int(10) UNSIGNED NOT NULL DEFAULT 0,
             `filter_show_limit` int(10) UNSIGNED NOT NULL DEFAULT 0,
@@ -1175,6 +1302,13 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
                     $toInsert = true;
                 }
 
+                // Surface filter
+                if (!isset($doneCategories[(int) $idCategory]['p'])) {
+                    $filterData['layered_selection_surface_slider'] = ['filter_type' => Converter::WIDGET_TYPE_CHECKBOX, 'filter_show_limit' => 0];
+                    $doneCategories[(int) $idCategory]['p'] = true;
+                    $toInsert = true;
+                }
+
                 // Category filter
                 if (!isset($doneCategories[(int) $idCategory]['cat'])) {
                     $filterData['layered_selection_subcategories'] = ['filter_type' => Converter::WIDGET_TYPE_CHECKBOX, 'filter_show_limit' => 0];
@@ -1320,6 +1454,8 @@ VALUES(' . $last_id . ', ' . (int) $idShop . ')');
                                 $sqlInsert .= '(' . (int) $idCategory . ', \'' . $controller . '\', ' . (int) $idShop . ', NULL,\'weight\',' . (int) $n . ', ' . (int) $limit . ', ' . (int) $type . '),';
                             } elseif ($key == 'layered_selection_price_slider') {
                                 $sqlInsert .= '(' . (int) $idCategory . ', \'' . $controller . '\', ' . (int) $idShop . ', NULL,\'price\',' . (int) $n . ', ' . (int) $limit . ', ' . (int) $type . '),';
+                            } elseif ($key == 'layered_selection_surface_slider') {
+                                $sqlInsert .= '(' . (int) $idCategory . ', \'' . $controller . '\', ' . (int) $idShop . ', NULL,\'surface\',' . (int) $n . ', ' . (int) $limit . ', ' . (int) $type . '),';
                             } elseif ($key == 'layered_selection_manufacturer') {
                                 $sqlInsert .= '(' . (int) $idCategory . ', \'' . $controller . '\', ' . (int) $idShop . ', NULL,\'manufacturer\',' . (int) $n . ', ' . (int) $limit . ', ' . (int) $type . '),';
                             } elseif (substr($key, 0, 21) == 'layered_selection_ag_') {
@@ -1428,6 +1564,26 @@ VALUES(' . $last_id . ', ' . (int) $idShop . ')');
             INDEX `id_currency` (`id_currency`),
             INDEX `price_min` (`price_min`),
             INDEX `price_max` (`price_max`)
+            ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;'
+        );
+    }
+
+    /**
+    * Install surface indexes table
+    */
+    public function rebuildSurfaceIndexTable()
+    {
+        $this->getDatabase()->execute('DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'layered_surface_index`');
+
+        $this->getDatabase()->execute(
+            'CREATE TABLE `' . _DB_PREFIX_ . 'layered_surface_index` (
+            `id_product` INT  NOT NULL,
+            `id_shop` INT NOT NULL,
+            `surface_min` INT NOT NULL,
+            `surface_max` INT NOT NULL,
+            PRIMARY KEY (`id_product`, `id_shop`),
+            INDEX `surface_min` (`surface_min`),
+            INDEX `surface_max` (`surface_max`)
             ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;'
         );
     }
@@ -1615,6 +1771,91 @@ VALUES(' . $last_id . ', ' . (int) $idShop . ')');
         return $nbProducts;
     }
 
+
+    /**
+     * Index surfaces
+     *
+     * @param int $cursor last indexed id_product
+     * @param bool $full
+     * @param bool $ajax
+     * @param bool $smart
+     *
+     * @return int|string|bool
+     */
+    private function indexSurfaces($cursor = 0, $full = false, $ajax = false, $smart = false)
+    {
+        if ($full) {
+            $nbProducts = (int) $this->getDatabase()->getValue(
+                'SELECT count(DISTINCT p.`id_product`) ' .
+                'FROM ' . _DB_PREFIX_ . 'product p ' .
+                'INNER JOIN `' . _DB_PREFIX_ . 'product_shop` ps ' .
+                'ON (ps.`id_product` = p.`id_product` AND ps.`active` = 1 AND ps.`visibility` IN ("both", "catalog"))'
+            );
+        } else {
+            $nbProducts = (int) $this->getDatabase()->getValue(
+                'SELECT COUNT(DISTINCT p.`id_product`) ' .
+                'FROM `' . _DB_PREFIX_ . 'product` p ' .
+                'INNER JOIN `' . _DB_PREFIX_ . 'product_shop` ps ON (ps.`id_product` = p.`id_product` AND ps.`active` = 1 AND ps.`visibility` IN ("both", "catalog")) ' .
+                'LEFT JOIN  `' . _DB_PREFIX_ . 'layered_surface_index` psi ON (psi.id_product = p.id_product) ' .
+                'WHERE psi.id_product IS NULL'
+            );
+        }
+
+        $maxExecutiontime = @ini_get('max_execution_time');
+        if ($maxExecutiontime > 5 || $maxExecutiontime <= 0) {
+            $maxExecutiontime = 5;
+        }
+
+        $startTime = microtime(true);
+
+        $indexedProducts = 0;
+        $length = 100;
+        do {
+            $lastCursor = $cursor;
+            $cursor = (int) $this->indexSurfacesUnbreakable((int) $cursor, $full, $smart, $length);
+            if ($cursor == 0) {
+                $lastCursor = $cursor;
+                break;
+            }
+            $time_elapsed = microtime(true) - $startTime;
+            $indexedProducts += $length;
+        } while (
+            $cursor < $nbProducts
+            && (Tools::getMemoryLimit() == -1 || Tools::getMemoryLimit() > memory_get_peak_usage())
+            && $time_elapsed < $maxExecutiontime
+        );
+
+        if (($nbProducts > 0 && !$full || $cursor != $lastCursor && $full) && !$ajax) {
+            return $this->indexSurfaces((int) $cursor, $full, $ajax, $smart);
+        }
+
+        if ($ajax && $nbProducts > 0 && $cursor != $lastCursor && $full) {
+            return json_encode([
+                'total' => $nbProducts,
+                'cursor' => $cursor,
+                'count' => $indexedProducts,
+            ]);
+        }
+
+        if ($ajax && $nbProducts > 0 && !$full) {
+            return json_encode([
+                'total' => $nbProducts,
+                'cursor' => $cursor,
+                'count' => $indexedProducts,
+            ]);
+        }
+
+        Configuration::updateGlobalValue('PS_LAYERED_INDEXED', 1);
+
+        if ($ajax) {
+            return json_encode([
+                'result' => 'ok',
+            ]);
+        }
+
+        return $nbProducts;
+    }
+
     /**
      * Index prices unbreakable
      *
@@ -1649,6 +1890,47 @@ VALUES(' . $last_id . ', ' . (int) $idShop . ')');
         $lastIdProduct = 0;
         foreach ($this->getDatabase()->executeS($query) as $product) {
             $this->indexProductPrices((int) $product['id_product'], ($smart && $full));
+            $lastIdProduct = $product['id_product'];
+        }
+
+        return (int) $lastIdProduct;
+    }
+
+
+    /**
+     * Index surfaces unbreakable
+     *
+     * @param int $cursor last indexed id_product
+     * @param bool $full All products, otherwise only indexed products
+     * @param bool $smart Delete before reindex
+     * @param int $length nb of products to index
+     *
+     * @return int
+     */
+    private function indexSurfacesUnbreakable($cursor, $full = false, $smart = false, $length = 100)
+    {
+        if ($full) {
+            $query = 'SELECT p.`id_product` ' .
+                'FROM `' . _DB_PREFIX_ . 'product` p ' .
+                'INNER JOIN `' . _DB_PREFIX_ . 'product_shop` ps ' .
+                'ON (ps.`id_product` = p.`id_product` AND ps.`active` = 1 AND ps.`visibility` IN ("both", "catalog")) ' .
+                'WHERE p.id_product > ' . (int) $cursor . ' ' .
+                'GROUP BY p.`id_product` ' .
+                'ORDER BY p.`id_product` LIMIT 0,' . (int) $length;
+        } else {
+            $query = 'SELECT p.`id_product` ' .
+                'FROM `' . _DB_PREFIX_ . 'product` p ' .
+                'INNER JOIN `' . _DB_PREFIX_ . 'product_shop` ps ' .
+                'ON (ps.`id_product` = p.`id_product` AND ps.`active` = 1 AND ps.`visibility` IN ("both", "catalog")) ' .
+                'LEFT JOIN  `' . _DB_PREFIX_ . 'layered_surface_index` psi ON (psi.id_product = p.id_product) ' .
+                'WHERE psi.id_product IS NULL ' .
+                'GROUP BY p.`id_product` ' .
+                'ORDER BY p.`id_product` LIMIT 0,' . (int) $length;
+        }
+
+        $lastIdProduct = 0;
+        foreach ($this->getDatabase()->executeS($query) as $product) {
+            $this->indexProductSurfaces((int) $product['id_product'], ($smart && $full));
             $lastIdProduct = $product['id_product'];
         }
 

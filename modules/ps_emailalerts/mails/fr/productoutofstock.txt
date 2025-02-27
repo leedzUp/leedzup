@@ -2,15 +2,15 @@
 
 {shop_url}
 
-Hi,
+Bonjour,
 
-{product} is almost out of stock.
+{product} est en rupture de stock.
 
-There are now less than {last_qty} items in stock.
+Il y a maintenant moins de {last_qty} articles en stock.
 
-Remaining stock: {qty}
+Stock restant : {qty}
 
-Replenish your inventory, go to the Catalog > Stocks section of your back office to manage your stock.
+Renouvelez vos stocks, rendez-vous dans la section Catalogue > Stocks de votre back office pour gérer les quantités de vos articles.
 
 [{shop_name}]({shop_url})
 

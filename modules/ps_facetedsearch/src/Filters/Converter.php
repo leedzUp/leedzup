@@ -46,6 +46,7 @@ class Converter
     const TYPE_FEATURE = 'id_feature';
     const TYPE_MANUFACTURER = 'manufacturer';
     const TYPE_PRICE = 'price';
+    const TYPE_SURFACE = 'surface';
     const TYPE_WEIGHT = 'weight';
     const TYPE_EXTRAS = 'extras';
 
@@ -56,7 +57,7 @@ class Converter
     /**
      * @var array
      */
-    const RANGE_FILTERS = [self::TYPE_PRICE, self::TYPE_WEIGHT];
+    const RANGE_FILTERS = [self::TYPE_PRICE, self::TYPE_WEIGHT,self::TYPE_SURFACE];
 
     /**
      * @var Context
@@ -100,12 +101,15 @@ class Converter
     public function getFacetsFromFilterBlocks(array $filterBlocks)
     {
         $facets = [];
-
+       
+       
         foreach ($filterBlocks as $filterBlock) {
             if (empty($filterBlock)) {
                 // Empty filter, let's continue
                 continue;
             }
+
+           
 
             $facet = new Facet();
             $facet
@@ -184,6 +188,8 @@ class Converter
                     break;
                 case self::TYPE_WEIGHT:
                 case self::TYPE_PRICE:
+                case self::TYPE_SURFACE:
+
                     $facet
                         ->setType($filterBlock['type'])
                         ->setProperty('min', $filterBlock['min'])
@@ -271,10 +277,13 @@ class Converter
          */
         $receivedFilters = $this->urlSerializer->unserialize($query->getEncodedFacets());
 
+       
+
         // Go through filters that are configured and find out which should be activated,
         // depending on what was provided in the encodedFacets.
         foreach ($configuredFilters as $filter) {
             $filterLabel = $this->convertFilterTypeToLabel($filter['type']);
+
 
             switch ($filter['type']) {
                 case self::TYPE_MANUFACTURER:
@@ -436,6 +445,7 @@ class Converter
                     break;
                 case self::TYPE_PRICE:
                 case self::TYPE_WEIGHT:
+                case self::TYPE_SURFACE:
                     if (isset($receivedFilters[$filterLabel])) {
                         $filters = $receivedFilters[$filterLabel];
                         if (isset($filters[1]) && isset($filters[2])) {
@@ -444,6 +454,7 @@ class Converter
                             $searchFilters[$filter['type']][0] = $from;
                             $searchFilters[$filter['type']][1] = $to;
                         }
+
                     }
                     break;
                 case self::TYPE_CATEGORY:
@@ -468,6 +479,8 @@ class Converter
                         }
                     }
             }
+
+
         }
 
         // Remove all empty selected filters
@@ -475,6 +488,7 @@ class Converter
             switch ($key) {
                 case self::TYPE_PRICE:
                 case self::TYPE_WEIGHT:
+                case self::TYPE_SURFACE:
                     if ($value[0] === '' && $value[1] === '') {
                         unset($searchFilters[$key]);
                     }
@@ -502,6 +516,8 @@ class Converter
                 return $this->context->getTranslator()->trans('Price', [], 'Modules.Facetedsearch.Shop');
             case self::TYPE_WEIGHT:
                 return $this->context->getTranslator()->trans('Weight', [], 'Modules.Facetedsearch.Shop');
+            case self::TYPE_SURFACE:
+                return $this->context->getTranslator()->trans('Surface', [], 'Modules.Facetedsearch.Shop');
             case self::TYPE_CONDITION:
                 return $this->context->getTranslator()->trans('Condition', [], 'Modules.Facetedsearch.Shop');
             case self::TYPE_EXTRAS:

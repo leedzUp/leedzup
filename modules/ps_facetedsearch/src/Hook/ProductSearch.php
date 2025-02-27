@@ -81,10 +81,7 @@ class ProductSearch extends AbstractHook
             $params['query']->setSortOrder(new SortOrder('product', 'sales', 'desc'));
         }
 
-        // Assign assets
-        if ((bool) Configuration::get('PS_USE_JQUERY_UI_SLIDER')) {
-            $this->context->controller->addJqueryUi('ui.slider');
-        }
+       
         $this->context->controller->registerStylesheet(
             'facetedsearch_front',
             '/modules/ps_facetedsearch/views/dist/front.css'

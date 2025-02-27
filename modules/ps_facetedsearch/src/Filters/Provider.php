@@ -53,6 +53,7 @@ class Provider
      */
     public function getFiltersForQuery(ProductSearchQuery $query, int $idShop)
     {
+
         if (empty($this->filters)) {
             $this->filters = $this->database->executeS(
             'SELECT type, id_value, filter_show_limit, filter_type FROM ' . _DB_PREFIX_ . 'layered_category

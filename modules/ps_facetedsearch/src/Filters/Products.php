@@ -71,6 +71,8 @@ class Products
         $orderWay = Validate::isOrderWay($orderWay) ? $orderWay : 'ASC';
         $orderBy = Validate::isOrderBy($orderBy) ? $orderBy : 'position';
 
+       
+
         // Apply it to the filter
         $this->searchAdapter->setOrderField($orderBy);
         $this->searchAdapter->setOrderDirection($orderWay);
@@ -81,6 +83,12 @@ class Products
             $this->searchAdapter->addSelectField('price');
             $this->searchAdapter->addSelectField('price_min');
             $this->searchAdapter->addSelectField('price_max');
+        }
+        if (isset($selectedFilters['surface']) || $orderBy === 'surface') {
+            $this->searchAdapter->addSelectField('id_product');
+            $this->searchAdapter->addSelectField('surface');
+            $this->searchAdapter->addSelectField('surface_min');
+            $this->searchAdapter->addSelectField('surface_max');
         }
 
         // Get full list of matching products
@@ -102,6 +110,8 @@ class Products
 
         // And run post filter
         $this->pricePostFiltering($finalProductList, $selectedFilters);
+
+        $this->surfacePostFiltering($finalProductList, $selectedFilters);
 
         return [
             'products' => $finalProductList,
@@ -143,6 +153,27 @@ class Products
     }
 
     /**
+     * Post filter product depending on the price and a few extra config variables
+     *
+     * @param array $matchingProductList
+     * @param array $selectedFilters
+     */
+    private function surfacePostFiltering(&$matchingProductList, $selectedFilters)
+    {
+        if (!isset($selectedFilters['surface'])) {
+            return;
+        }
+
+        $surfaceFilter['min'] = (int) ($selectedFilters['surface'][0]);
+        $surfaceFilter['max'] = (int) ($selectedFilters['surface'][1]);
+
+        $this->filterSurface(
+            $matchingProductList,
+            $surfaceFilter
+        );
+    }
+
+    /**
      * Remove products from the product list in case of price postFiltering
      *
      * @param array $matchingProductList
@@ -173,4 +204,29 @@ class Products
             }
         }
     }
+
+
+    private function filterSurface(
+        &$matchingProductList,
+        $surfaceFilter
+    ) {
+        /* for this case, surface could be out of range, so we need to compute the real surface */
+        foreach ($matchingProductList as $key => $product) {
+            if (($product['surface_min'] < (int) $surfaceFilter['min'] && $product['surface_max'] > (int) $surfaceFilter['min'])
+                || ($product['surface_min'] > (int) $surfaceFilter['max'] && $product['surface_min'] < (int) $surfaceFilter['max'])
+            ) {
+                // Récupérer la vraie valeur de surface depuis la base de données
+                $sql = 'SELECT surface FROM ' . _DB_PREFIX_ . 'product WHERE id_product = ' . (int) $product['id_product'];
+                $surface = (int) \Db::getInstance()->getValue($sql);
+    
+                // Vérifier si la surface est hors de la plage
+                if ($surface < $surfaceFilter['min'] || $surface > $surfaceFilter['max']) {
+                    // Exclure le produit
+                    unset($matchingProductList[$key]);
+                }
+            }
+        }
+    }
+    
+    
 }

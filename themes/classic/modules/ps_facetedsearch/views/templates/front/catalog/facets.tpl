@@ -17,6 +17,8 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  *}
  {$componentName = 'search-filters'}
+ <button type="button" id="close-offcanvas" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+ {debug}
  {if $displayedFacets|count}
  
    <div id="search-filters" class="{$componentName}">
@@ -48,12 +50,14 @@
      {/block}
  
      <div class="order-1 order-md-2">
+    
+
+
+
        {foreach from=$displayedFacets item="facet" name="facets"}
-         <section class="accordion mt-4 facet">
+         <section class="mt-4 facet">
            {assign var=_expand_id value=10|mt_rand:100000}
- <button class="{$componentName}-subtitle facet-title title accordion-button" data-bs-toggle="collapse" data-bs-target="#facet_{$_expand_id}" aria-expanded="true" aria-controls="collapse-{$_expand_id}">
-                <span><u>{$facet.label}</u></span>
-           </button>
+       <span>{if $facet.label =="Prix"}Budget{else}{$facet.label}{/if}</span>
            <div id="facet_{$_expand_id}" class="collapse show">
              {if in_array($facet.widgetType, ['radio', 'checkbox'])}
                {block name='facet_item_other'}
@@ -153,7 +157,7 @@
  
              {elseif $facet.widgetType == 'dropdown'}
                {block name='facet_item_dropdown'}
-                 <ul class="accordion-body">
+                 <ul>
                    <li>
                      <div class="facet-dropdown dropdown">
                        <a class="select-title" rel="nofollow" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -196,27 +200,30 @@
                {/block}
  
                {elseif $facet.widgetType == 'slider'}
+                
                  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.6.1/dist/nouislider.min.css">
                  <script src="https://cdn.jsdelivr.net/npm/nouislider@15.6.1/dist/nouislider.min.js"></script>
                  {block name='facet_item_slider'}
+                 
                    {foreach from=$facet.filters item="filter"}
                      <div class="faceted-filter px-0 js-faceted-filter-slider">
                      <div class="d-flex align-items-center justify-content-between mb-2 gap-3">
  
-                     <label class="form-label" for="slider-range-{$_expand_id}-start">Prix min.</label>
+                     <label class="form-label" for="slider-range-{$_expand_id}-start">{$facet.properties.unit} min.</label>
                        <input type="number" class="form-control form-range-start js-faceted-slider js-faceted-slider-start"
-                         id="slider-range-{$_expand_id}-start" step="1000">
+                         id="slider-range-{$_expand_id}-start" {if $facet.type =='price'}step="1000" pattern="[0-9]*"{elseif $facet.type =='surface'}step="10"{/if}>
  
-                         <label class="form-label" for="slider-range-{$_expand_id}-end">Prix max.</label>
+                         <label class="form-label" for="slider-range-{$_expand_id}-end">{$facet.properties.unit} max.</label>
  
                        <input type="number" class="form-control form-range-end js-faceted-slider js-faceted-slider-end"
-                         id="slider-range-{$_expand_id}-end" step="1000">
+                         id="slider-range-{$_expand_id}-end" {if $facet.type =='price'}step="1000" pattern="[0-9]*"{elseif $facet.type =='surface'}step="10"{/if}>
                          </div>
                        <div id="slider-{$_expand_id}" class="faceted-slider js-faceted-slider-container"
+                          data-slider-type="{if $facet.type =='price'}price{elseif $facet.type =='surface'}surface{/if}"
                          data-slider-min="{$facet.properties.min}" data-slider-max="{$facet.properties.max}"
                          data-slider-values="{if isset($filter.value) && $filter.value}[{$filter.value[0]}, {$filter.value[1]}]{else}[{$facet.properties.min}, {$facet.properties.max}]{/if}"
                          data-slider-unit="{$facet.properties.unit}" data-slider-label="{$facet.label}"
-                         data-slider-specifications="{$facet.properties.specifications|@json_encode}"
+                         {if $facet.type =='price'}data-slider-specifications="{$facet.properties.specifications|@json_encode}"{/if}
                          data-slider-encoded-url="{$filter.nextEncodedFacetsURL}" data-slider-direction="{$language.is_rtl}">
                        </div>
                        <div class="slider-values">
@@ -226,6 +233,8 @@
                        
                      </div>
                    {/foreach}
+                   
+                
    
                    
                  {/block}
