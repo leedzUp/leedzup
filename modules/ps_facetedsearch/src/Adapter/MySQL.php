@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -32,17 +33,17 @@ class MySQL extends AbstractAdapter
     /**
      * @var string
      */
-    const TYPE = 'MySQL';
+    public const TYPE = 'MySQL';
 
     /**
      * @var string
      */
-    const LEFT_JOIN = 'LEFT JOIN';
+    public const LEFT_JOIN = 'LEFT JOIN';
 
     /**
      * @var string
      */
-    const INNER_JOIN = 'INNER JOIN';
+    public const INNER_JOIN = 'INNER JOIN';
 
     /**
      * {@inheritdoc}
@@ -57,6 +58,33 @@ class MySQL extends AbstractAdapter
         $result = $mysqlAdapter->execute();
 
         return [floor((float) $result[0]['min']), ceil((float) $result[0]['max'])];
+    }
+
+    public function getMinMaxSurfaceValue()
+    {
+        // Récupération de l'adaptateur MySQL pour la recherche filtrée
+        $mysqlAdapter = $this->getFilteredSearchAdapter();
+
+        // Copier les filtres depuis l'objet courant pour les appliquer à la recherche
+        $mysqlAdapter->copyFilters($this);
+
+        // Définir les champs à sélectionner : surface_min et les valeurs MIN et MAX
+        $mysqlAdapter->setSelectFields(['surface_min', 'MIN(surface_min) as min', 'MAX(surface_max) as max']);
+        $mysqlAdapter->setOrderField('');
+
+        // Exécution de la requête pour récupérer les résultats
+        $result = $mysqlAdapter->execute();
+
+        // Si aucun résultat, renvoyer des valeurs par défaut (0, 0)
+        if (empty($result) || !isset($result[0]['min']) || !isset($result[0]['max'])) {
+            return [0, 0];
+        }
+
+        // Retourner les valeurs MIN et MAX converties en int après arrondi
+        return [
+            (int) floor((float) $result[0]['min']),  // Valeur minimum arrondie à l'entier inférieur
+            (int) ceil((float) $result[0]['max'])   // Valeur maximum arrondie à l'entier supérieur
+        ];
     }
 
     /**
@@ -106,7 +134,7 @@ class MySQL extends AbstractAdapter
         // If this query IS the initial population (the base table), we are selecting from product table
         if ($this->getInitialPopulation() === null) {
             $referenceTable = _DB_PREFIX_ . 'product';
-        // If not, we will call this function again but for the initial population
+            // If not, we will call this function again but for the initial population
         } else {
             $referenceTable = '(' . $this->getInitialPopulation()->getQuery() . ')';
         }
@@ -291,6 +319,35 @@ class MySQL extends AbstractAdapter
                 $this->getContext()->currency->id . ' AND psi.id_country = ' . $this->getContext()->country->id . ')',
                 'joinType' => self::INNER_JOIN,
             ],
+
+            /**ajout de surface */
+
+            'surface_min' => [
+                'tableName' => 'layered_surface_index',
+                'tableAlias' => 'psurfacei',
+                'joinCondition' => '(psurfacei.id_product = p.id_product AND psurfacei.id_shop = ' . $this->getContext()->shop->id . ')',
+                'joinType' => self::INNER_JOIN,
+            ],
+            'surface_max' => [
+                'tableName' => 'layered_surface_index',
+                'tableAlias' => 'psurfacei',
+                'joinCondition' => '(psurfacei.id_product = p.id_product AND psurfacei.id_shop = ' . $this->getContext()->shop->id . ')',
+                'joinType' => self::INNER_JOIN,
+            ],
+            'surface_range_start' => [
+                'tableName' => 'layered_surface_index',
+                'tableAlias' => 'psurfacei',
+                'joinCondition' => '(psurfacei.id_product = p.id_product AND psurfacei.id_shop = ' . $this->getContext()->shop->id . ')',
+                'joinType' => self::INNER_JOIN,
+            ],
+            'surface_range_end' => [
+                'tableName' => 'layered_surface_index',
+                'tableAlias' => 'psurfacei',
+                'joinCondition' => '(psurfacei.id_product = p.id_product AND psurfacei.id_shop = ' . $this->getContext()->shop->id . ')',
+                'joinType' => self::INNER_JOIN,
+            ],
+
+            /**/
             'id_group' => [
                 'tableName' => 'category_group',
                 'tableAlias' => 'cg',
@@ -377,6 +434,11 @@ class MySQL extends AbstractAdapter
         // Alter order by field if it's a price column
         if ($orderField === 'price') {
             $orderField = $this->getOrderDirection() === 'asc' ? 'price_min' : 'price_max';
+        }
+
+        // Alter order by field if it's a price column
+        if ($orderField === 'surface') {
+            $orderField = $this->getOrderDirection() === 'asc' ? 'surface_min' : 'surface_max';
         }
 
         // Add table mapping or p. prefix depending on field type
@@ -795,6 +857,7 @@ class MySQL extends AbstractAdapter
                 'condition',
                 'weight',
                 'price',
+                'surface',
                 'sales',
                 'on_sale',
                 'date_add',

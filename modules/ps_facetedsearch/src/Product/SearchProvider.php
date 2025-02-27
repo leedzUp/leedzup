@@ -95,6 +95,10 @@ class SearchProvider implements FacetsRendererInterface, ProductSearchProviderIn
         $sortNameDesc = new SortOrder('product', 'name', 'desc');
         $sortPriceAsc = new SortOrder('product', 'price', 'asc');
         $sortPriceDesc = new SortOrder('product', 'price', 'desc');
+
+        $sortSurfaceAsc = new SortOrder('product', 'surface', 'asc');
+        $sortSurfaceDesc = new SortOrder('product', 'surface', 'desc');
+
         $sortDateAsc = new SortOrder('product', 'date_add', 'asc');
         $sortDateDesc = new SortOrder('product', 'date_add', 'desc');
         $sortRefAsc = new SortOrder('product', 'reference', 'asc');
@@ -120,6 +124,14 @@ class SearchProvider implements FacetsRendererInterface, ProductSearchProviderIn
             $sortPriceDesc->setLabel(
                 $translator->trans('Price, high to low', [], 'Shop.Theme.Catalog')
             ),
+
+            $sortSurfaceAsc->setLabel(
+                $translator->trans('Surface, low to high', [], 'Shop.Theme.Catalog')
+            ),
+            $sortSurfaceDesc->setLabel(
+                $translator->trans('Surface, high to low', [], 'Shop.Theme.Catalog')
+            ),
+
             $sortRefAsc->setLabel(
                 $translator->trans('Reference, A to Z', [], 'Shop.Theme.Catalog')
             ),
@@ -428,6 +440,8 @@ class SearchProvider implements FacetsRendererInterface, ProductSearchProviderIn
                 continue;
             }
 
+
+
             foreach ($facet->getFilters() as $filter) {
                 $filterValue = $filter->getValue();
                 $min = empty($filterValue[0]) ? $facet->getProperty('min') : $filterValue[0];
@@ -449,6 +463,18 @@ class SearchProvider implements FacetsRendererInterface, ProductSearchProviderIn
                             '%1$s - %2$s',
                             $context->getCurrentLocale()->formatPrice($min, $context->currency->iso_code),
                             $context->getCurrentLocale()->formatPrice($max, $context->currency->iso_code)
+                        )
+                    );
+                } elseif ($facet->getType() === 'surface') {
+                    $unit = ' m²';  // Ajouter l'unité de surface ici
+
+                    $filter->setLabel(
+                        sprintf(
+                            '%1$s %2$s - %3$s %4$s',
+                            $context->getCurrentLocale()->formatNumber($min),
+                            $unit,
+                            $context->getCurrentLocale()->formatNumber($max),
+                            $unit
                         )
                     );
                 }

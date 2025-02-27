@@ -120,6 +120,8 @@ class Search
      */
     public function initSearch($selectedFilters)
     {
+
+
         // Adds basic filters that are common for every search, like shop and group limitations
         $this->addCommonFilters();
 
@@ -150,6 +152,7 @@ class Search
             }
 
             switch ($key) {
+
                 case 'id_feature':
                     $operationsFilter = [];
                     foreach ($filterValues as $featureId => $filterValue) {
@@ -320,6 +323,19 @@ class Search
                         );
                     }
                     break;
+
+                case 'surface':
+                    if (isset($selectedFilters['surface'])
+                        && (
+                            $selectedFilters['surface'][0] !== '' || $selectedFilters['surface'][1] !== ''
+                        )
+                    ) {
+                        $this->addSurfaceFilter(
+                            (int) $selectedFilters['surface'][0],
+                            (int) $selectedFilters['surface'][1]
+                        );
+                    }
+                    break;
             }
         }
     }
@@ -486,5 +502,17 @@ class Search
     {
         $this->getSearchAdapter()->addFilter('price_min', [$maxPrice], '<=');
         $this->getSearchAdapter()->addFilter('price_max', [$minPrice], '>=');
+    }
+
+    /**
+     * Add a surface filter
+     *
+     * @param int $minSurface
+     * @param int $maxSurface
+     */
+    private function addSurfaceFilter($minSurface, $maxSurface)
+    {
+        $this->getSearchAdapter()->addFilter('surface_min', [$maxSurface], '<=');
+        $this->getSearchAdapter()->addFilter('surface_max', [$minSurface], '>=');
     }
 }

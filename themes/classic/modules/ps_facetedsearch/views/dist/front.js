@@ -1,6 +1,13 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-
+    const closeButton = document.getElementById('close-offcanvas');
+    if (closeButton) {
+        closeButton.addEventListener('click', function () {
+            offcanvas.classList.remove('show');
+        });
+    } else {
+        console.error('closeButton introuvable');
+    }
     const searchFilterToggler = document.getElementById('search_filter_toggler');
     const offcanvas = document.getElementById('offcanvas-faceted');
 
@@ -101,21 +108,42 @@ document.addEventListener('DOMContentLoaded', () => {
         let values = (valuesRaw && valuesRaw !== "null") ? JSON.parse(valuesRaw) : [min, max];
 
         let slider = document.getElementById('slider-' + sliderId);
+        //data-slider-type="surface"
+        let sliderType = sliderContainer.dataset.sliderType;
+        let formatOptions = {
+            to: value => value.toString(),
+            from: value => Number(value)
+        };
+
+        let stepValue = 1;
+        
+        // Si le type de slider est "price", on applique le format monétaire
+        if (sliderType === "price") {
+            formatOptions = {
+                to: value => new Intl.NumberFormat('fr-FR', {
+                    style: 'currency',
+                    currency: 'EUR',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(value),
+                from: value => Number(value.replace(/[^0-9-]+/g, ""))
+            };
+            stepValue = 1000;
+        } else if (sliderType === "surface") {
+            formatOptions = {
+                to: value => value.toString() + " m²",
+                from: value => Number(value.replace(/[^0-9-]+/g, ""))
+            };
+            stepValue = 1;
+        }
+
         noUiSlider.create(slider, {
             start: values,
             connect: true,
             range: { 'min': min, 'max': max },
-            step: 1000,
+            step: stepValue,
             tooltips: false,
-            format: {
-                to: value => new Intl.NumberFormat('fr-FR', { 
-                    style: 'currency', 
-                    currency: 'EUR', 
-                    minimumFractionDigits: 0, 
-                    maximumFractionDigits: 0  
-                }).format(value),
-                from: value => Number(value.replace(/[^0-9-]+/g, ""))
-            }
+            format: formatOptions
         });
 
         let startInput = document.getElementById(`slider-range-${sliderId}-start`);
@@ -148,67 +176,67 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Ajout d'un gestionnaire d'événements pour "Enter" dans les champs min et max
-[startInput, endInput].forEach((input) => {
-    input.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            // Empêcher l'événement de se propager pour éviter d'autres actions
-            event.preventDefault();
+        [startInput, endInput].forEach((input) => {
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    // Empêcher l'événement de se propager pour éviter d'autres actions
+                    event.preventDefault();
 
-            // Mettre à jour le slider avec les nouvelles valeurs des inputs
-            let minValue = parseInt(startInput.value, 10) || min;
-            let maxValue = parseInt(endInput.value, 10) || max;
+                    // Mettre à jour le slider avec les nouvelles valeurs des inputs
+                    let minValue = parseInt(startInput.value, 10) || min;
+                    let maxValue = parseInt(endInput.value, 10) || max;
 
-            // Empêcher les valeurs incorrectes
-            if (minValue < min) minValue = min;
-            if (maxValue > max) maxValue = max;
-            if (minValue > maxValue) minValue = maxValue;
+                    // Empêcher les valeurs incorrectes
+                    if (minValue < min) minValue = min;
+                    if (maxValue > max) maxValue = max;
+                    if (minValue > maxValue) minValue = maxValue;
 
-            slider.noUiSlider.set([minValue, maxValue]);
+                    slider.noUiSlider.set([minValue, maxValue]);
 
-            // Rafraîchir la liste des produits
-            let currentUrl = new URL(window.location.href);
+                    // Rafraîchir la liste des produits
+                    let currentUrl = new URL(window.location.href);
 
-            let selectedFilters = [];
+                    let selectedFilters = [];
 
-            // Ajout des villes sélectionnées
-            selectedFilters = Array.from(document.querySelectorAll('.form-check-input:checked'))
-                .map(input => {
-                    const searchUrl = input.getAttribute('data-search-url');
-                    if (searchUrl) {
-                        const searchParams = new URL(searchUrl).searchParams;
-                        return searchParams.get('q');
+                    // Ajout des villes sélectionnées
+                    selectedFilters = Array.from(document.querySelectorAll('.form-check-input:checked'))
+                        .map(input => {
+                            const searchUrl = input.getAttribute('data-search-url');
+                            if (searchUrl) {
+                                const searchParams = new URL(searchUrl).searchParams;
+                                return searchParams.get('q');
+                            }
+                            return null;
+                        })
+                        .filter(f => f && !f.startsWith("price-"));
+
+                    // Ajout des valeurs du slider de prix (avec suppression des doublons)
+                    let startPrice = startInput.value || "";
+                    let endPrice = endInput.value || "";
+
+                    if (startPrice && endPrice) {
+                        let priceFilter = `Prix-%E2%82%AC-${startPrice}-${endPrice}`;
+                        selectedFilters = selectedFilters.filter(f => !f.startsWith("Price-%E2%82%AC-")); // Supprime les anciens filtres de prix
+                        selectedFilters.push(priceFilter);
                     }
-                    return null;
-                })
-                .filter(f => f && !f.startsWith("price-"));
 
-            // Ajout des valeurs du slider de prix (avec suppression des doublons)
-            let startPrice = startInput.value || "";
-            let endPrice = endInput.value || "";
+                    // Génération de la nouvelle URL (avec un seul `q` et sans doublons)
+                    let combinedQuery = selectedFilters.length > 0 ? encodeURIComponent(selectedFilters.join('/')) : "";
+                    let otherParams = new URLSearchParams(currentUrl.search);
+                    otherParams.delete('q');
+                    if (selectedFilters.length > 0) {
+                        otherParams.set('q', combinedQuery);
+                    }
 
-            if (startPrice && endPrice) {
-                let priceFilter = `Prix-%E2%82%AC-${startPrice}-${endPrice}`;
-                selectedFilters = selectedFilters.filter(f => !f.startsWith("Price-%E2%82%AC-")); // Supprime les anciens filtres de prix
-                selectedFilters.push(priceFilter);
-            }
+                    otherParams.set('order', 'product.price.asc'); // Ordre par prix croissant
 
-            // Génération de la nouvelle URL (avec un seul `q` et sans doublons)
-            let combinedQuery = selectedFilters.length > 0 ? encodeURIComponent(selectedFilters.join('/')) : "";
-            let otherParams = new URLSearchParams(currentUrl.search);
-            otherParams.delete('q');
-            if (selectedFilters.length > 0) {
-                otherParams.set('q', combinedQuery);
-            }
+                    currentUrl.search = otherParams.toString();
+                    console.log('Nouvelle URL :', currentUrl.toString());
 
-            otherParams.set('order', 'product.price.asc'); // Ordre par prix croissant
-
-            currentUrl.search = otherParams.toString();
-            console.log('Nouvelle URL :', currentUrl.toString());
-
-            refreshProductList(currentUrl.toString());
-        }
-    });
-});
+                    refreshProductList(currentUrl.toString());
+                }
+            });
+        });
 
 
         // Rafraîchir la liste des produits au changement du prix
@@ -230,13 +258,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 .filter(f => f && !f.startsWith("price-"));
 
             // Ajout des valeurs du slider de prix (avec suppression des doublons)
-            let startPrice = startInput.value || "";
-            let endPrice = endInput.value || "";
+            let startNumber = startInput.value || "";
+            let endNumber = endInput.value || "";
 
-            if (startPrice && endPrice) {
-                let priceFilter = `Prix-%E2%82%AC-${startPrice}-${endPrice}`;
+            if (sliderType === 'price') {
+                let priceFilter = `Prix-%E2%82%AC-${startNumber}-${endNumber}`;
                 selectedFilters = selectedFilters.filter(f => !f.startsWith("Price-%E2%82%AC-")); // Supprime les anciens filtres de prix
                 selectedFilters.push(priceFilter);
+            } else if (sliderType === 'surface') {
+                let surfaceFilter = `Surface-%E2%82%AC-${startNumber}-${endNumber}`;
+                selectedFilters = selectedFilters.filter(f => !f.startsWith("Surface-%E2%82%AC-")); // Supprime les anciens filtres de surface
+                selectedFilters.push(surfaceFilter);
             }
 
             // Génération de la nouvelle URL (avec un seul `q` et sans doublons)
@@ -246,8 +278,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (selectedFilters.length > 0) {
                 otherParams.set('q', combinedQuery);
             }
-
-            otherParams.set('order', 'product.price.asc'); // Ordre par prix croissant
+            if (sliderType === 'price') {
+                otherParams.set('order', 'product.price.asc'); // Ordre par prix croissant
+            }
 
             currentUrl.search = otherParams.toString();
             console.log('Nouvelle URL :', currentUrl.toString());
@@ -265,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function refreshProductList(url) {
         // Ajoute une classe de chargement pour la transition
         productListContainer.classList.add('loading');
-    
+
         fetch(url, { method: 'GET' })
             .then(response => {
                 if (!response.ok) {
@@ -277,11 +310,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const newProductList = doc.querySelector('#js-product-list');
-    
+
                 if (newProductList && newProductList.querySelector('section').textContent.trim() !== '') {
                     // Mettre à jour la liste des produits
                     productListContainer.innerHTML = newProductList.innerHTML;
-    
+
                     // Retirer la classe de chargement pour afficher les nouveaux produits avec transition
                     setTimeout(() => {
                         productListContainer.classList.remove('loading');

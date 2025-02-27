@@ -2,15 +2,15 @@
 
 {shop_url}
 
-Hi {firstname} {lastname},
+Bonjour {firstname} {lastname},
 
-Order ID {order_name} - Order changed
+Identifiant de commande {order_name} - Commande modifiée
 
-Your order with the reference {order_name} from {shop_name} has been changed by the merchant.
+Votre commande ayant pour référence {order_name} sur {shop_name} a été modifiée par le marchand.
 
-Go to your customer account to learn more about it.
+Pour en savoir plus, rendez-vous sur votre compte client.
 
-If you have a guest account, you can follow your order via the [Guest Tracking]({guest_tracking_url}) section on our shop.
+Si vous avez un compte invité, vous pouvez suivre votre commande via la section [Suivi de commande]({guest_tracking_url}) sur notre boutique.
 
 [{shop_name}]({shop_url})
 

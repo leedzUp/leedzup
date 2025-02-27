@@ -123,6 +123,7 @@ class Block
         // Get filters configured for the current query
         $filters = $this->provider->getFiltersForQuery($this->query, $idShop);
 
+
         $filterBlocks = [];
         // iterate through each filter, and the get corresponding filter block
         foreach ($filters as $filter) {
@@ -132,6 +133,9 @@ class Block
                     break;
                 case 'weight':
                     $filterBlocks[] = $this->getWeightRangeBlock($filter, $selectedFilters, $nbProducts);
+                    break;
+                case 'surface':
+                    $filterBlocks[] = $this->getSurfaceRangeBlock($filter, $selectedFilters, $nbProducts);
                     break;
                 case 'condition':
                     $filterBlocks[] = $this->getConditionsBlock($filter, $selectedFilters);
@@ -260,6 +264,8 @@ class Block
         return $priceBlock;
     }
 
+    
+
     /**
      * Price / weight filter block should not apply their own filters
      * otherwise they will always disappear if we filter on price / weight
@@ -304,6 +310,48 @@ class Block
         $filteredSearchAdapter->setFilter('price_min', $priceMinFilter);
         $filteredSearchAdapter->setFilter('price_max', $priceMaxFilter);
         $filteredSearchAdapter->setFilter('weight', $weightFilter);
+    }
+
+     /**
+     * @param array $filter
+     * @param array $selectedFilters
+     * @param int $nbProducts
+     *
+     * @return array
+     */
+    private function getSurfaceRangeBlock($filter, $selectedFilters, $nbProducts)
+    {
+    
+        $surfaceBlock = [
+            'type_lite' => 'surface',
+            'type' => 'surface',
+            'id_key' => 0,
+            'name' => $this->context->getTranslator()->trans('Surface', [], 'Modules.Facetedsearch.Shop'),
+            'max' => '10000000',
+            'min' => '0',
+            'unit' => 'm²',
+            'specifications' => [],
+            'filter_show_limit' => (int) $filter['filter_show_limit'],
+            'filter_type' => Converter::WIDGET_TYPE_SLIDER,
+            'nbr' => $nbProducts,
+        ];
+
+        
+        list($surfaceBlock['min'], $surfaceBlock['max']) = $this->searchAdapter->getInitialPopulation()->getMinMaxSurfaceValue();
+
+        // Si 'min' ou 'max' est invalide ou nul, on met des valeurs par défaut (par exemple, 0)
+        if ($surfaceBlock['min'] === null) {
+            $surfaceBlock['min'] = 0;
+        }
+
+        if ($surfaceBlock['max'] === null) {
+            $surfaceBlock['max'] = 0;
+        }
+
+        $surfaceBlock['value'] = !empty($selectedFilters['surface']) ? $selectedFilters['surface'] : null;
+
+
+        return $surfaceBlock;
     }
 
     /**

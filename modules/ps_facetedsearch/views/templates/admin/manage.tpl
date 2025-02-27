@@ -25,6 +25,8 @@
   </div>
   <div class="row">
 	<p>
+	<a class="ajaxcall-recurcive btn btn-default" href="{$surface_indexer_url}">{l s='Index all missing surface' d='Modules.Facetedsearch.Admin'}</a>
+
 	  <a class="ajaxcall-recurcive btn btn-default" href="{$price_indexer_url}">{l s='Index all missing prices' d='Modules.Facetedsearch.Admin'}</a>
 	  <a class="ajaxcall-recurcive btn btn-default" href="{$full_price_indexer_url}">{l s='Rebuild entire price index' d='Modules.Facetedsearch.Admin'}</a>
 	  <a class="ajaxcall btn btn-default" href="{$attribute_indexer_url}">{l s='Build attributes and features indexes' d='Modules.Facetedsearch.Admin'}</a>

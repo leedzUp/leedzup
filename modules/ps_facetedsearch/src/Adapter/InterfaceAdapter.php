@@ -71,6 +71,13 @@ interface InterfaceAdapter
     public function getMinMaxPriceValue();
 
     /**
+     * Get the min & max value of the surface associated with the current search
+     *
+     * @return array
+     */
+    public function getMinMaxSurfaceValue();
+
+    /**
      * Return order direction associated with the current search
      *
      * @return mixed
