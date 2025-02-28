@@ -768,7 +768,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
 
             $roomValue = null;
             foreach ($features as $feature) {
-                if ((int) $feature['id_feature'] === 28) { // Vérifie si c'est la surface habitable
+                if ((int) $feature['id_feature'] === 17) { // Vérifie si c'est la surface habitable
                     $roomValue = $feature['id_feature_value'];
                     break;
                 }
