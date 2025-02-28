@@ -46,7 +46,7 @@
 	 <div class="alert alert-warning">{$warningSslMessage}</div>
 	 {/if}
  </div>
- <div id="shop-img"><a href="https://leedzup.com"><img src="{$img_dir}logo.png" alt="{$shop_name}" width="200px" height="200px" /></a></div>
+ <div id="shop-img"><a href="https://leedzup.com"><img class="img-responsive" src="{$img_dir}logo.png" alt="{$shop_name}" width="200px" height="200px" /></a></div>
  <div class="flip-container">
 	 <div class="flipper">
 		 <div class="front front_login panel" {if isset($reset_token) && isset($id_employee)}style="display:none;"{/if}>
