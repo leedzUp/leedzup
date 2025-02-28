@@ -18,7 +18,7 @@
  *}
  {$componentName = 'search-filters'}
  <button type="button" id="close-offcanvas" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
- {debug}
+
  {if $displayedFacets|count}
  
    <div id="search-filters" class="{$componentName}">

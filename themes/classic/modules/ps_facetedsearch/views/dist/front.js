@@ -131,8 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
             stepValue = 1000;
         } else if (sliderType === "surface") {
             formatOptions = {
-                to: value => value.toString() + " m²",
-                from: value => Number(value.replace(/[^0-9-]+/g, ""))
+                to: value => parseInt(value, 10).toString() + " m²", // Assure que la valeur est bien un int
+                from: value => parseInt(value.replace(/[^0-9-]+/g, ""), 10) || 0
             };
             stepValue = 1;
         }
@@ -242,51 +242,52 @@ document.addEventListener('DOMContentLoaded', () => {
         // Rafraîchir la liste des produits au changement du prix
         slider.noUiSlider.on("change", function () {
             let currentUrl = new URL(window.location.href);
-
-            let selectedFilters = [];
-
-            // Ajout des villes sélectionnées
-            selectedFilters = Array.from(document.querySelectorAll('.form-check-input:checked'))
-                .map(input => {
-                    const searchUrl = input.getAttribute('data-search-url');
-                    if (searchUrl) {
-                        const searchParams = new URL(searchUrl).searchParams;
-                        return searchParams.get('q');
-                    }
-                    return null;
-                })
-                .filter(f => f && !f.startsWith("price-"));
-
-            // Ajout des valeurs du slider de prix (avec suppression des doublons)
+            let otherParams = new URLSearchParams(currentUrl.search);
+        
+            // Récupérer les filtres existants (q=... dans l'URL)
+            let existingFilters = [];
+            if (otherParams.has('q')) {
+                existingFilters = otherParams.get('q').split('/'); // Ne pas re-décoder ici
+            }
+        
+            // Récupérer les valeurs du slider
             let startNumber = startInput.value || "";
             let endNumber = endInput.value || "";
-
+        
+            // Vérifier quel type de filtre est en train d'être modifié
+            let filterToUpdate = "";
             if (sliderType === 'price') {
-                let priceFilter = `Prix-%E2%82%AC-${startNumber}-${endNumber}`;
-                selectedFilters = selectedFilters.filter(f => !f.startsWith("Price-%E2%82%AC-")); // Supprime les anciens filtres de prix
-                selectedFilters.push(priceFilter);
+                filterToUpdate = `Prix-€-${startNumber}-${endNumber}`;
+                existingFilters = existingFilters.filter(f => !f.startsWith("Prix-€-")); // Supprime l'ancien prix
             } else if (sliderType === 'surface') {
-                let surfaceFilter = `Surface-%E2%82%AC-${startNumber}-${endNumber}`;
-                selectedFilters = selectedFilters.filter(f => !f.startsWith("Surface-%E2%82%AC-")); // Supprime les anciens filtres de surface
-                selectedFilters.push(surfaceFilter);
+                filterToUpdate = `Surface-m²-${startNumber}-${endNumber}`;
+                existingFilters = existingFilters.filter(f => !f.startsWith("Surface-m²-")); // Supprime l'ancienne surface
             }
-
-            // Génération de la nouvelle URL (avec un seul `q` et sans doublons)
-            let combinedQuery = selectedFilters.length > 0 ? encodeURIComponent(selectedFilters.join('/')) : "";
-            let otherParams = new URLSearchParams(currentUrl.search);
-            otherParams.delete('q');
-            if (selectedFilters.length > 0) {
+        
+            // Ajouter le nouveau filtre
+            if (startNumber && endNumber) {
+                existingFilters.push(filterToUpdate);
+            }
+        
+            // Générer la nouvelle URL proprement
+            let combinedQuery = existingFilters.length > 0 ? existingFilters.join('/') : "";
+            otherParams.delete('q'); // Supprime l'ancien paramètre
+            if (combinedQuery) {
                 otherParams.set('q', combinedQuery);
             }
+        
             if (sliderType === 'price') {
-                otherParams.set('order', 'product.price.asc'); // Ordre par prix croissant
+                otherParams.set('order', 'product.price.asc'); // Tri par prix si nécessaire
             }
-
+        
             currentUrl.search = otherParams.toString();
             console.log('Nouvelle URL :', currentUrl.toString());
+            window.history.pushState({}, '', currentUrl.toString());
 
             refreshProductList(currentUrl.toString());
         });
+        
+        
     });
 
     // Fonction pour extraire la catégorie du filtre
