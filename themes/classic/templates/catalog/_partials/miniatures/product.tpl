@@ -83,6 +83,7 @@
             <p class="product-title"><a href="{$product.url}" content="{$product.url}">{$product.name}</a></p>
           {/if}
         {/block}
+{widget name="code_featuresonlist" product=$product}
 
         {block name='product_price_and_shipping'}
           {if $product.show_price}
