@@ -78,6 +78,13 @@ interface InterfaceAdapter
     public function getMinMaxSurfaceValue();
 
     /**
+     * Get the min & max value of the room associated with the current search
+     *
+     * @return array
+     */
+    public function getMinMaxRoomValue();
+
+    /**
      * Return order direction associated with the current search
      *
      * @return mixed

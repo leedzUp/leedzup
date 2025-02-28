@@ -82,6 +82,17 @@ class Ps_FacetedSearchCronModuleFrontController extends ModuleFrontController
                 }
 
                 break;
+            case 'indexRooms':
+                Shop::setContext(Shop::CONTEXT_ALL);
+
+                $module = new Ps_Facetedsearch();
+                if (Tools::getValue('full')) {
+                    $this->ajaxRender($module->fullRoomsIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax'), true));
+                } else {
+                    $this->ajaxRender($module->roomsIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax')));
+                }
+
+                break;
             default:
                 header('HTTP/1.1 403 Forbidden');
                 header('Status: 403 Forbidden');

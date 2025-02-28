@@ -90,6 +90,12 @@ class Products
             $this->searchAdapter->addSelectField('surface_min');
             $this->searchAdapter->addSelectField('surface_max');
         }
+        if (isset($selectedFilters['room']) || $orderBy === 'room') {
+            $this->searchAdapter->addSelectField('id_product');
+            $this->searchAdapter->addSelectField('room');
+            $this->searchAdapter->addSelectField('room_min');
+            $this->searchAdapter->addSelectField('room_max');
+        }
 
         // Get full list of matching products
         $fullProductList = $this->searchAdapter->execute();
@@ -112,6 +118,7 @@ class Products
         $this->pricePostFiltering($finalProductList, $selectedFilters);
 
         $this->surfacePostFiltering($finalProductList, $selectedFilters);
+        $this->roomPostFiltering($finalProductList, $selectedFilters);
 
         return [
             'products' => $finalProductList,
@@ -173,6 +180,28 @@ class Products
         );
     }
 
+
+    /**
+     * Post filter product depending on the price and a few extra config variables
+     *
+     * @param array $matchingProductList
+     * @param array $selectedFilters
+     */
+    private function roomPostFiltering(&$matchingProductList, $selectedFilters)
+    {
+        if (!isset($selectedFilters['room'])) {
+            return;
+        }
+
+        $roomFilter['min'] = (int) ($selectedFilters['room'][0]);
+        $roomFilter['max'] = (int) ($selectedFilters['room'][1]);
+
+        $this->filterRoom(
+            $matchingProductList,
+            $roomFilter
+        );
+    }
+
     /**
      * Remove products from the product list in case of price postFiltering
      *
@@ -221,6 +250,28 @@ class Products
     
                 // Vérifier si la surface est hors de la plage
                 if ($surface < $surfaceFilter['min'] || $surface > $surfaceFilter['max']) {
+                    // Exclure le produit
+                    unset($matchingProductList[$key]);
+                }
+            }
+        }
+    }
+
+    private function filterRoom(
+        &$matchingProductList,
+        $roomFilter
+    ) {
+        /* for this case, room could be out of range, so we need to compute the real room */
+        foreach ($matchingProductList as $key => $product) {
+            if (($product['room_min'] < (int) $roomFilter['min'] && $product['room_max'] > (int) $roomFilter['min'])
+                || ($product['room_min'] > (int) $roomFilter['max'] && $product['room_min'] < (int) $roomFilter['max'])
+            ) {
+                // Récupérer la vraie valeur de room depuis la base de données
+                $sql = 'SELECT room FROM ' . _DB_PREFIX_ . 'product WHERE id_product = ' . (int) $product['id_product'];
+                $room = (int) \Db::getInstance()->getValue($sql);
+    
+                // Vérifier si la room est hors de la plage
+                if ($room < $roomFilter['min'] || $room > $roomFilter['max']) {
                     // Exclure le produit
                     unset($matchingProductList[$key]);
                 }

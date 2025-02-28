@@ -87,6 +87,33 @@ class MySQL extends AbstractAdapter
         ];
     }
 
+    public function getMinMaxRoomValue()
+    {
+        // Récupération de l'adaptateur MySQL pour la recherche filtrée
+        $mysqlAdapter = $this->getFilteredSearchAdapter();
+
+        // Copier les filtres depuis l'objet courant pour les appliquer à la recherche
+        $mysqlAdapter->copyFilters($this);
+
+        // Définir les champs à sélectionner : room_min et les valeurs MIN et MAX
+        $mysqlAdapter->setSelectFields(['room_min', 'MIN(room_min) as min', 'MAX(room_max) as max']);
+        $mysqlAdapter->setOrderField('');
+
+        // Exécution de la requête pour récupérer les résultats
+        $result = $mysqlAdapter->execute();
+
+        // Si aucun résultat, renvoyer des valeurs par défaut (0, 0)
+        if (empty($result) || !isset($result[0]['min']) || !isset($result[0]['max'])) {
+            return [0, 0];
+        }
+
+        // Retourner les valeurs MIN et MAX converties en int après arrondi
+        return [
+            (int) floor((float) $result[0]['min']),  // Valeur minimum arrondie à l'entier inférieur
+            (int) ceil((float) $result[0]['max'])   // Valeur maximum arrondie à l'entier supérieur
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -347,7 +374,34 @@ class MySQL extends AbstractAdapter
                 'joinType' => self::INNER_JOIN,
             ],
 
-            /**/
+            /**ajout de room */
+
+            'room_min' => [
+                'tableName' => 'layered_room_index',
+                'tableAlias' => 'proomi',
+                'joinCondition' => '(proomi.id_product = p.id_product AND proomi.id_shop = ' . $this->getContext()->shop->id . ')',
+                'joinType' => self::INNER_JOIN,
+            ],
+            'room_max' => [
+                'tableName' => 'layered_room_index',
+                'tableAlias' => 'proomi',
+                'joinCondition' => '(proomi.id_product = p.id_product AND proomi.id_shop = ' . $this->getContext()->shop->id . ')',
+                'joinType' => self::INNER_JOIN,
+            ],
+            'room_range_start' => [
+                'tableName' => 'layered_room_index',
+                'tableAlias' => 'proomi',
+                'joinCondition' => '(proomi.id_product = p.id_product AND proomi.id_shop = ' . $this->getContext()->shop->id . ')',
+                'joinType' => self::INNER_JOIN,
+            ],
+            'room_range_end' => [
+                'tableName' => 'layered_room_index',
+                'tableAlias' => 'proomi',
+                'joinCondition' => '(proomi.id_product = p.id_product AND proomi.id_shop = ' . $this->getContext()->shop->id . ')',
+                'joinType' => self::INNER_JOIN,
+            ],
+
+            
             'id_group' => [
                 'tableName' => 'category_group',
                 'tableAlias' => 'cg',
@@ -439,6 +493,10 @@ class MySQL extends AbstractAdapter
         // Alter order by field if it's a price column
         if ($orderField === 'surface') {
             $orderField = $this->getOrderDirection() === 'asc' ? 'surface_min' : 'surface_max';
+        }
+
+        if ($orderField === 'room') {
+            $orderField = $this->getOrderDirection() === 'asc' ? 'room_min' : 'room_max';
         }
 
         // Add table mapping or p. prefix depending on field type
@@ -858,6 +916,7 @@ class MySQL extends AbstractAdapter
                 'weight',
                 'price',
                 'surface',
+                'room',
                 'sales',
                 'on_sale',
                 'date_add',

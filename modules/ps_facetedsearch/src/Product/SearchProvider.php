@@ -99,6 +99,9 @@ class SearchProvider implements FacetsRendererInterface, ProductSearchProviderIn
         $sortSurfaceAsc = new SortOrder('product', 'surface', 'asc');
         $sortSurfaceDesc = new SortOrder('product', 'surface', 'desc');
 
+        $sortRoomAsc = new SortOrder('product', 'room', 'asc');
+        $sortRoomDesc = new SortOrder('product', 'room', 'desc');
+
         $sortDateAsc = new SortOrder('product', 'date_add', 'asc');
         $sortDateDesc = new SortOrder('product', 'date_add', 'desc');
         $sortRefAsc = new SortOrder('product', 'reference', 'asc');
@@ -130,6 +133,13 @@ class SearchProvider implements FacetsRendererInterface, ProductSearchProviderIn
             ),
             $sortSurfaceDesc->setLabel(
                 $translator->trans('Surface, high to low', [], 'Shop.Theme.Catalog')
+            ),
+
+            $sortRoomAsc->setLabel(
+                $translator->trans('Room, low to high', [], 'Shop.Theme.Catalog')
+            ),
+            $sortRoomDesc->setLabel(
+                $translator->trans('Room, high to low', [], 'Shop.Theme.Catalog')
             ),
 
             $sortRefAsc->setLabel(
@@ -467,6 +477,18 @@ class SearchProvider implements FacetsRendererInterface, ProductSearchProviderIn
                     );
                 } elseif ($facet->getType() === 'surface') {
                     $unit = ' m²';  // Ajouter l'unité de surface ici
+
+                    $filter->setLabel(
+                        sprintf(
+                            '%1$s %2$s - %3$s %4$s',
+                            $context->getCurrentLocale()->formatNumber($min),
+                            $unit,
+                            $context->getCurrentLocale()->formatNumber($max),
+                            $unit
+                        )
+                    );
+                } elseif ($facet->getType() === 'room') {
+                    $unit = ' ';  // Ajouter l'unité de room ici
 
                     $filter->setLabel(
                         sprintf(

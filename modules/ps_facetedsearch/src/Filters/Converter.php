@@ -47,6 +47,7 @@ class Converter
     const TYPE_MANUFACTURER = 'manufacturer';
     const TYPE_PRICE = 'price';
     const TYPE_SURFACE = 'surface';
+    const TYPE_SURFACE = 'room';
     const TYPE_WEIGHT = 'weight';
     const TYPE_EXTRAS = 'extras';
 
@@ -57,7 +58,7 @@ class Converter
     /**
      * @var array
      */
-    const RANGE_FILTERS = [self::TYPE_PRICE, self::TYPE_WEIGHT,self::TYPE_SURFACE];
+    const RANGE_FILTERS = [self::TYPE_PRICE, self::TYPE_WEIGHT,self::TYPE_SURFACE,self::TYPE_ROOM];
 
     /**
      * @var Context
@@ -188,8 +189,6 @@ class Converter
                     break;
                 case self::TYPE_WEIGHT:
                 case self::TYPE_PRICE:
-                case self::TYPE_SURFACE:
-
                     $facet
                         ->setType($filterBlock['type'])
                         ->setProperty('min', $filterBlock['min'])
@@ -210,6 +209,49 @@ class Converter
                     $facet->addFilter($filter);
 
                     break;
+                case self::TYPE_SURFACE:
+                    $facet
+                        ->setType($filterBlock['type'])
+                        ->setProperty('min', $filterBlock['min'])
+                        ->setProperty('max', 1000)
+                        ->setProperty('unit', $filterBlock['unit'])
+                        ->setProperty('specifications', $filterBlock['specifications'])
+                        ->setMultipleSelectionAllowed(false)
+                        ->setProperty('range', true);
+
+                    $filter = new Filter();
+                    $filter
+                        ->setActive($filterBlock['value'] !== null)
+                        ->setType($filterBlock['type'])
+                        ->setMagnitude($filterBlock['nbr'])
+                        ->setProperty('symbol', $filterBlock['unit'])
+                        ->setValue($filterBlock['value']);
+
+                    $facet->addFilter($filter);
+
+                    break;
+                case self::TYPE_ROOM:
+                    $facet
+                        ->setType($filterBlock['type'])
+                        ->setProperty('min', $filterBlock['min'])
+                        ->setProperty('max', 8)
+                        ->setProperty('unit', $filterBlock['unit'])
+                        ->setProperty('specifications', $filterBlock['specifications'])
+                        ->setMultipleSelectionAllowed(false)
+                        ->setProperty('range', true);
+
+                    $filter = new Filter();
+                    $filter
+                        ->setActive($filterBlock['value'] !== null)
+                        ->setType($filterBlock['type'])
+                        ->setMagnitude($filterBlock['nbr'])
+                        ->setProperty('symbol', $filterBlock['unit'])
+                        ->setValue($filterBlock['value']);
+
+                    $facet->addFilter($filter);
+
+                    break;
+
             }
 
             switch ((int) $filterBlock['filter_type']) {
@@ -446,6 +488,7 @@ class Converter
                 case self::TYPE_PRICE:
                 case self::TYPE_WEIGHT:
                 case self::TYPE_SURFACE:
+                case self::TYPE_ROOM:
                     if (isset($receivedFilters[$filterLabel])) {
                         $filters = $receivedFilters[$filterLabel];
                         if (isset($filters[1]) && isset($filters[2])) {
@@ -489,6 +532,7 @@ class Converter
                 case self::TYPE_PRICE:
                 case self::TYPE_WEIGHT:
                 case self::TYPE_SURFACE:
+                case self::TYPE_ROOM:
                     if ($value[0] === '' && $value[1] === '') {
                         unset($searchFilters[$key]);
                     }
@@ -518,6 +562,8 @@ class Converter
                 return $this->context->getTranslator()->trans('Weight', [], 'Modules.Facetedsearch.Shop');
             case self::TYPE_SURFACE:
                 return $this->context->getTranslator()->trans('Surface', [], 'Modules.Facetedsearch.Shop');
+            case self::TYPE_ROOM:
+                return $this->context->getTranslator()->trans('Room', [], 'Modules.Facetedsearch.Shop');
             case self::TYPE_CONDITION:
                 return $this->context->getTranslator()->trans('Condition', [], 'Modules.Facetedsearch.Shop');
             case self::TYPE_EXTRAS:
