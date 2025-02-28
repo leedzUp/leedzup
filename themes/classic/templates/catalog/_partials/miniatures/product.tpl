@@ -82,7 +82,6 @@
           {else}
             <p class="product-title"><a href="{$product.url}" content="{$product.url}">{$product.name}</a></p>
           {/if}
-          test feat
           {widget name="code_featuresonlist" product=$product}
 
         {/block}
