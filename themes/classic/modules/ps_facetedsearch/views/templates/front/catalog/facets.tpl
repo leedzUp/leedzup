@@ -211,15 +211,15 @@
  
                      <label class="form-label" for="slider-range-{$_expand_id}-start">{$facet.properties.unit} min.</label>
                        <input type="number" class="form-control form-range-start js-faceted-slider js-faceted-slider-start"
-                         id="slider-range-{$_expand_id}-start" {if $facet.type =='price'}step="1000" pattern="[0-9]*"{elseif $facet.type =='surface'}step="10"{/if}>
+                         id="slider-range-{$_expand_id}-start" {if $facet.type =='price'}step="1000" pattern="[0-9]*"{elseif $facet.type =='surface'}step="10"{elseif $facet.type =='room'}step="1"{/if}>
  
                          <label class="form-label" for="slider-range-{$_expand_id}-end">{$facet.properties.unit} max.</label>
  
                        <input type="number" class="form-control form-range-end js-faceted-slider js-faceted-slider-end"
-                         id="slider-range-{$_expand_id}-end" {if $facet.type =='price'}step="1000" pattern="[0-9]*"{elseif $facet.type =='surface'}step="10"{/if}>
+                         id="slider-range-{$_expand_id}-end" {if $facet.type =='price'}step="1000" pattern="[0-9]*"{elseif $facet.type =='surface'}step="10"{elseif $facet.type =='room'}step="1"{/if}>
                          </div>
                        <div id="slider-{$_expand_id}" class="faceted-slider js-faceted-slider-container"
-                          data-slider-type="{if $facet.type =='price'}price{elseif $facet.type =='surface'}surface{/if}"
+                          data-slider-type="{if $facet.type =='price'}price{elseif $facet.type =='surface'}surface{elseif $facet.type =='room'}room{/if}"
                          data-slider-min="{$facet.properties.min}" data-slider-max="{$facet.properties.max}"
                          data-slider-values="{if isset($filter.value) && $filter.value}[{$filter.value[0]}, {$filter.value[1]}]{else}[{$facet.properties.min}, {$facet.properties.max}]{/if}"
                          data-slider-unit="{$facet.properties.unit}" data-slider-label="{$facet.label}"

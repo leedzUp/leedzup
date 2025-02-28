@@ -135,6 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 from: value => parseInt(value.replace(/[^0-9-]+/g, ""), 10) || 0
             };
             stepValue = 1;
+        } else if (sliderType === "room") {
+            formatOptions = {
+                to: value => parseInt(value, 10).toString(), // Assure que la valeur est bien un int
+                from: value => parseInt(value.replace(/[^0-9-]+/g, ""), 10) || 0
+            };
+            stepValue = 1;
         }
 
         noUiSlider.create(slider, {
@@ -228,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         otherParams.set('q', combinedQuery);
                     }
 
-                    otherParams.set('order', 'product.price.asc'); // Ordre par prix croissant
+                    //otherParams.set('order', 'product.price.asc'); // Ordre par prix croissant
 
                     currentUrl.search = otherParams.toString();
                     console.log('Nouvelle URL :', currentUrl.toString());
@@ -262,6 +268,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (sliderType === 'surface') {
                 filterToUpdate = `Surface-m²-${startNumber}-${endNumber}`;
                 existingFilters = existingFilters.filter(f => !f.startsWith("Surface-m²-")); // Supprime l'ancienne surface
+            } else if (sliderType === 'room') {
+                filterToUpdate = `Room-u-${startNumber}-${endNumber}`;
+                existingFilters = existingFilters.filter(f => !f.startsWith("Room-u-")); // Supprime l'ancienne surface
             }
         
             // Ajouter le nouveau filtre
@@ -276,9 +285,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 otherParams.set('q', combinedQuery);
             }
         
-            if (sliderType === 'price') {
+            /*if (sliderType === 'price') {
                 otherParams.set('order', 'product.price.asc'); // Tri par prix si nécessaire
-            }
+            }*/
         
             currentUrl.search = otherParams.toString();
             console.log('Nouvelle URL :', currentUrl.toString());
