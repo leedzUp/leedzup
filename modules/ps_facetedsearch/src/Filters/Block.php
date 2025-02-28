@@ -137,6 +137,9 @@ class Block
                 case 'surface':
                     $filterBlocks[] = $this->getSurfaceRangeBlock($filter, $selectedFilters, $nbProducts);
                     break;
+                case 'room':
+                    $filterBlocks[] = $this->getRoomRangeBlock($filter, $selectedFilters, $nbProducts);
+                    break;
                 case 'condition':
                     $filterBlocks[] = $this->getConditionsBlock($filter, $selectedFilters);
                     break;
@@ -327,7 +330,7 @@ class Block
             'type' => 'surface',
             'id_key' => 0,
             'name' => $this->context->getTranslator()->trans('Surface', [], 'Modules.Facetedsearch.Shop'),
-            'max' => '10000000',
+            'max' => '1000',
             'min' => '0',
             'unit' => 'm²',
             'specifications' => [],
@@ -345,13 +348,56 @@ class Block
         }
 
         if ($surfaceBlock['max'] === null) {
-            $surfaceBlock['max'] = 0;
+            $surfaceBlock['max'] = 1000;
         }
 
         $surfaceBlock['value'] = !empty($selectedFilters['surface']) ? $selectedFilters['surface'] : null;
 
 
         return $surfaceBlock;
+    }
+
+
+    /**
+     * @param array $filter
+     * @param array $selectedFilters
+     * @param int $nbProducts
+     *
+     * @return array
+     */
+    private function getRoomRangeBlock($filter, $selectedFilters, $nbProducts)
+    {
+    
+        $roomBlock = [
+            'type_lite' => 'room',
+            'type' => 'room',
+            'id_key' => 0,
+            'name' => $this->context->getTranslator()->trans('Room', [], 'Modules.Facetedsearch.Shop'),
+            'max' => '8',
+            'min' => '0',
+            'unit' => '',
+            'specifications' => [],
+            'filter_show_limit' => (int) $filter['filter_show_limit'],
+            'filter_type' => Converter::WIDGET_TYPE_SLIDER,
+            'nbr' => $nbProducts,
+        ];
+
+        
+        list($roomBlock['min'], $surfaceBlock['max']) = $this->searchAdapter->getInitialPopulation()->getMinMaxRoomValue();
+
+        // Si 'min' ou 'max' est invalide ou nul, on met des valeurs par défaut (par exemple, 0)
+        if ($roomBlock['min'] === null) {
+            $roomBlock['min'] = 0;
+        }
+
+        if ($roomBlock['max'] === null) {
+            $roomBlock['max'] = 8;
+        }
+
+        $roomBlock['value'] = !empty($selectedFilters['room']) ? $selectedFilters['room'] : null;
+
+
+        return $roomBlock;
     }
 
     /**

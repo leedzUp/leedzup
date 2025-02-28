@@ -177,6 +177,10 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
                 'label' => 'Product surface filter (slider)',
                 'slider' => true,
             ],
+            'layered_selection_room_slider' => [
+                'label' => 'Product room filter (slider)',
+                'slider' => true,
+            ],
             'layered_selection_extras' => [
                 'label' => 'Product extras filter',
             ],
@@ -201,6 +205,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
 
             $this->rebuildPriceIndexTable();
             $this->rebuildSurfaceIndexTable();
+            $this->rebuildRoomIndexTable();
 
 
             $this->getDatabase()->execute('ALTER TABLE ' . _DB_PREFIX_ . 'layered_filter CHANGE `filters` `filters` LONGTEXT NULL');
@@ -231,6 +236,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
 
             $this->rebuildPriceIndexTable();
             $this->rebuildSurfaceIndexTable();
+            $this->rebuildRoomIndexTable();
 
             $this->installIndexableAttributeTable();
             $this->installProductAttributeTable();
@@ -283,6 +289,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
         $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_indexable_feature_value_lang_value');
         $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_price_index');
         $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_surface_index');
+        $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_room_index');
 
         $this->getDatabase()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'layered_product_attribute');
 
@@ -413,6 +420,22 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
         return $this->indexSurfaces($cursor, true, $ajax, $smart);
     }
 
+    /**
+    * Full room index process
+    *
+    * @param int $cursor in order to restart indexing from the last state
+    * @param bool $ajax
+    * @param bool $smart
+    */
+    public function fullRoomsIndexProcess($cursor = 0, $ajax = false, $smart = false)
+    {
+        if ($cursor == 0 && !$smart) {
+            $this->rebuildRoomIndexTable();
+        }
+
+        return $this->indexRooms($cursor, true, $ajax, $smart);
+    }
+
 
     /**
      * Prices index process
@@ -434,6 +457,17 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
     public function surfacesIndexProcess($cursor = 0, $ajax = false)
     {
         return $this->indexSurfaces($cursor, false, $ajax);
+    }
+
+    /**
+    * Rooms index process
+    *
+    * @param int $cursor in order to restart indexing from the last state
+    * @param bool $ajax
+    */
+    public function roomsIndexProcess($cursor = 0, $ajax = false)
+    {
+        return $this->indexRooms($cursor, false, $ajax);
     }
 
     /**
@@ -712,6 +746,75 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
         }
     }
 
+     /**
+     * Index product rooms
+     *
+     * @param int $idProduct
+     * @param bool $smart Delete before reindex
+     */
+    public function indexProductRooms($idProduct, $smart = true)
+    {
+
+        $shopList = Shop::getShops(false, null, true);
+
+        foreach ($shopList as $idShop) {
+
+            // if ($smart) {
+            $this->getDatabase()->execute('DELETE FROM `' . _DB_PREFIX_ . 'layered_room_index` WHERE `id_product` = ' . (int) $idProduct . ' AND `id_shop` = ' . (int) $idShop);
+            // }
+
+            $product = new Product((int) $idProduct, false, $idShop);
+            $features = $product->getFeatures(); // Récupère toutes les caractéristiques du produit
+
+            $roomValue = null;
+            foreach ($features as $feature) {
+                if ((int) $feature['id_feature'] === 28) { // Vérifie si c'est la surface habitable
+                    $roomValue = $feature['id_feature_value'];
+                    break;
+                }
+            }
+
+            // Si une valeur a été trouvée, récupérer son texte associé
+            if ($roomValue) {
+                $surfaceText = FeatureValue::getFeatureValueLang((int) $roomValue, 1);
+            }
+
+            $realValue = $roomText[0]['value'];
+
+            $minRoom = (int)$realValue;
+            $maxRoom = (int)$realValue;
+
+            $values = [];
+            $values[] = '(' . (int) $idProduct . ',
+                        '. (int)$idShop.',
+                        '. (int)$minRoom.',
+                        '. (int)$maxRoom.'
+                        )';
+
+            $valuesProduct = [];
+            $valuesProduct[] = '(' . (int) $idProduct . ',
+                                    '. (int)$realValue.'
+                                    )';
+
+            if (!empty($values)) {
+                $this->getDatabase()->execute(
+                    'INSERT INTO `' . _DB_PREFIX_ . 'layered_room_index` (id_product, id_shop, room_min, room_max)
+                     VALUES ' . implode(',', $values) . '
+                    ON DUPLICATE KEY UPDATE room_min = VALUES(room_min), room_max = VALUES(room_max)'
+
+                );
+
+                // Mise à jour de la table `product`
+                $this->getDatabase()->execute(
+                    'UPDATE `' . _DB_PREFIX_ . 'product` 
+                    SET room = ' . (int) $realValue . ' 
+                    WHERE id_product = ' . (int) $idProduct
+                );
+            }
+
+        }
+    }
+
     /**
      * Get page content
      */
@@ -914,6 +1017,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
             'base_folder' => urlencode(_PS_ADMIN_DIR_),
 
             'surface_indexer_url' => $this->context->link->getModuleLink('ps_facetedsearch', 'cron', ['ajax' => true, 'action' => 'indexSurfaces', 'token' => $cronToken]),
+            'room_indexer_url' => $this->context->link->getModuleLink('ps_facetedsearch', 'cron', ['ajax' => true, 'action' => 'indexRooms', 'token' => $cronToken]),
 
 
             'price_indexer_url' => $this->context->link->getModuleLink('ps_facetedsearch', 'cron', ['ajax' => true, 'action' => 'indexPrices', 'token' => $cronToken]),
@@ -1126,7 +1230,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
             `controller` VARCHAR(64) NOT NULL,
             `id_category` INT(10) UNSIGNED NOT NULL,
             `id_value` INT(10) UNSIGNED NULL DEFAULT \'0\',
-            `type` ENUM(\'category\',\'id_feature\',\'id_attribute_group\',\'availability\',\'condition\',\'manufacturer\',\'weight\',\'price\',\'surface\',\'extras\') NOT NULL,
+            `type` ENUM(\'category\',\'id_feature\',\'id_attribute_group\',\'availability\',\'condition\',\'manufacturer\',\'weight\',\'price\',\'surface\',\'room\',\'extras\') NOT NULL,
             `position` INT(10) UNSIGNED NOT NULL,
             `filter_type` int(10) UNSIGNED NOT NULL DEFAULT 0,
             `filter_show_limit` int(10) UNSIGNED NOT NULL DEFAULT 0,
@@ -1308,6 +1412,12 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
                     $doneCategories[(int) $idCategory]['p'] = true;
                     $toInsert = true;
                 }
+                // Room filter
+                if (!isset($doneCategories[(int) $idCategory]['p'])) {
+                    $filterData['layered_selection_room_slider'] = ['filter_type' => Converter::WIDGET_TYPE_CHECKBOX, 'filter_show_limit' => 0];
+                    $doneCategories[(int) $idCategory]['p'] = true;
+                    $toInsert = true;
+                }
 
                 // Category filter
                 if (!isset($doneCategories[(int) $idCategory]['cat'])) {
@@ -1456,6 +1566,8 @@ VALUES(' . $last_id . ', ' . (int) $idShop . ')');
                                 $sqlInsert .= '(' . (int) $idCategory . ', \'' . $controller . '\', ' . (int) $idShop . ', NULL,\'price\',' . (int) $n . ', ' . (int) $limit . ', ' . (int) $type . '),';
                             } elseif ($key == 'layered_selection_surface_slider') {
                                 $sqlInsert .= '(' . (int) $idCategory . ', \'' . $controller . '\', ' . (int) $idShop . ', NULL,\'surface\',' . (int) $n . ', ' . (int) $limit . ', ' . (int) $type . '),';
+                            } elseif ($key == 'layered_selection_room_slider') {
+                                $sqlInsert .= '(' . (int) $idCategory . ', \'' . $controller . '\', ' . (int) $idShop . ', NULL,\'room\',' . (int) $n . ', ' . (int) $limit . ', ' . (int) $type . '),';
                             } elseif ($key == 'layered_selection_manufacturer') {
                                 $sqlInsert .= '(' . (int) $idCategory . ', \'' . $controller . '\', ' . (int) $idShop . ', NULL,\'manufacturer\',' . (int) $n . ', ' . (int) $limit . ', ' . (int) $type . '),';
                             } elseif (substr($key, 0, 21) == 'layered_selection_ag_') {
@@ -1584,6 +1696,26 @@ VALUES(' . $last_id . ', ' . (int) $idShop . ')');
             PRIMARY KEY (`id_product`, `id_shop`),
             INDEX `surface_min` (`surface_min`),
             INDEX `surface_max` (`surface_max`)
+            ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;'
+        );
+    }
+
+    /**
+    * Install room indexes table
+    */
+    public function rebuildRoomIndexTable()
+    {
+        $this->getDatabase()->execute('DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'layered_room_index`');
+
+        $this->getDatabase()->execute(
+            'CREATE TABLE `' . _DB_PREFIX_ . 'layered_room_index` (
+            `id_product` INT  NOT NULL,
+            `id_shop` INT NOT NULL,
+            `room_min` INT NOT NULL,
+            `room_max` INT NOT NULL,
+            PRIMARY KEY (`id_product`, `id_shop`),
+            INDEX `room_min` (`room_min`),
+            INDEX `room_max` (`room_max`)
             ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;'
         );
     }
@@ -1856,6 +1988,91 @@ VALUES(' . $last_id . ', ' . (int) $idShop . ')');
         return $nbProducts;
     }
 
+
+    /**
+     * Index room
+     *
+     * @param int $cursor last indexed id_product
+     * @param bool $full
+     * @param bool $ajax
+     * @param bool $smart
+     *
+     * @return int|string|bool
+     */
+    private function indexRooms($cursor = 0, $full = false, $ajax = false, $smart = false)
+    {
+        if ($full) {
+            $nbProducts = (int) $this->getDatabase()->getValue(
+                'SELECT count(DISTINCT p.`id_product`) ' .
+                'FROM ' . _DB_PREFIX_ . 'product p ' .
+                'INNER JOIN `' . _DB_PREFIX_ . 'product_shop` ps ' .
+                'ON (ps.`id_product` = p.`id_product` AND ps.`active` = 1 AND ps.`visibility` IN ("both", "catalog"))'
+            );
+        } else {
+            $nbProducts = (int) $this->getDatabase()->getValue(
+                'SELECT COUNT(DISTINCT p.`id_product`) ' .
+                'FROM `' . _DB_PREFIX_ . 'product` p ' .
+                'INNER JOIN `' . _DB_PREFIX_ . 'product_shop` ps ON (ps.`id_product` = p.`id_product` AND ps.`active` = 1 AND ps.`visibility` IN ("both", "catalog")) ' .
+                'LEFT JOIN  `' . _DB_PREFIX_ . 'layered_room_index` psi ON (psi.id_product = p.id_product) ' .
+                'WHERE psi.id_product IS NULL'
+            );
+        }
+
+        $maxExecutiontime = @ini_get('max_execution_time');
+        if ($maxExecutiontime > 5 || $maxExecutiontime <= 0) {
+            $maxExecutiontime = 5;
+        }
+
+        $startTime = microtime(true);
+
+        $indexedProducts = 0;
+        $length = 100;
+        do {
+            $lastCursor = $cursor;
+            $cursor = (int) $this->indexRoomsUnbreakable((int) $cursor, $full, $smart, $length);
+            if ($cursor == 0) {
+                $lastCursor = $cursor;
+                break;
+            }
+            $time_elapsed = microtime(true) - $startTime;
+            $indexedProducts += $length;
+        } while (
+            $cursor < $nbProducts
+            && (Tools::getMemoryLimit() == -1 || Tools::getMemoryLimit() > memory_get_peak_usage())
+            && $time_elapsed < $maxExecutiontime
+        );
+
+        if (($nbProducts > 0 && !$full || $cursor != $lastCursor && $full) && !$ajax) {
+            return $this->indexRooms((int) $cursor, $full, $ajax, $smart);
+        }
+
+        if ($ajax && $nbProducts > 0 && $cursor != $lastCursor && $full) {
+            return json_encode([
+                'total' => $nbProducts,
+                'cursor' => $cursor,
+                'count' => $indexedProducts,
+            ]);
+        }
+
+        if ($ajax && $nbProducts > 0 && !$full) {
+            return json_encode([
+                'total' => $nbProducts,
+                'cursor' => $cursor,
+                'count' => $indexedProducts,
+            ]);
+        }
+
+        Configuration::updateGlobalValue('PS_LAYERED_INDEXED', 1);
+
+        if ($ajax) {
+            return json_encode([
+                'result' => 'ok',
+            ]);
+        }
+
+        return $nbProducts;
+    }
+
     /**
      * Index prices unbreakable
      *
@@ -1931,6 +2148,46 @@ VALUES(' . $last_id . ', ' . (int) $idShop . ')');
         $lastIdProduct = 0;
         foreach ($this->getDatabase()->executeS($query) as $product) {
             $this->indexProductSurfaces((int) $product['id_product'], ($smart && $full));
+            $lastIdProduct = $product['id_product'];
+        }
+
+        return (int) $lastIdProduct;
+    }
+
+    /**
+     * Index Rooms unbreakable
+     *
+     * @param int $cursor last indexed id_product
+     * @param bool $full All products, otherwise only indexed products
+     * @param bool $smart Delete before reindex
+     * @param int $length nb of products to index
+     *
+     * @return int
+     */
+    private function indexRoomsUnbreakable($cursor, $full = false, $smart = false, $length = 100)
+    {
+        if ($full) {
+            $query = 'SELECT p.`id_product` ' .
+                'FROM `' . _DB_PREFIX_ . 'product` p ' .
+                'INNER JOIN `' . _DB_PREFIX_ . 'product_shop` ps ' .
+                'ON (ps.`id_product` = p.`id_product` AND ps.`active` = 1 AND ps.`visibility` IN ("both", "catalog")) ' .
+                'WHERE p.id_product > ' . (int) $cursor . ' ' .
+                'GROUP BY p.`id_product` ' .
+                'ORDER BY p.`id_product` LIMIT 0,' . (int) $length;
+        } else {
+            $query = 'SELECT p.`id_product` ' .
+                'FROM `' . _DB_PREFIX_ . 'product` p ' .
+                'INNER JOIN `' . _DB_PREFIX_ . 'product_shop` ps ' .
+                'ON (ps.`id_product` = p.`id_product` AND ps.`active` = 1 AND ps.`visibility` IN ("both", "catalog")) ' .
+                'LEFT JOIN  `' . _DB_PREFIX_ . 'layered_room_index` psi ON (psi.id_product = p.id_product) ' .
+                'WHERE psi.id_product IS NULL ' .
+                'GROUP BY p.`id_product` ' .
+                'ORDER BY p.`id_product` LIMIT 0,' . (int) $length;
+        }
+
+        $lastIdProduct = 0;
+        foreach ($this->getDatabase()->executeS($query) as $product) {
+            $this->indexProductRooms((int) $product['id_product'], ($smart && $full));
             $lastIdProduct = $product['id_product'];
         }
 

@@ -336,6 +336,20 @@ class Search
                         );
                     }
                     break;
+
+                case 'room':
+                    if (isset($selectedFilters['room'])
+                        && (
+                            $selectedFilters['room'][0] !== '' || $selectedFilters['room'][1] !== ''
+                        )
+                    ) {
+                        $this->addRoomFilter(
+                            (int) $selectedFilters['room'][0],
+                            (int) $selectedFilters['room'][1]
+                        );
+                    }
+                    break;
+                   
             }
         }
     }
@@ -514,5 +528,17 @@ class Search
     {
         $this->getSearchAdapter()->addFilter('surface_min', [$maxSurface], '<=');
         $this->getSearchAdapter()->addFilter('surface_max', [$minSurface], '>=');
+    }
+
+    /**
+     * Add a room filter
+     *
+     * @param int $minRoom
+     * @param int $maxRoom
+     */
+    private function addRoomFilter($minRoom, $maxRoom)
+    {
+        $this->getSearchAdapter()->addFilter('room_min', [$maxRoom], '<=');
+        $this->getSearchAdapter()->addFilter('room_max', [$minRoom], '>=');
     }
 }
