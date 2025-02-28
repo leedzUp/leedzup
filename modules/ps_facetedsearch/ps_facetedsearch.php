@@ -776,7 +776,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
 
             // Si une valeur a été trouvée, récupérer son texte associé
             if ($roomValue) {
-                $surfaceText = FeatureValue::getFeatureValueLang((int) $roomValue, 1);
+                $roomText = FeatureValue::getFeatureValueLang((int) $roomValue, 1);
             }
 
             $realValue = $roomText[0]['value'];
