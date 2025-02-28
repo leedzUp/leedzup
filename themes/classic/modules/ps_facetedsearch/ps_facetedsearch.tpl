@@ -9,7 +9,7 @@
     <p class="pt-0 mb-0 title h5 offcanvas-title" id="faceted-offcanvas-label"> {l s="Filters" d="Modules.Codemyshop.Block_filter"}</p>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="pt-0 offcanvas-body">
+  <div class="pt-0 offcanvas-body offcanvas-body-faceted">
     {$listing.rendered_facets nofilter}
   </div>
 </div>

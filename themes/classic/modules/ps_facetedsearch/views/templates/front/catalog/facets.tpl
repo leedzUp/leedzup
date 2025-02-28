@@ -60,100 +60,61 @@
        <span>{if $facet.label =="Prix"}Budget{else}{$facet.label}{/if}</span>
            <div id="facet_{$_expand_id}" class="collapse show">
              {if in_array($facet.widgetType, ['radio', 'checkbox'])}
-               {block name='facet_item_other'}
-                 <ul  class="px-0 mb-0 pb-1 pt-0">
-                   {foreach from=$facet.filters key=filter_key item="filter"}
-                     {$isColorOrTexture = isset($filter.properties.color) || isset($filter.properties.texture)}
-                     {if !$filter.displayed}
-                       {continue}
-                     {/if}
- 
-                     <li>
-                       <div class="{$componentName}-label facet-label{if $filter.active} active {/if}"   {if $filter.facetLabel == "Couleur"}style="max-width: 170px;"{/if}>
-                         {if $facet.multipleSelectionAllowed}
-                           <div class="form-check{if $isColorOrTexture} ps-0{/if}">
-                             <input 
-                               class="form-check-input{if $isColorOrTexture} d-none{/if}" 
-                               id="facet_input_{$_expand_id}_{$filter_key}"
-                               data-search-url="{$filter.nextEncodedFacetsURL}"
-                               type="checkbox"
-                               {if $filter.active }checked{/if}
-                           >
-                          
-                             <label class="form-check-label align-middle d-flex align-items-center justify-content-between" for="facet_input_{$_expand_id}_{$filter_key}">
- 
-                             
-                               {if isset($filter.properties.color)}
-                                 <span class="color color-sm me-1 align-middle{if $filter.active } active{/if}" style="background-color:{$filter.properties.color}"></span>
-                                 <span class="align-middle">
-                                   {$filter.label}
-                                   {if $filter.magnitude and $show_quantities}
-                                     ({$filter.magnitude})
-                                   {/if}
-                                 </span>
-                               {elseif isset($filter.properties.texture)}
-                                 <span class="color color-sm me-1 texture align-middle{if $filter.active } active{/if}" style="background-image:url({$filter.properties.texture})"></span>
-                                 <span class="align-middle">
-                                   {$filter.label}
-                                   {if $filter.magnitude and $show_quantities}
-                                     ({$filter.magnitude})
-                                   {/if}
-                                 </span>
-                               {elseif $filter.facetLabel == "Couleur"}
-                                 {assign var="color_hex" value="{hook h='displayFeaturedColor' id=$filter.value}"}
- 
-                                 <span class="align-middle ">
-                                   {$filter.label}
-                                   {if $filter.magnitude and $show_quantities}
-                                     ({$filter.magnitude})
-                                   {/if}
-                                 </span>
-                                 <span class="color color-sm me-1 texture align-middle{if $filter.active } active{/if}" style="background-color:{$color_hex};margin-left: auto;"></span>
- 
- 
-                               {else}
-                                 <a
-                                   href="{$filter.nextEncodedFacetsURL}"
-                                   class="{$componentName}-link _gray-darker search-link js-search-link"
-                                   rel="nofollow"
-                               >
-                                   {$filter.label}
-                                   {if $filter.magnitude and $show_quantities}
-                                     <span class="magnitude">({$filter.magnitude})</span>
-                                   {/if}
-                                 </a>
-                               {/if}
-                             </label>
-                           </div>
-                         {else}
-                           <div class="form-check">
-                             <input
-                               class="form-check-input"
-                               id="facet_input_{$_expand_id}_{$filter_key}"
-                               data-search-url="{$filter.nextEncodedFacetsURL}"
-                               type="radio"
-                               name="filter {$facet.label}"
-                               {if $filter.active }checked{/if}
-                           >
-                             <label class="form-check-label" for="facet_input_{$_expand_id}_{$filter_key}">
-                               <a
-                                 href="{$filter.nextEncodedFacetsURL}"
-                                 class="{$componentName}-link _gray-darker search-link js-search-link"
-                                 rel="nofollow"
-                             >
-                                 {$filter.label}
-                                 {if $filter.magnitude and $show_quantities}
-                                   <span class="magnitude">({$filter.magnitude})</span>
-                                 {/if}
-                               </a>
-                             </label>
-                           </div>
-                         {/if}
-                       </div>
-                     </li>
-                   {/foreach}
-                 </ul>
-               {/block}
+              {block name='facet_item_other'}
+                <ul class="px-0 mb-0 pb-1 pt-0">
+                    {foreach from=$facet.filters key=filter_key item="filter"}
+                        {$isColorOrTexture = isset($filter.properties.color) || isset($filter.properties.texture)}
+                        {if !$filter.displayed}
+                            {continue}
+                        {/if}
+                
+                        <li>
+                            <div class="{$componentName}-label facet-label{if $filter.active} active {/if}">
+                                {if $facet.multipleSelectionAllowed}
+                                    <div class="d-flex form-check{if $isColorOrTexture} ps-0{/if}">
+                                        <input 
+                                            class="form-check-input js-filter-checkbox js-faceted-checkbox{if $isColorOrTexture} d-none{/if}" 
+                                            id="facet_input_{$_expand_id}_{$filter_key}"
+                                            data-search-url="{$filter.nextEncodedFacetsURL}"
+                                            data-filter-value="{$facet.label}-{$filter.label}"
+                                            type="checkbox"
+                                            value="{$filter.label}"
+                                            {if $filter.active} checked{/if}
+                                        >
+                                        <label class="ml-2 form-check-label align-middle d-flex align-items-center justify-content-between" for="facet_input_{$_expand_id}_{$filter_key}">
+                                            {$filter.label}
+                                            {if $filter.magnitude and $show_quantities}
+                                                <span class="ml-2 magnitude">({$filter.magnitude})</span>
+                                            {/if}
+                                        </label>
+                                    </div>
+                                {else}
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input js-filter-radio"
+                                            id="facet_input_{$_expand_id}_{$filter_key}"
+                                            data-search-url="{$filter.nextEncodedFacetsURL}"
+                                            data-filter-value="{$facet.label}-{$filter.label}"
+                                            type="radio"
+                                            name="filter_{$facet.label}"
+                                            value="{$filter.label}"
+                                            {if $filter.active} checked{/if}
+                                        >
+                                        <label class="form-check-label" for="facet_input_{$_expand_id}_{$filter_key}">
+                                            {$filter.label}
+                                            {if $filter.magnitude and $show_quantities}
+                                                <span class="magnitude">({$filter.magnitude})</span>
+                                            {/if}
+                                        </label>
+                                    </div>
+                                {/if}
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
+            {/block}
+            
+                
  
              {elseif $facet.widgetType == 'dropdown'}
                {block name='facet_item_dropdown'}
