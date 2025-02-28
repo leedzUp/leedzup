@@ -47,7 +47,7 @@ class Converter
     const TYPE_MANUFACTURER = 'manufacturer';
     const TYPE_PRICE = 'price';
     const TYPE_SURFACE = 'surface';
-    const TYPE_SURFACE = 'room';
+    const TYPE_ROOM = 'room';
     const TYPE_WEIGHT = 'weight';
     const TYPE_EXTRAS = 'extras';
 
