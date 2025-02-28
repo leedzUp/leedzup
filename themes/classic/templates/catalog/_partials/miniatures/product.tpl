@@ -82,8 +82,10 @@
           {else}
             <p class="product-title"><a href="{$product.url}" content="{$product.url}">{$product.name}</a></p>
           {/if}
+          test feat
+          {widget name="code_featuresonlist" product=$product}
+
         {/block}
-{widget name="code_featuresonlist" product=$product}
 
         {block name='product_price_and_shipping'}
           {if $product.show_price}
