@@ -3,110 +3,115 @@
  * file that was distributed with this source code.
  */
 
-import useQuantityInput, {populateMinQuantityInput} from '@js/components/useQuantityInput';
+import useQuantityInput, { populateMinQuantityInput } from '@js/components/useQuantityInput';
 
 // @TODO(NeOMakinG): Refactor this file, it comes from facetedsearch or classic
-export const parseSearchUrl = function (event: {target: HTMLElement}) {
-  if (event.target.dataset.searchUrl !== undefined) {
-    return event.target.dataset.searchUrl;
+export const parseSearchUrl = function (event: { target: HTMLElement }) {
+  const target = event.target as HTMLElement;
+  if (target.dataset.searchUrl !== undefined) {
+    return target.dataset.searchUrl;
   }
 
-  if ($(event.target).parent()[0].dataset.searchUrl === undefined) {
-    throw new Error('Can not parse search URL');
+  const parent = target.parentElement;
+  if (!parent || parent.dataset.searchUrl === undefined) {
+    throw new Error('Cannot parse search URL');
   }
 
-  return $(event.target).parent()[0].dataset.searchUrl;
+  return parent.dataset.searchUrl;
 };
 
 export function updateProductListDOM(data: Record<string, never>) {
-  const {Theme} = window;
+  const { Theme } = window;
 
-  $(Theme.selectors.listing.searchFilters).replaceWith(
-    data.rendered_facets,
-  );
-  $(Theme.selectors.listing.activeSearchFilters).replaceWith(
-    data.rendered_active_filters,
-  );
-  $(Theme.selectors.listing.listTop).replaceWith(
-    data.rendered_products_top,
+  document.querySelector(Theme.selectors.listing.searchFilters)?.replaceWith(
+    new DOMParser().parseFromString(data.rendered_facets, 'text/html').body.firstChild!,
   );
 
-  const renderedProducts = $(data.rendered_products);
-  const productSelectors = $(Theme.selectors.listing.product, renderedProducts);
-  const firstProductClasses = $(Theme.selectors.listing.product).first().attr('class');
+  document.querySelector(Theme.selectors.listing.activeSearchFilters)?.replaceWith(
+    new DOMParser().parseFromString(data.rendered_active_filters, 'text/html').body.firstChild!,
+  );
 
-  if (productSelectors.length > 0 && firstProductClasses) {
-    productSelectors.removeClass().addClass(firstProductClasses);
+  document.querySelector(Theme.selectors.listing.listTop)?.replaceWith(
+    new DOMParser().parseFromString(data.rendered_products_top, 'text/html').body.firstChild!,
+  );
+
+  const renderedProducts = new DOMParser().parseFromString(data.rendered_products, 'text/html').body;
+  const productSelectors = renderedProducts.querySelectorAll(Theme.selectors.listing.product);
+  const firstProduct = document.querySelector(Theme.selectors.listing.product);
+
+  if (productSelectors.length > 0 && firstProduct) {
+    const firstProductClasses = firstProduct.getAttribute('class');
+    productSelectors.forEach((product) => {
+      product.setAttribute('class', firstProductClasses || '');
+    });
   }
 
-  $(Theme.selectors.listing.list).replaceWith(renderedProducts);
+  document.querySelector(Theme.selectors.listing.list)?.replaceWith(renderedProducts.firstChild!);
 
-  $(Theme.selectors.listing.listBottom).replaceWith(
-    data.rendered_products_bottom,
+  document.querySelector(Theme.selectors.listing.listBottom)?.replaceWith(
+    new DOMParser().parseFromString(data.rendered_products_bottom, 'text/html').body.firstChild!,
   );
+
   if (data.rendered_products_header) {
-    $(Theme.selectors.listing.listHeader).replaceWith(
-      data.rendered_products_header,
+    document.querySelector(Theme.selectors.listing.listHeader)?.replaceWith(
+      new DOMParser().parseFromString(data.rendered_products_header, 'text/html').body.firstChild!,
     );
   }
 }
 
 export default () => {
-  const {prestashop} = window;
-  const {Theme} = window;
-  const {events} = Theme;
+  const { prestashop, Theme } = window;
+  const { events } = Theme;
 
-  $('body').on(
-    'change',
-    `${Theme.selectors.listing.searchFilters} input[data-search-url]`,
-    (event) => {
-      prestashop.emit(events.updateFacets, parseSearchUrl(event));
-    },
-  );
-
-  $('body').on(
-    'click',
-    Theme.selectors.listing.searchFiltersClearAll,
-    (event) => {
-      prestashop.emit(events.updateFacets, parseSearchUrl(event));
-    },
-  );
-
-  $('body').on('click', Theme.selectors.listing.searchLink, (event) => {
-    event.preventDefault();
-    prestashop.emit(
-      events.updateFacets,
-      $(event.target)?.closest('a')?.get(0)?.getAttribute('href'),
-    );
+  document.body.addEventListener('change', (event) => {
+    const target = event.target as HTMLElement;
+    if (target.matches(`${Theme.selectors.listing.searchFilters} input[data-search-url]`)) {
+      prestashop.emit(events.updateFacets, parseSearchUrl({ target }));
+    }
   });
 
-  /**
-   * Pager links also scroll up
-   */
-  $('body').on('click', Theme.selectors.listing.pagerLink, (event) => {
-    event.preventDefault();
-    document.querySelector(Theme.selectors.listing.listTop)?.scrollIntoView({block: 'start', behavior: 'auto'});
-    prestashop.emit(
-      events.updateFacets,
-      $(event.target)?.closest('a')?.get(0)?.getAttribute('href'),
-    );
+  document.body.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+
+    if (target.matches(Theme.selectors.listing.searchFiltersClearAll)) {
+      prestashop.emit(events.updateFacets, parseSearchUrl({ target }));
+    }
+
+    if (target.matches(Theme.selectors.listing.searchLink)) {
+      event.preventDefault();
+      const link = target.closest('a');
+      if (link) {
+        prestashop.emit(events.updateFacets, link.getAttribute('href'));
+      }
+    }
+
+    if (target.matches(Theme.selectors.listing.pagerLink)) {
+      event.preventDefault();
+      document.querySelector(Theme.selectors.listing.listTop)?.scrollIntoView({ block: 'start', behavior: 'auto' });
+      const link = target.closest('a');
+      if (link) {
+        prestashop.emit(events.updateFacets, link.getAttribute('href'));
+      }
+    }
   });
 
-  if ($(Theme.selectors.listing.list).length) {
+  if (document.querySelector(Theme.selectors.listing.list)) {
     window.addEventListener('popstate', (e) => {
-      const {state} = e;
-      window.location.href = state && state.current_url ? state.current_url : history;
+      const { state } = e;
+      window.location.href = state && state.current_url ? state.current_url : history.state;
     });
   }
 
-  $('body').on(
-    'change',
-    `${Theme.selectors.listing.searchFilters} select`,
-    (event) => {
-      const form = $(event.target).closest('form');
-      prestashop.emit(events.updateFacets, `?${form.serialize()}`);
-    },
-  );
+  document.body.addEventListener('change', (event) => {
+    const target = event.target as HTMLSelectElement;
+    if (target.matches(`${Theme.selectors.listing.searchFilters} select`)) {
+      const form = target.closest('form');
+      if (form) {
+        const formData = new URLSearchParams(new FormData(form) as any).toString();
+        prestashop.emit(events.updateFacets, `?${formData}`);
+      }
+    }
+  });
 
   prestashop.on(events.updateProductList, (data: Record<string, never>) => {
     updateProductListDOM(data);

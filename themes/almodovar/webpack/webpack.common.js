@@ -8,7 +8,7 @@ exports.commonConfig = ({
   mode, port, publicPath, siteURL, getOutput, getEntry, entriesArray, serverAddress,
 }) => (
   merge(
-    expose(),
+    expose || {},
     {
       mode,
       entry: getEntry(entriesArray),
@@ -26,7 +26,7 @@ exports.commonConfig = ({
       },
     },
     externals(),
-    expose(),
+    expose || {},
     extractScss({ mode }),
     extractJs(),
     extractImages(),
