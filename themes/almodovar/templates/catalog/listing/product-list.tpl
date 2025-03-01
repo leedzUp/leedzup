@@ -47,7 +47,7 @@
       {else}
         <div id="js-product-list-top"></div>
 
-        <div id="js-product-list">
+        <div id="js-product-list container">
           {capture assign="errorContent"}
             <p class="h4">{l s='No products available yet' d='Shop.Theme.Catalog'}</p>
             <p>{l s='Stay tuned! More products will be shown here as they are added.' d='Shop.Theme.Catalog'}</p>
