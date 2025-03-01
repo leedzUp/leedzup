@@ -24,8 +24,8 @@
 
     <p class="copyright">
       {block name='copyright_link'}
-        <a href="https://www.prestashop-project.org/" target="_blank" rel="noopener noreferrer nofollow">
-          {l s='%copyright% %year% - Ecommerce software by %prestashop%' sprintf=['%prestashop%' => 'PrestaShop™', '%year%' => 'Y'|date, '%copyright%' => '©'] d='Shop.Theme.Global'}
+        <a href="https://leedzup.com/" target="_blank" rel="noopener noreferrer nofollow">
+              {l s='%copyright% %year% - Real estate software by %prestashop%' sprintf=['%prestashop%' => 'leedzUp', '%year%' => 'Y'|date, '%copyright%' => '©'] d='Shop.Theme.Global'}
         </a>
       {/block}
     </p>
