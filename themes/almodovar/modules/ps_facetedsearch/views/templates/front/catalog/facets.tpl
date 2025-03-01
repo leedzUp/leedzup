@@ -34,7 +34,7 @@
       {/if}
     {/block}
 
-    <div class="accordion w-100 order-1 order-md-2">
+    <div class="d-flex flex-wrap gap-3 order-1 order-md-2">
       {foreach from=$displayedFacets item="facet" name="facets"}
         <section class="facet accordion-item">
           {assign var=_expand_id value=10|mt_rand:100000}
@@ -44,11 +44,9 @@
           {/foreach}
 
           <span class="{$componentName}-subtitle facet-title">
-            <button class="accordion-button fw-bold px-0{if $_collapse} collapsed{/if}" type="button" data-bs-target="#facet_{$_expand_id}" data-bs-toggle="collapse"{if !$_collapse} aria-expanded="true"{/if}>
               {$facet.label}
-            </button>
           </span>
-          <div id="facet_{$_expand_id}" class="accordion-collapse collapse{if !$_collapse} show{/if}">
+          <div id="facet_{$_expand_id}">
             {if in_array($facet.widgetType, ['radio', 'checkbox'])}
               {block name='facet_item_other'}
                 <ul  class="accordion-body px-0 mb-0 pb-1 pt-0">
@@ -177,7 +175,7 @@
             {elseif $facet.widgetType == 'slider'}
               {block name='facet_item_slider'}
                 {foreach from=$facet.filters item="filter"}
-                  <div class="accordion-body faceted-filter px-0 js-faceted-filter-slider">
+                  <div class="faceted-filter px-0 js-faceted-filter-slider">
                     <div
                       class="faceted-slider js-faceted-slider-container"
                       data-slider-min="{$facet.properties.min}"
