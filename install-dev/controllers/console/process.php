@@ -328,7 +328,15 @@ class InstallControllerConsoleProcess extends InstallControllerConsole implement
     {
         $this->initializeContext();
 
-        return $this->model_install->installTheme($this->datas->theme);
+        // Définis ici le nom exact de ton thème
+        $themeName = 'almodovar';
+
+        // On force l'installation de ton thème
+        $this->datas->theme = $themeName;
+        Configuration::updateValue('PS_THEME', $themeName);
+        Configuration::updateValue('PS_THEME_DEFAULT', $themeName);
+
+        return $this->model_install->installTheme($themeName);
     }
 
     private function clearConfigXML()
