@@ -20,11 +20,12 @@
  
 {if $displayedFacets|count}
   <div id="search-filters" class="{$componentName} d-flex flex-direction-column flex-wrap w-100">
-    
+  {block name='facets_title'}
+  {/block}
 
-    <div class="w-100 d-flex flex-wrap gap-3 order-1 order-md-2">
+    <div class="w-100 d-flex flex-wrap gap-3 order-1 order-md-1">
       {foreach from=$displayedFacets item="facet" name="facets"}
-        <div class="w-25 facet">
+        <div class="col-md-3 facet">
           {assign var=_expand_id value=10|mt_rand:100000}
           {assign var=_collapse value=true}
           {foreach from=$facet.filters item="filter"}
@@ -201,13 +202,13 @@
         </div>
       {/foreach}
 
-      <div class="w-25">
+      <div class="col-md-3">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
         + Plus de filtres
       </button>
       </div>
 
-      <div id="collapseFilters" class="accordion-collapse collapse show" aria-labelledby="collapseFilters">
+      <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="collapseFilters">
         <div class="accordion-body">
           <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
         </div>
@@ -216,13 +217,11 @@
 
     </div>
 
-    {block name='facets_title'}
-      <p class="{$componentName}-title left-block__title d-none d-md-block">{l s='Filter By' d='Shop.Theme.Actions'}</p>
-    {/block}
+    
 
     {block name='facets_clearall_button'}
       {if $activeFilters|count}
-        <div class="clear-all-wrapper w-100 order-2 order-md-1">
+        <div class="clear-all-wrapper w-100 order-2 order-md-2">
           <button data-search-url="{$clear_all_link}" class="btn border rounded-pill text-gray py-1 my-2 js-search-filters-clear-all">
             {l s='Clear all' d='Shop.Theme.Actions'}
           </button>
