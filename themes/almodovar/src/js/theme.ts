@@ -8,7 +8,7 @@ import initEmitter from './prestashop';
 import initResponsiveToggler from './responsive-toggler';
 import initQuickview from './quickview';
 // import initCart from './pages/cart';
-import initCheckout from './pages/checkout';
+//import initCheckout from './pages/checkout';
 import initCustomer from './pages/customer';
 import initProductBehavior from './product';
 // import initMobileMenu from './mobile-menu';
@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const { prestashop, Theme: { events } } = window;
 
   initProductBehavior();
-  initQuickview();
-  initCheckout();
+  //initQuickview();
+  //initCheckout();
   initCustomer();
   initResponsiveToggler();
   // initCart();
@@ -77,7 +77,7 @@ export const events = EVENTS;
 export default {
   initProductBehavior,
   initQuickview,
-  initCheckout,
+  //initCheckout,
   initResponsiveToggler,
   // initCart,
   useQuantityInput,

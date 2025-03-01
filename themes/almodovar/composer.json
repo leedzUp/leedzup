@@ -1,6 +1,6 @@
 {
-  "name": "prestashop/hummingbird",
-  "description": "Hummingbird theme for develop PrestaShop version",
+  "name": "prestashop/almodovar",
+  "description": "Almodovar theme for develop PrestaShop version",
   "type": "prestashop-theme",
   "license": "AFL-3.0",
   "authors": [
