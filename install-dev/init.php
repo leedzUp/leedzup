@@ -126,7 +126,7 @@ if (!defined('_THEME_NAME_')) {
          */
         $dirThemes = dirname(__DIR__) . '/themes/';
         $fileConfig = '/config/theme.yml';
-        $defaultTheme = 'classic';
+        $defaultTheme = 'almodovar';
         // Choose classic theme as default
         if (file_exists($dirThemes . $defaultTheme . $fileConfig)) {
             define('_THEME_NAME_', $defaultTheme);
