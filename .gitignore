@@ -129,7 +129,7 @@ themes/almodovar/src/
 themes/almodovar/webpack/
 themes/almodovar/types/
 themes/almodovar/puglins/
-
+themes/node_modules/
 
 # Install folder
 /install-dev/theme/custom/*
