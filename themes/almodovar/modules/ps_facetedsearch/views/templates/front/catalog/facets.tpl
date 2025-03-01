@@ -20,23 +20,11 @@
  
 {if $displayedFacets|count}
   <div id="search-filters" class="{$componentName} d-flex flex-direction-column flex-wrap w-100">
-    {block name='facets_title'}
-      <p class="{$componentName}-title left-block__title d-none d-md-block">{l s='Filter By' d='Shop.Theme.Actions'}</p>
-    {/block}
+    
 
-    {block name='facets_clearall_button'}
-      {if $activeFilters|count}
-        <div class="clear-all-wrapper w-100 order-2 order-md-1">
-          <button data-search-url="{$clear_all_link}" class="btn border rounded-pill text-gray py-1 my-2 js-search-filters-clear-all">
-            {l s='Clear all' d='Shop.Theme.Actions'}
-          </button>
-        </div>
-      {/if}
-    {/block}
-
-    <div class="d-flex flex-wrap gap-3 order-1 order-md-2">
+    <div class="w-100 d-flex flex-wrap gap-3 order-1 order-md-2">
       {foreach from=$displayedFacets item="facet" name="facets"}
-        <section class="facet accordion-item">
+        <div class="w-25 facet">
           {assign var=_expand_id value=10|mt_rand:100000}
           {assign var=_collapse value=true}
           {foreach from=$facet.filters item="filter"}
@@ -47,9 +35,10 @@
               {$facet.label}
           </span>
           <div id="facet_{$_expand_id}">
-            {if in_array($facet.widgetType, ['radio', 'checkbox'])}
+            
+            {*{if in_array($facet.widgetType, ['radio', 'checkbox'])}
               {block name='facet_item_other'}
-                <ul  class="accordion-body px-0 mb-0 pb-1 pt-0">
+                <ul  class="px-0 mb-0 pb-1 pt-0">
                   {foreach from=$facet.filters key=filter_key item="filter"}
                     {$isColorOrTexture = isset($filter.properties.color) || isset($filter.properties.texture)}
                     {if !$filter.displayed}
@@ -132,7 +121,7 @@
               {block name='facet_item_dropdown'}
                 <ul class="accordion-body">
                   <li>
-                    <div class="facet-dropdown dropdown">
+                    <div class="w-25 facet-dropdown dropdown">
                       <a class="select-title" rel="nofollow" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {$active_found = false}
                         <span>
@@ -170,9 +159,9 @@
                     </div>
                   </li>
                 </ul>
-              {/block}
+              {/block}*}
 
-            {elseif $facet.widgetType == 'slider'}
+            {if $facet.widgetType == 'slider'}
               {block name='facet_item_slider'}
                 {foreach from=$facet.filters item="filter"}
                   <div class="faceted-filter px-0 js-faceted-filter-slider">
@@ -202,12 +191,44 @@
                   >
                 </div>
                 {/foreach}
+               
+
+
               {/block}
             {/if}
           </div>
           {if !$smarty.foreach.facets.last}<hr class="my-0">{/if}
-        </section>
+        </div>
       {/foreach}
+
+      <div class="w-25">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
+        + Plus de filtres
+      </button>
+      </div>
+
+      <div id="collapseFilters" class="accordion-collapse collapse show" aria-labelledby="collapseFilters">
+        <div class="accordion-body">
+          <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        </div>
+      </div>
+
+
     </div>
+
+    {block name='facets_title'}
+      <p class="{$componentName}-title left-block__title d-none d-md-block">{l s='Filter By' d='Shop.Theme.Actions'}</p>
+    {/block}
+
+    {block name='facets_clearall_button'}
+      {if $activeFilters|count}
+        <div class="clear-all-wrapper w-100 order-2 order-md-1">
+          <button data-search-url="{$clear_all_link}" class="btn border rounded-pill text-gray py-1 my-2 js-search-filters-clear-all">
+            {l s='Clear all' d='Shop.Theme.Actions'}
+          </button>
+        </div>
+      {/if}
+    {/block}
+
   </div>
 {/if}

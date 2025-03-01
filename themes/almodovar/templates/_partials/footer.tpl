@@ -25,7 +25,7 @@
     <p class="copyright">
       {block name='copyright_link'}
         <a href="https://leedzup.com/" target="_blank" rel="noopener noreferrer nofollow">
-              {l s='%copyright% %year% - Real estate software by %prestashop%' sprintf=['%prestashop%' => 'leedzUp', '%year%' => 'Y'|date, '%copyright%' => '©'] d='Shop.Theme.Global'}
+              {l s='%copyright% %year% - Real Estate Software by %prestashop%' sprintf=['%prestashop%' => 'leedzUp', '%year%' => 'Y'|date, '%copyright%' => '©'] d='Shop.Theme.Global'}
         </a>
       {/block}
     </p>
