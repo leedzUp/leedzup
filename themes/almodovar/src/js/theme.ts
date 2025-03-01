@@ -6,7 +6,7 @@ import themeSelectors from './constants/selectors-map';
 import EVENTS from './constants/events-map';
 import initEmitter from './prestashop';
 import initResponsiveToggler from './responsive-toggler';
-import initQuickview from './quickview';
+//import initQuickview from './quickview';
 // import initCart from './pages/cart';
 //import initCheckout from './pages/checkout';
 import initCustomer from './pages/customer';
@@ -24,7 +24,7 @@ import useAlert from './components/useAlert';
 import useProgressRing from './components/useProgressRing';
 import useQuantityInput from './components/useQuantityInput';
 // import './modules/blockcart';
-import './modules/facetedsearch';
+//import './modules/facetedsearch';
 // import initDesktopMenu from './modules/ps_mainmenu';
 import initFormValidation from './form-validation';
 // import initCategoryTree from './modules/ps_categorytree';
@@ -76,7 +76,7 @@ export const events = EVENTS;
 
 export default {
   initProductBehavior,
-  initQuickview,
+  //initQuickview,
   //initCheckout,
   initResponsiveToggler,
   // initCart,
