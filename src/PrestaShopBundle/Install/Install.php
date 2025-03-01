@@ -72,7 +72,7 @@ class Install extends AbstractInstall
     public const SETTINGS_FILE = 'config/settings.inc.php';
     public const BOOTSTRAP_FILE = 'config/bootstrap.php';
 
-    public const DEFAULT_THEME = 'classic';
+    public const DEFAULT_THEME = 'almodovar';
 
     /**
      * The path of the bootsrap file we want to use for the installation.
