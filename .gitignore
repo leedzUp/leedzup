@@ -140,8 +140,8 @@ themes/node_modules/
 
 # Themes, modules and overrides
 
-!themes/_core
-!themes/_libraries
+themes/_core
+themes/_libraries
 
 # Vendors and dependencies
 
