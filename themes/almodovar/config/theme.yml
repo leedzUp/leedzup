@@ -2,9 +2,9 @@ name: almodovar
 display_name: Almodovar
 version: 1.0.1
 author:
-  name: "PrestaShop Team"
-  email: "pub@prestashop.com"
-  url: "https://www.prestashop-project.org/"
+  name: "leedzUp"
+  email: "social@leedzup.com"
+  url: "https://leedzup.com/"
 
 meta:
   compatibility:
@@ -51,68 +51,7 @@ assets:
 global_settings:
   configuration:
     PS_IMAGE_QUALITY: png
-  modules:
-   to_enable:
-     - ps_linklist
-  hooks:
-    modules_to_hook:
-      displayAdminCustomers:
-        - blockwishlist
-      displayCustomerAccount:
-        - blockwishlist
-        - psgdpr
-      displayMyAccountBlock:
-        - blockwishlist
-      displayNav1:
-        - ps_contactinfo
-      displayNav2:
-        - ps_languageselector
-        - ps_currencyselector
-        - ps_customersignin
-        - ps_shoppingcart
-      displayTop:
-        - ps_mainmenu
-        - ps_searchbar
-      displayHome:
-        - ps_imageslider
-        - ps_customtext
-        - ps_featuredproducts
-        - ps_banner
-        - ps_newproducts
-        - ps_bestsellers
-      displayFooterBefore:
-        - ps_emailsubscription
-        - ps_socialfollow
-      displayFooter:
-        - ps_linklist
-        - ps_customeraccountlinks
-        - ps_contactinfo
-        - blockwishlist
-      displayFooterProduct:
-        - productcomments
-      displayLeftColumn:
-        - ps_categorytree
-        - ps_facetedsearch
-      displayContactLeftColumn:
-        - ps_contactinfo
-      displayContactRightColumn:
-        - ps_contactinfo
-      displayContactContent:
-        - contactform
-      displaySearch:
-        - ps_searchbar
-      displayProductAdditionalInfo:
-        - ps_sharebuttons
-        - productcomments
-      displayProductListReviews:
-        - productcomments
-      displayOrderConfirmation2:
-        - ps_featuredproducts
-      displayCrossSellingShoppingCart:
-        - ps_featuredproducts
-      displayProductActions:
-        - blockwishlist
-
+  modules: []
   image_types:
     cart_default:
       width: 125
@@ -183,11 +122,3 @@ global_settings:
 theme_settings:
   rtl_generation: false
   default_layout: layout-full-width
-  layouts:
-    category: layout-left-column
-    best-sales: layout-left-column
-    new-products: layout-left-column
-    prices-drop: layout-left-column
-    contact: layout-left-column
-    manufacturer: layout-left-column
-    supplier: layout-left-column
