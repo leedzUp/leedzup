@@ -7,27 +7,27 @@ import EVENTS from './constants/events-map';
 import initEmitter from './prestashop';
 import initResponsiveToggler from './responsive-toggler';
 import initQuickview from './quickview';
-import initCart from './pages/cart';
+//import initCart from './pages/cart';
 import initCheckout from './pages/checkout';
 import initCustomer from './pages/customer';
 import initProductBehavior from './product';
-import initMobileMenu from './mobile-menu';
+//import initMobileMenu from './mobile-menu';
 import initSearchbar from './modules/ps_searchbar';
 import initLanguageSelector from './modules/ps_languageselector';
-import initCurrencySelector from './modules/ps_currencyselector';
+//import initCurrencySelector from './modules/ps_currencyselector';
 import initGuestPasswordToggle from './guest-password-toggle';
 import initVisiblePassword from './visible-password';
 import initErrorHandler from './errors';
 import useToast from './components/useToast';
 import useAlert from './components/useAlert';
-import usePasswordPolicy from './components/usePasswordPolicy';
+//import usePasswordPolicy from './components/usePasswordPolicy';
 import useProgressRing from './components/useProgressRing';
 import useQuantityInput from './components/useQuantityInput';
-import './modules/blockcart';
+//import './modules/blockcart';
 import './modules/facetedsearch';
-import initDesktopMenu from './modules/ps_mainmenu';
+//import initDesktopMenu from './modules/ps_mainmenu';
 import initFormValidation from './form-validation';
-import initCategoryTree from './modules/ps_categorytree';
+//import initCategoryTree from './modules/ps_categorytree';
 import initScrollPaddingTop from './helpers/scrollPadding';
 
 initEmitter();
@@ -40,26 +40,26 @@ $(() => {
   initCheckout();
   initCustomer();
   initResponsiveToggler();
-  initCart();
+  //initCart();
   useQuantityInput();
   initSearchbar();
   initLanguageSelector();
-  initCurrencySelector();
-  initMobileMenu();
+  //initCurrencySelector();
+  //initMobileMenu();
   initGuestPasswordToggle();
   initVisiblePassword();
-  initDesktopMenu();
+  //initDesktopMenu();
   initFormValidation();
   initErrorHandler();
-  usePasswordPolicy('.field-password-policy');
-  initCategoryTree();
+  //usePasswordPolicy('.field-password-policy');
+  //initCategoryTree();
   initScrollPaddingTop();
 
   prestashop.on(events.responsiveUpdate, () => {
-    initSearchbar();
+    //initSearchbar();
     initLanguageSelector();
-    initCurrencySelector();
-    initDesktopMenu();
+    //initCurrencySelector();
+    //initDesktopMenu();
   });
 });
 
@@ -79,13 +79,13 @@ export default {
   initQuickview,
   initCheckout,
   initResponsiveToggler,
-  initCart,
+  //initCart,
   useQuantityInput,
   initSearchbar,
   initLanguageSelector,
-  initCurrencySelector,
-  initMobileMenu,
+  //initCurrencySelector,
+  //initMobileMenu,
   initGuestPasswordToggle,
   initVisiblePassword,
-  initDesktopMenu,
+  //initDesktopMenu,
 };
