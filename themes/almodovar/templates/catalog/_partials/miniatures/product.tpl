@@ -145,66 +145,10 @@
               {hook h='displayProductListReviews' product=$product}
             {/block}
 
-            <div class="{$componentName}__prices">
-              {block name='product_price'}
-                {if $product.show_price}
-                  {hook h='displayProductPriceBlock' product=$product type="before_price"}
-
-                  <span class="{$componentName}__price" aria-label="{l s='Price' d='Shop.Theme.Catalog'}">
-                    {capture name='custom_price'}{hook h='displayProductPriceBlock' product=$product type='custom_price' hook_origin='products_list'}{/capture}
-                    {if '' !== $smarty.capture.custom_price}
-                      {$smarty.capture.custom_price nofilter}
-                    {else}
-                      {$product.price}
-                    {/if}
-                  </span>
-
-                  {hook h='displayProductPriceBlock' product=$product type='unit_price'}
-
-                  {hook h='displayProductPriceBlock' product=$product type='weight'}
-                {/if}
-              {/block}
-
-              {block name='product_discount_price'}
-                {if $product.show_price}
-                  <div class="{$componentName}__discount-price">
-                    {if $product.has_discount}
-                      {hook h='displayProductPriceBlock' product=$product type="old_price"}
-
-                      <span class="{$componentName}__regular-price" aria-label="{l s='Regular price' d='Shop.Theme.Catalog'}">{$product.regular_price}</span>
-                    {/if}
-                  </div>
-                {/if}
-              {/block}
-            </div>
-
-            {if $product.add_to_cart_url}
-              <form action="{$urls.pages.cart}" method="post" class="d-flex flex-wrap flex-md-nowrap gap-3 align-items-center mt-3">
-                <input type="hidden" value="{$product.id_product}" name="id_product">
-
-                <input type="hidden" name="token" value="{$static_token}" />
-
-                <div class="quantity-button js-quantity-button w-100 w-sm-auto">
-                  {include file='components/qty-input.tpl'
-                    attributes=[
-                      "id" => "quantity_wanted_{$product.id_product}",
-                      "value" => "{$product.minimal_quantity}",
-                      "min" => "{$product.minimal_quantity}"
-                    ]
-                    marginHelper="mb-0"
-                  }
-                </div>
-
-                <button data-button-action="add-to-cart" class="btn btn-primary flex-grow-1 flex-md-grow-0">
-                  <i class="material-icons" aria-hidden="true">&#xe854;</i>
-                  <span class="visually-hidden">{l s='Add to cart' d='Shop.Theme.Actions'}</span>
-                </button>
-              </form>
-            {else}
               <a href="{$product.url}" class="btn btn-outline-primary mt-3">
                 {l s='See details' d='Shop.Theme.Actions'}
               </a>
-            {/if}
+           
           </div>
         </div>
       {/block}
