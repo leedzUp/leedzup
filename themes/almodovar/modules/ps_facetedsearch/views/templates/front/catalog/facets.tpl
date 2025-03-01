@@ -19,11 +19,11 @@
 {$componentName = 'search-filters'}
  
 {if $displayedFacets|count}
-  <div id="search-filters" class="{$componentName} d-flex flex-direction-column flex-wrap w-100">
+  <div id="search-filters" class="{$componentName}">
   {block name='facets_title'}
   {/block}
 
-    <div class="w-100 d-flex flex-wrap gap-3 order-1 order-md-1">
+    <div class="row order-1 order-md-1">
       {foreach from=$displayedFacets item="facet" name="facets"}
         <div class="col-md-3 facet">
           {assign var=_expand_id value=10|mt_rand:100000}
