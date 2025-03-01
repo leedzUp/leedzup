@@ -190,21 +190,4 @@ exports.preloadFonts = () => ({
   ]
 });
 
-exports.expose = () => ({
-  module: {
-    rules: [
-      {
-        test: require.resolve('jquery'),
-        loader: 'expose-loader',
-        options: {
-          exposes: {
-            globalName: [
-              '$',
-              'jQuery',
-            ],
-          },
-        },
-      },
-    ],
-  },
-});
+

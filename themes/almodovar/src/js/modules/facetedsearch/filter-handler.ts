@@ -2,63 +2,53 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-import {API} from 'nouislider';
+import { API } from 'nouislider';
 import getQueryParameters from './urlparser';
 
 export default function (values: Array<string | number>, slider: API) {
-  const {prestashop, Theme: {events}} = window;
+  const { prestashop, Theme: { events } } = window;
 
-  // Prepare query parameters
-  // eslint-disable-next-line
-  let queryParams = <any> [];
+  // Préparation des paramètres de requête
+  let queryParams: { name: string; value: string }[] = [];
 
-  // Get next encoded URL
-  const nextEncodedFacetsURL = <string> slider.target.dataset.sliderEncodedUrl;
+  // Récupération de l'URL encodée suivante
+  const nextEncodedFacetsURL = slider.target.dataset.sliderEncodedUrl || '';
 
-  // Split it to URL and parameters part
+  // Séparation de l'URL et de ses paramètres
   const urlsSplitted = nextEncodedFacetsURL.split('?');
 
-  // Retrieve parameters if exists
-  if (urlsSplitted !== undefined && urlsSplitted.length > 1) {
+  // Récupération des paramètres s'ils existent
+  if (urlsSplitted.length > 1) {
     queryParams = getQueryParameters(urlsSplitted[1]);
   }
 
-  // Check if q param is present, add it if missing
-  let found = false;
-  // eslint-disable-next-line
-  queryParams.forEach((query: any) => {
-    if (query.name === 'q') {
-      found = true;
-    }
-  });
-
-  if (!found) {
-    queryParams.push({name: 'q', value: ''});
+  // Vérification de la présence du paramètre "q", ajout s'il est manquant
+  if (!queryParams.some((query) => query.name === 'q')) {
+    queryParams.push({ name: 'q', value: '' });
   }
 
-  // Update query parameter
-  // eslint-disable-next-line
-  queryParams.forEach((query: any) => {
+  // Mise à jour du paramètre "q"
+  queryParams = queryParams.map((query) => {
     if (query.name === 'q') {
-      // eslint-disable-next-line
-      query.value += [
-        query.value.length > 0 ? '/' : '',
-        slider.target.dataset.sliderLabel,
-        '-',
-        slider.target.dataset.sliderUnit,
-        '-',
-        values[0],
-        '-',
-        values[1],
-      ].join('');
+      return {
+        ...query,
+        value: [
+          query.value.length > 0 ? '/' : '',
+          slider.target.dataset.sliderLabel,
+          '-',
+          slider.target.dataset.sliderUnit,
+          '-',
+          values[0],
+          '-',
+          values[1],
+        ].join(''),
+      };
     }
+    return query;
   });
 
-  const newUrl = [
-    urlsSplitted[0],
-    '?',
-    $.param(queryParams),
-  ].join('');
+  // Construction de la nouvelle URL
+  const newUrl = `${urlsSplitted[0]}?${new URLSearchParams(queryParams.map(({ name, value }) => [name, value])).toString()}`;
 
   prestashop.emit(events.updateFacets, newUrl);
 }
