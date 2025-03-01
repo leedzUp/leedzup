@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import prestashop from 'prestashop';
 
 /**
@@ -8,37 +7,67 @@ import prestashop from 'prestashop';
  * @param selectors
  */
 function handleCountryChange(selectors) {
-  $('body').on('change', selectors.country, () => {
+  document.body.addEventListener('change', (event) => {
+    if (!event.target.matches(selectors.country)) return;
+
+    const countryElement = document.querySelector(selectors.country);
+    const addressForm = document.querySelector(`${selectors.address} form`);
+
+    if (!countryElement || !addressForm) return;
+
     const requestData = {
-      id_country: $(selectors.country).val(),
-      id_address: $(`${selectors.address} form`).data('id-address'),
+      id_country: countryElement.value,
+      id_address: addressForm.dataset.idAddress,
     };
-    const getFormViewUrl = $(`${selectors.address} form`).data('refresh-url');
+
+    const getFormViewUrl = addressForm.dataset.refreshUrl;
     const formFieldsSelector = `${selectors.address} input`;
+    const inputs = {};
 
-    $.post(getFormViewUrl, requestData).then((resp) => {
-      const inputs = [];
-
-      // Store fields values before updating form
-      $(formFieldsSelector).each(function () {
-        inputs[$(this).prop('name')] = $(this).val();
-      });
-
-      $(selectors.address).replaceWith(resp.address_form);
-
-      // Restore fields values
-      $(formFieldsSelector).each(function () {
-        $(this).val(inputs[$(this).prop('name')]);
-      });
-
-      prestashop.emit('updatedAddressForm', {target: $(selectors.address), resp});
-    }).fail((resp) => {
-      prestashop.emit('handleError', {eventType: 'updateAddressForm', resp});
+    // Store field values before updating form
+    document.querySelectorAll(formFieldsSelector).forEach((input) => {
+      inputs[input.name] = input.value;
     });
+
+    // Fetch updated form via AJAX
+    fetch(getFormViewUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams(requestData),
+    })
+      .then((response) => response.json())
+      .then((resp) => {
+        const addressContainer = document.querySelector(selectors.address);
+        if (addressContainer) {
+          addressContainer.innerHTML = resp.address_form;
+
+          // Restore field values
+          document.querySelectorAll(formFieldsSelector).forEach((input) => {
+            if (inputs[input.name] !== undefined) {
+              input.value = inputs[input.name];
+            }
+          });
+
+          prestashop.emit('updatedAddressForm', {
+            target: addressContainer,
+            resp,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating address form:', error);
+        prestashop.emit('handleError', {
+          eventType: 'updateAddressForm',
+          error,
+        });
+      });
   });
 }
 
-$(document).ready(() => {
+// Equivalent de $(document).ready()
+document.addEventListener('DOMContentLoaded', () => {
   handleCountryChange({
     country: '.js-country',
     address: '.js-address-form',
