@@ -22,12 +22,11 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
-import $ from 'jquery';
 import prestashop from 'prestashop';
 
 export function psShowHide() {
-  $('.ps-shown-by-js').show();
-  $('.ps-hidden-by-js').hide();
+  document.querySelectorAll('.ps-shown-by-js').forEach(el => el.style.display = 'block');
+  document.querySelectorAll('.ps-hidden-by-js').forEach(el => el.style.display = 'none');
 }
 
 /**
@@ -47,32 +46,7 @@ export function psGetRequestParameter(paramName) {
   return vars;
 }
 
-/**
- * on checkout page, when we get the refresh flag :
- * on payment step we need to refresh page to be sure
- * amount is correctly updated on payment modules
- */
-export function refreshCheckoutPage() {
-  const queryParams = psGetRequestParameter();
 
-  // we get the refresh flag : on payment step we need to refresh page to be sure
-  // amount is correctly updated on payemnt modules
-  if (queryParams.updatedTransaction) {
-    // this parameter is used to display some info message
-    // already set : just refresh page
-    window.location.reload();
-
-    return;
-  }
-
-  // not set : add it to the url
-  queryParams.updatedTransaction = 1;
-
-  const joined = Object.entries(queryParams)
-    .map((v) => v.join('='))
-    .join('&');
-  window.location.href = `${window.location.pathname}?${joined}`;
-}
 
 /**
  * Verify password score.
