@@ -60,3 +60,4 @@
     {/block}
   </div>
 </nav>
+{include file="{$smarty.const._PS_THEME_DIR_}templates/_partials/breadcrumb.tpl"}
