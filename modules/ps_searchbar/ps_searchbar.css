@@ -18,12 +18,11 @@
   display: none;
 }
 #search_widget form input {
-  width: 100%;
   padding: 10px 20px 10px 40px;
   outline: none;
   background-color: #f1f1f1;
   border: none;
-  border-radius: 5px;
+  border-radius: 0px;
 }
 
 .ui-autocomplete.searchbar-autocomplete {
