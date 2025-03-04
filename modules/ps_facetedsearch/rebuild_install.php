@@ -22,3 +22,11 @@ if ($module && method_exists($module, 'roomsIndexProcess')) {
 
 
 
+// set precision currency
+$currency = Currency::getCurrencyInstance(1);
+$currency->precision = 0;
+$currency->update();
+
+$currency = Currency::getCurrencyInstance(2);
+$currency->precision = 0;
+$currency->update();
