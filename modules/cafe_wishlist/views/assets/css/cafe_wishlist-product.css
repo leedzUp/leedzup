@@ -1,0 +1,65 @@
+.alert-product-wishlist {
+    top: 15px;
+    right: 20px;
+    position: absolute;
+    width: 230px;
+    display: block;
+}
+.relative {
+position:relative;
+}
+.bg-trans {
+background: transparent;
+padding: 0;
+}
+#product .product-whishlist .product-whishlist-text {
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+    line-height: 17px;
+    letter-spacing: 1.56px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgb(0, 0, 0);
+    margin-left: 10px;
+}
+
+button.whishlist {
+    position: absolute;
+    right: 0;
+    background: transparent;
+    z-index: 1;
+}
+.product-whishlist i, .whishlist i {
+    color:black;
+}
+.wishMessage {
+    background: transparent;position: absolute;
+    top: 0.635rem;
+    right: 0.635rem;
+    z-index: 1;
+}
+.form-check {
+    text-align: left;
+}
+@media (max-width: 1200px) {
+    #product .product-whishlist {
+        right: 15px;
+        top: 30px;
+        z-index: 1;
+        position: absolute;
+    }
+    .product-whishlist-text {
+        display:none;
+    }
+}
+@media (max-width: 1200px) {
+    #wishlist-mobile .product-whishlist .product-whishlist-text {
+        position: absolute;
+        top: -5px;
+        right: 35px;
+        background: white;
+        padding: 7px;
+        display:none;
+    }
+}
