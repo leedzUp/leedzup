@@ -18,6 +18,7 @@
  */
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
+import apolloClient from '@graphqlFiles/client';
 
 /**
  * Init a VueJS application to keep monolith features such as hooks or event the use of twig/smarty
@@ -27,8 +28,7 @@ import VueApollo from 'vue-apollo';
  * @param {Array[Object]} props An array containing Object{name, type} to parse int
  */
 export default function initApp(component, componentSelector, props) {
-  import('@graphqlFiles/client').then(({ default: apolloClient }) => {
-    Vue.use(VueApollo);
+  Vue.use(VueApollo);
 
   const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
@@ -61,6 +61,4 @@ export default function initApp(component, componentSelector, props) {
       propsData,
     });
   });
-});
-
 }
