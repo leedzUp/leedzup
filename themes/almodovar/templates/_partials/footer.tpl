@@ -22,7 +22,7 @@
       {/block}
     </div>
 
-    <p class="copyright">
+    <p class="copyright text-center fs-small">
       {block name='copyright_link'}
         <a href="https://leedzup.com/" target="_blank" rel="noopener noreferrer nofollow">
               {l s='%copyright% %year% - Real Estate Software by %prestashop%' sprintf=['%prestashop%' => 'leedzUp', '%year%' => 'Y'|date, '%copyright%' => '©'] d='Shop.Theme.Global'}
