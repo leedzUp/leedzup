@@ -22,13 +22,9 @@ UPDATE `PREFIX_tab` SET `id_parent` = 2 WHERE `class_name` = 'AdminCustomers';
 UPDATE `PREFIX_tab` SET `icon` = 'account_circle' WHERE `class_name` = 'AdminCustomers';
 
 /* Modification de la catégorie d'accueil */
-UPDATE `PREFIX_category_lang` 
-SET `name` = 'Nos biens' 
-WHERE `name` = 'Accueil' AND `id_lang` = 3;
+UPDATE `PREFIX_category_lang` SET `name` = 'Nos biens immobiliers' WHERE `id_category` = 2 AND `id_lang` = 3;
 
-UPDATE `PREFIX_category_lang` 
-SET `link_rewrite` = 'nos-biens' 
-WHERE `link_rewrite` = 'accueil' AND `id_lang` = 3;
+UPDATE `PREFIX_category_lang` SET `link_rewrite` = 'nos-biens-immobiliers' WHERE `id_category` = 2 AND `id_lang` = 3;
 
 /* Ajustements des poids de recherche */
 UPDATE `PREFIX_configuration` 
