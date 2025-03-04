@@ -197,11 +197,3 @@ tools/build/releases/*
 # Docker configuration
 install.lock
 docker-compose.override.yml
-
-/modules/**/node_modules/
-/modules/**/src/
-/modules/**/_dev/
-/modules/**/upgrade/
-
-
-
