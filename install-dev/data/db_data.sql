@@ -59,6 +59,7 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `id_shop_group`, `id_shop`,
 VALUES ('PS_ROUTE_cms_category_rule', 'category/{rewrite}-{id}', NULL, NULL, NOW(), NOW())
 ON DUPLICATE KEY UPDATE `value` = 'category/{rewrite}-{id}', `date_upd` = NOW();
 
-SET SQL_SAFE_UPDATES = 0;
-UPDATE `PREFIX_currency` SET `precision` = 0 WHERE `iso_code` = 'EUR';
-SET SQL_SAFE_UPDATES = 1;
+ALTER TABLE `PREFIX_currency` CHANGE `precision` `currency_precision` INT(2) NOT NULL;
+UPDATE `PREFIX_currency` SET `currency_precision` = 0 WHERE `iso_code` = 'EUR';
+ALTER TABLE `PREFIX_currency` CHANGE `currency_precision` `precision` INT(2) NOT NULL;
+
