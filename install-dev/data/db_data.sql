@@ -43,7 +43,6 @@ UPDATE `PREFIX_configuration` SET `value` = 8 WHERE `name` = 'PS_SEARCH_WEIGHT_F
 
 /* Autres configurations */
 UPDATE `PREFIX_configuration` SET `value` = 24 WHERE `name` = 'PS_PRODUCTS_PER_PAGE';
-UPDATE `PREFIX_currency` SET `precision` = 0 WHERE `iso_code` = 'EUR';
 UPDATE `PREFIX_configuration` SET `value` = 3 WHERE `name` = 'PS_LANG_DEFAULT';
 UPDATE `PREFIX_configuration` SET `value` = 'fr' WHERE `name` = 'PS_LOCALE_LANGUAGE';
 
@@ -63,3 +62,7 @@ ON DUPLICATE KEY UPDATE `value` = '{rewrite}-{id}', `date_upd` = NOW();
 INSERT INTO `PREFIX_configuration` (`name`, `value`, `id_shop_group`, `id_shop`, `date_add`, `date_upd`) 
 VALUES ('PS_ROUTE_cms_category_rule', 'category/{rewrite}-{id}', NULL, NULL, NOW(), NOW())
 ON DUPLICATE KEY UPDATE `value` = 'category/{rewrite}-{id}', `date_upd` = NOW();
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE `PREFIX_currency` SET `precision` = 0 WHERE `iso_code` = 'EUR';
+SET SQL_SAFE_UPDATES = 1;
