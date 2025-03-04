@@ -21,7 +21,7 @@
                 <li class="page-item">
                   <a rel="prev" href="{$page.url}"
                     class="page-link btn-with-icon previous {['disabled' => !$page.clickable, 'js-pager-link' => true]|classnames}">
-                    <i class="material-icons rtl-flip" aria-hidden="true">&#xE314;</i>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
                     <span class="d-none d-xl-flex">{l s='Previous' d='Shop.Theme.Actions'}</span>
                   </a>
                 </li>
@@ -49,7 +49,7 @@
                   <a rel="next" href="{$page.url}"
                     class="page-link btn-with-icon next {['disabled' => !$page.clickable, 'js-pager-link' => true]|classnames}">
                     <span class="d-none d-xl-flex">{l s='Next' d='Shop.Theme.Actions'}</span>
-                    <i class="material-icons rtl-flip" aria-hidden="true">&#xE315;</i>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
                   </a>
                 </li>
               {/if}
