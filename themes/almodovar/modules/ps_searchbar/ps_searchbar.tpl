@@ -34,7 +34,7 @@
         </svg>
       </span>
       <input class="form-control js-search-input" type="search" name="s" value="{$search_string}" 
-        placeholder="{l s='Search our catalog' d='Shop.Theme.Catalog'}" 
+        placeholder="{l s='Type de bien, ville, code postal, région...' d='Shop.Theme.Catalog'}" 
         aria-label="{l s='Search' d='Shop.Theme.Catalog'}">
       </div>  
     </form>
