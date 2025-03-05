@@ -9,13 +9,13 @@ VALUES ('home_default', 250, 250, 1, 0, 0, 0, 0);
 UPDATE `PREFIX_configuration` SET `value` = '1' WHERE `name` = 'PS_SMARTY_FORCE_COMPILE';
 
 /* Désactivation de certains onglets */
-UPDATE `PREFIX_tab` SET `active` = '0' WHERE `class_name` IN (
+/*UPDATE `PREFIX_tab` SET `active` = '0' WHERE `class_name` IN (
     'AdminDashboard', 'AdminParentOrders', 'AdminOrders', 'AdminInvoices', 
     'AdminSlip', 'AdminDeliverySlip', 'AdminCarts', 'IMPROVE', 'CONFIGURE', 
     'AdminTracking', 'AdminParentCartRules', 'AdminCartRules', 
     'AdminSpecificPriceRule', 'AdminStockManagement', 'AdminStats', 
     'AdminAddresses', 'AdminReturn', 'AdminParentCustomer'
-);
+);*/
 
 /* Modification de l'affichage des clients */
 UPDATE `PREFIX_tab` SET `id_parent` = 2 WHERE `class_name` = 'AdminCustomers';
