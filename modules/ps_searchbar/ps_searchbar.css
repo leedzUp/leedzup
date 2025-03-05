@@ -18,7 +18,7 @@
   display: none;
 }
 #search_widget form input {
-  padding: 10px 20px 10px 40px;
+  padding: 10px 20px 10px 10px;
   outline: none;
   background-color: #f1f1f1;
   border: none;
