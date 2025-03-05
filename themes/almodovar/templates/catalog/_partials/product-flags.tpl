@@ -11,7 +11,6 @@
   {block name='product_price'}
     {if $product.show_price}
       {hook h='displayProductPriceBlock' product=$product type="before_price"}
-
       <span class="{$componentName}__price fs-5" aria-label="{l s='Price' d='Shop.Theme.Catalog'}">
         {capture name='custom_price'}{hook h='displayProductPriceBlock' product=$product type='custom_price' hook_origin='products_list'}{/capture}
         {if '' !== $smarty.capture.custom_price}
@@ -20,14 +19,10 @@
           {$product.price}
         {/if}
       </span>
-
-      {hook h='displayProductPriceBlock' product=$product type='unit_price'}
-
-      {hook h='displayProductPriceBlock' product=$product type='weight'}
     {/if}
   {/block}
 
-  {block name='product_discount_price'}
+  {*{block name='product_discount_price'}
     {if $product.show_price}
       <span class="{$componentName}__discount-price">
         {if $product.has_discount}
@@ -37,7 +32,7 @@
         {/if}
       </span>
     {/if}
-  {/block}
+  {/block}*}
 </li>
 
     {*{foreach from=$product.flags item=flag}
