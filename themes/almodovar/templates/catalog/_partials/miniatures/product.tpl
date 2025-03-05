@@ -103,41 +103,22 @@
                 >
               </picture>
             {/if}
-
-           
           </div>
         {/block}
       </a>
 
       {block name='product_miniature_bottom'}
         <div class="{$componentName}__infos card-body">
-          
-
+        
           <div class="{$componentName}__infos__top">
             {block name='product_name'}
               <a href="{$product.url}"><p class="{$componentName}__title">{$product.name}</p></a>
             {/block}
             {widget name="code_featuresonlist" product=$product}
-
           </div>
 
           <div class="{$componentName}__infos__bottom">
-            {block name='product_variants'}
-              <div class="{$componentName}__variants">
-                {if $product.main_variants}
-                  {include file='catalog/_partials/variant-links.tpl' variants=$product.main_variants}
-                {/if}
-              </div>
-            {/block}
-
-            {block name='product_reviews'}
-              {hook h='displayProductListReviews' product=$product}
-            {/block}
-
-              <a href="{$product.url}" class="btn btn-outline-primary mt-3">
-                {l s='See details' d='Shop.Theme.Actions'}
-              </a>
-           
+              {widget name="code_childleadsform" product=$product}
           </div>
         </div>
       {/block}

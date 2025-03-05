@@ -12,7 +12,7 @@
     {if $product.show_price}
       {hook h='displayProductPriceBlock' product=$product type="before_price"}
 
-      <span class="{$componentName}__price" aria-label="{l s='Price' d='Shop.Theme.Catalog'}">
+      <span class="{$componentName}__price fs-5" aria-label="{l s='Price' d='Shop.Theme.Catalog'}">
         {capture name='custom_price'}{hook h='displayProductPriceBlock' product=$product type='custom_price' hook_origin='products_list'}{/capture}
         {if '' !== $smarty.capture.custom_price}
           {$smarty.capture.custom_price nofilter}
