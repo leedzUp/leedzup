@@ -8,7 +8,7 @@
       {if $listing.pagination.total_items> 1}
         <h1 class="fs-4">{$category.name} : {l s='%product_count%' d='Shop.Theme.Catalog' sprintf=['%product_count%' => $listing.pagination.total_items]} biens à vendre</h1>
       {elseif $listing.pagination.total_items> 0}
-        <h1>{l s='1' d='Shop.Theme.Catalog'} bien à vendre</h1>
+        <h1>{$category.name} : {l s='1' d='Shop.Theme.Catalog'} bien à vendre</h1>
       {/if}
     </div>
 
