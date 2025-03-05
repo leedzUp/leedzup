@@ -117,7 +117,7 @@
             {widget name="code_featuresonlist" product=$product}
           </div>
 
-          <div class="{$componentName}__infos__bottom">
+          <div class="{$componentName}__infos__bottom  d-flex justify-content-end">
               {widget name="code_childleadsform" product=$product}
           </div>
         </div>
