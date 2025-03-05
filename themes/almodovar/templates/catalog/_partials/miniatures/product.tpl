@@ -114,7 +114,7 @@
             {block name='product_name'}
               <a href="{$product.url}"><p class="{$componentName}__title">{$product.name}</p></a>
             {/block}
-            {widget name="code_featuresonlist" product=$product}
+            {hook h="displayProductFeatures" product=$product}
           </div>
 
           <div class="{$componentName}__infos__bottom  d-flex justify-content-end">
