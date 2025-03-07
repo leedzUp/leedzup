@@ -6,6 +6,7 @@
 <div class="product__images js-images-container">
   {if $product.images|@count > 0}
     <div
+    style="height: calc(100vh - 245px); min-height: calc(100vh - 245px);"
       id="product-images"
       class="carousel slide js-product-carousel"
       data-bs-ride="carousel"
