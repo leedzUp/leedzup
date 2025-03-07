@@ -1,68 +1,49 @@
-{**
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *}
-{extends file=$layout}
 
-{block name='head_microdata_special'}
-  {include file='_partials/microdata/product-list-jsonld.tpl' listing=$listing}
-{/block}
+ {extends file=$layout}
+{*CODE MY SHOP*}
+ {block name="head_microdata_special"}
+   {include file="_partials/microdata/product-list-jsonld.tpl" listing=$listing}
+ {/block}
 
-{block name='content'}
-
-    {block name='product_list_header'}
-      <h1 id="js-product-list-header" class="h2 mb-4">{$listing.label}</h1>
-    {/block}
-    
-    {hook h='displayHeaderCategory'}
-
-    <section id="products">
-      {if $listing.products|count}
-
-        {block name='product_list_top'}
-          {include file='catalog/_partials/products-top.tpl' listing=$listing}
+{block name="content"}
+  {hook h="displayLeftColumn"}
+  
+  <div class="container">
+   {block name="product_list_top"}
+          {include file="catalog/_partials/products-top.tpl" listing=$listing}
         {/block}
 
-        {block name='product_list_active_filters'}
+        {block name="product_list_active_filters"}
           {$listing.rendered_active_filters nofilter}
         {/block}
+</div>
 
-        {block name='product_list'}
-          {if isset($page.body_classes['layout-full-width'])}
-            {assign var="classes" value="col-12 col-xs-6 col-lg-4 col-xl-3"}
-          {elseif isset($page.body_classes['layout-left-column']) || isset($page.body_classes['layout-right-column'])}
-            {assign var="classes" value="col-12 col-xs-6 col-xl-4"}
-          {elseif isset($page.body_classes['layout-both-columns'])}
-            {assign var="classes" value="col-12 col-xs-6 col-md-12 col-lg-6"}
-          {else}
-            {assign var="classes" value="col-12 col-xs-6 col-lg-4 col-xl-3"}
-          {/if}
-          {include file='catalog/_partials/products.tpl' listing=$listing productClass=$classes}
-        {/block}
+  {if isset($smarty.get.simulation) && $smarty.get.simulation == 1}
+    {* SIMULATION *}
+      {assign var="id_category_simulation" value="{hook h="displayIdIndexSimulation" var="id_category_simulation"}"}
 
-        {block name='product_list_bottom'}
-          {include file='catalog/_partials/products-bottom.tpl' listing=$listing}
-        {/block}
-
+      {if !empty($id_category_simulation)}
+        {assign var="category_id_tpl" value="{$smarty.const._PS_THEME_DIR_}templates/catalog/listing/custom/CATEGORY/CATEGORY-{$id_category_simulation}.tpl"}
+        {include file=$category_id_tpl}
       {else}
-        <div id="js-product-list-top"></div>
+        
+        {assign var="id_category_default" value="{hook h="displayIdIndexDefault" value="CATEGORY"}"}
+        {assign var="category_id_tpl" value="{$smarty.const._PS_THEME_DIR_}templates/catalog/listing/custom/CATEGORY/CATEGORY-{$id_category_default}.tpl"}
+        {include file=$category_id_tpl}
 
-        <div id="js-product-list container">
-          {capture assign="errorContent"}
-            <p class="h4">{l s='No products available yet' d='Shop.Theme.Catalog'}</p>
-            <p>{l s='Stay tuned! More products will be shown here as they are added.' d='Shop.Theme.Catalog'}</p>
-          {/capture}
-
-          {include file='errors/not-found.tpl' errorContent=$errorContent}
-        <div>
-
-        <div id="js-product-list-bottom"></div>
       {/if}
-    </section>
+  {else}
 
+    {assign var="specific_category" value="{hook h="displayIdIndexSpecific" id_entity=$category.id entity_type="CATEGORY"}"}
+    
+    {if $specific_category}
+      {assign var="category_id_tpl" value="{$smarty.const._PS_THEME_DIR_}templates/catalog/listing/custom/CATEGORY/CATEGORY-{$specific_category}.tpl"}
+    {else}
+      {assign var="id_category_default" value="{hook h="displayIdIndexDefault" value="CATEGORY"}"}
+      {assign var="category_id_tpl" value="{$smarty.const._PS_THEME_DIR_}templates/catalog/listing/custom/CATEGORY/CATEGORY-{$id_category_default}.tpl"}
 
-    {block name='product_list_footer'}{/block}
+    {/if}
 
-
-    {hook h='displayFooterCategory'}
+        {include file=$category_id_tpl}
+  {/if}
 {/block}

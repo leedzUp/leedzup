@@ -25,7 +25,7 @@
         {/if}
         
         <div class="d-flex align-items-center gap-2">
-          <div class="product__current-price">
+          <div class="product__current-price fs-1 mt-2">
             {capture name='custom_price'}{hook h='displayProductPriceBlock' product=$product type='custom_price' hook_origin='product_sheet'}{/capture}
             {if '' !== $smarty.capture.custom_price}
               {$smarty.capture.custom_price nofilter}
