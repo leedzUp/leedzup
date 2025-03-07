@@ -51,39 +51,7 @@
           {/if}
         {/block}
 
-        <div class="product__tax-info d-flex align-items-start gap-2">
-          <div class="product__tax-label">
-            {if !$configuration.taxes_enabled}
-              {l s='No tax' d='Shop.Theme.Catalog'}
-            {elseif $configuration.display_taxes_label}
-              {$product.labels.tax_long}
-            {/if}
-            
-            {hook h='displayProductPriceBlock' product=$product type="price"}
-            {hook h='displayProductPriceBlock' product=$product type="after_price"}
-          </div>
-
-          {* Separator *}
-          {if $configuration.display_taxes_label && $product.ecotax.amount > 0}<span class="product__sep-price"> - </span>{/if}
-
-          {block name='product_ecotax'}
-            {if $product.ecotax.amount> 0}
-              <div class="product__ecotax-price">
-                {l s='Including %amount% for ecotax' d='Shop.Theme.Catalog' sprintf=['%amount%' => $product.ecotax.value]}
-                {if $product.has_discount}
-                  {l s='(not impacted by the discount)' d='Shop.Theme.Catalog'}
-                {/if}
-              </div>
-            {/if}
-          {/block}
-        </div>
-
-        {block name='product_without_taxes'}
-          {if $priceDisplay == 2}
-            <p class="product__price-taxless">{l s='%price% tax excl.' d='Shop.Theme.Catalog' sprintf=['%price%' => $product.price_tax_exc]}</p>
-          {/if}
-        {/block}
-      </div>
+        
     {/block}
 
     {hook h='displayProductPriceBlock' product=$product type="weight" hook_origin='product_sheet'}
