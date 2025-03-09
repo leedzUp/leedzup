@@ -2,6 +2,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *}
+ <div data-bs-toggle="modal" data-bs-target="#product-modal">
 
 <div class="product__images js-images-container">
   {if $product.images|@count > 0}
@@ -29,54 +30,29 @@
 
         {block name='product_cover'}
           {foreach from=$product.images item=image key=key name=productImages}
+            {if $image.id_image == $product.default_image.id_image}
+
+
             <div class="carousel-item{if $image.id_image == $product.default_image.id_image} active{/if}"
               data-bs-target="#product-images-modal"
               data-bs-slide-to="{$key}"
               >
-              <picture>
-                {if isset($image.bySize.default_md.sources.avif)}
-                  <source 
-                    srcset="
-                      {$image.bySize.default_md.sources.avif} 320w,
-                      {$image.bySize.product_main.sources.avif} 720w,
-                      {$image.bySize.product_main_2x.sources.avif} 1440w"
-                    sizes="(min-width: 1300px) 720px, (min-width: 768px) 50vw, 100vw" 
-                    type="image/avif"
-                  >
-                {/if}
-
-                {if isset($image.bySize.default_md.sources.webp)}
-                  <source 
-                    srcset="
-                      {$image.bySize.default_md.sources.webp} 320w,
-                      {$image.bySize.product_main.sources.webp} 720w,
-                      {$image.bySize.product_main_2x.sources.webp} 1440w"
-                    sizes="(min-width: 1300px) 720px, (min-width: 768px) 50vw, 100vw" 
-                    type="image/webp"
-                  >
-                {/if}
+                
 
                 <img
                   class="img-fluid"
-                  srcset="
-                    {$image.bySize.default_md.url} 320w,
-                    {$image.bySize.product_main.url} 720w,
-                    {$image.bySize.product_main_2x.url} 1440w"
-                  sizes="(min-width: 1300px) 720px, (min-width: 768px) 50vw, 100vw" 
-                  src="{$image.bySize.product_main.url}" 
-                  width="{$image.bySize.product_main.width}"
-                  height="{$image.bySize.product_main.height}"
+                 
+                  src="{$image.bySize.product_main.url|replace:'medium':'wide'}" 
+                  width="1930"
+                  height="718"
                   loading="{if $smarty.foreach.productImages.first}eager{else}lazy{/if}"
                   alt="{$image.legend}"
                   title="{$image.legend}"
-                  data-full-size-image-url="{$image.bySize.home_default.url}"
+"
                 >
-              </picture>
 
-              <div class="product__images__modal-opener" data-bs-toggle="modal" data-bs-target="#product-modal">
-                <i class="material-icons zoom-in">search</i>
-              </div>
             </div>
+              {/if}
           {/foreach}
         {/block}
       </div>
@@ -123,6 +99,7 @@
       >
     </picture>
   {/if}
+</div>
 </div>
 
 {block name='product_images_modal'}
