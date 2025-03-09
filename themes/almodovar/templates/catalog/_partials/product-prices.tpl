@@ -3,7 +3,17 @@
  * file that was distributed with this source code.
  *}
 {if $product.show_price}
-  <div class="product__prices js-product-prices">
+  <div class="sticky-top bg-light mb-4  product__prices js-product-prices">
+
+  {if $product.grouped_features}
+      <h2 class="f-3"> 
+            {foreach from=$product.grouped_features item=feature}
+              {if $feature.name == 'feat_type_du_bien'}{$feature.name}{/if} {if $feature.name == 'feat_surface_du_bien'}{$feature.name}{/if} m² - {if $feature.name == 'feat_ville'}{$feature.name}{/if}
+            {/foreach}
+      </h2>
+        
+  {/if}
+
     {block name='product_price'}
       <div class="prices__wrapper d-flex flex-column gap-2 mb-4">
         {if $product.has_discount}
