@@ -3,7 +3,7 @@
  * file that was distributed with this source code.
  *}
 <div class="modal fade js-product-images-modal" id="product-modal">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
         <div
@@ -26,45 +26,15 @@
 
             {foreach from=$product.images item=image key=key name=productImages}
               <div class="carousel-item{if $image.id_image == $product.default_image.id_image} active{/if}">
-                <picture>
-                  {if isset($image.bySize.default_md.sources.avif)}
-                    <source 
-                      srcset="
-                        {$image.bySize.default_md.sources.avif} 320w,
-                        {$image.bySize.product_main.sources.avif} 720w,
-                        {$image.bySize.product_main_2x.sources.avif} 1440w"
-                      sizes="(min-width: 1300px) 720px, (min-width: 768px) 50vw, 100vw" 
-                      type="image/avif"
-                    >
-                  {/if}
-
-                  {if isset($image.bySize.default_md.sources.webp)}
-                    <source 
-                      srcset="
-                        {$image.bySize.default_md.sources.webp} 320w,
-                        {$image.bySize.product_main.sources.webp} 720w,
-                        {$image.bySize.product_main_2x.sources.webp} 1440w"
-                      sizes="(min-width: 1300px) 720px, (min-width: 768px) 50vw, 100vw" 
-                      type="image/webp"
-                    >
-                  {/if}
-
                   <img
                     class="img-fluid"
-                    srcset="
-                      {$image.bySize.default_md.url} 320w,
-                      {$image.bySize.product_main.url} 720w,
-                      {$image.bySize.product_main_2x.url} 1440w"
-                    sizes="(min-width: 1300px) 720px, (min-width: 768px) 50vw, 100vw" 
-                    src="{$image.bySize.product_main.url}" 
-                    width="{$image.bySize.product_main.width}"
-                    height="{$image.bySize.product_main.height}"
+                    src="{$image.bySize.product_main.url|replace:'medium':'large'}" 
+                    width="1280"
+                    height="718"
                     loading="{if $smarty.foreach.productImages.first}eager{else}lazy{/if}"
                     alt="{$image.legend}"
                     title="{$image.legend}"
-                    data-full-size-image-url="{$image.bySize.home_default.url}"
                   >
-                </picture>
               </div>
             {/foreach}
           </div>
