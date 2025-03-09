@@ -201,6 +201,8 @@
      {/if}
    {/block}
  
+   {include file="{$smarty.const._PS_THEME_DIR_}templates/_partials/breadcrumb.tpl"}
+
    {block name='product_footer'}
      {hook h='displayFooterProduct' product=$product category=$category}
    {/block}
