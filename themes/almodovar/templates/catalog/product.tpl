@@ -244,6 +244,9 @@ feat_acces_handicape
         {/block}
         {widget name="code_childleadsform" product=$product}
 
+        {widget name="ps_sharebuttons"}
+
+
         <div class="col-lg-6 col-xl-5 order-lg-1">
           {block name='hook_display_reassurance'}
             {hook h='displayReassurance'}
