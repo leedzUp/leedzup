@@ -63,52 +63,36 @@
 
            {block name='product_images'}
             <h2 class="info__title fs-5 mt-4" id="product-description-heading">
-              {l s='More photos' d='Shop.Theme.Catalog'}
+              {l s='+ de photos' d='Shop.Theme.Catalog'}
             </h2>
             <div class="thumbnails__container">
               <ul class="thumbnails__list row g-2">
                 {foreach from=$product.images item=image key=key}
+                  {if $key < 6}
+
                   <li
-                    class="thumbnail js-thumb-container{if $image.id_image == $product.default_image.id_image} active{/if} col-3 col-md-2"
-                    data-bs-target="#product-images"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#product-modal"
                     data-bs-slide-to="{$key}"
-                    {if $image.id_image == $product.default_image.id_image}
-                      aria-current="true"
-                    {/if}
+
+                    class="cursor-pointer thumbnail js-thumb-container col-3 col-md-3"
+                    
                     aria-label="{l s='Product image %number%' d='Shop.Theme.Catalog' sprintf=['%number%' => $key]}"
                 >
-                    <picture>
-                      {if isset($image.bySize.default_xs.sources.avif)}
-                        <source 
-                          srcset="
-                            {$image.bySize.default_xs.sources.avif},
-                            {$image.bySize.default_m.sources.avif} 2x",
-                        type="image/avif"
-                        >
-                      {/if}
-      
-                      {if isset($image.bySize.default_xs.sources.webp)}
-                        <source 
-                          srcset="
-                            {$image.bySize.default_xs.sources.webp},
-                            {$image.bySize.default_m.sources.webp} 2x"
-                          type="image/webp"
-                        >
-                      {/if}
+                  
       
                       <img
                         class="img-fluid js-thumb{if $image.id_image == $product.default_image.id_image} js-thumb-selected{/if}"
-                        srcset="
-                          {$image.bySize.default_xs.url},
-                          {$image.bySize.default_m.url} 2x"
-                        width="{$image.bySize.default_xs.width}"
-                        height="{$image.bySize.default_xs.height}"
+                        src="{$image.bySize.product_main.url|replace:'medium':'small'}" 
+                        
+                        width="320"
+                        height="200"
                         loading="lazy"
                         alt="{$image.legend}"
                         title="{$image.legend}"
                       >
-                    </picture>
                   </li>
+                  {/if}
                 {/foreach}
               </ul>
             </div>

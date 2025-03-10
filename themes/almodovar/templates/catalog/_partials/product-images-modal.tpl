@@ -25,6 +25,7 @@
             {/if}
 
             {foreach from=$product.images item=image key=key name=productImages}
+              {if $key < 6}
               <div class="carousel-item{if $image.id_image == $product.default_image.id_image} active{/if}">
                   <img
                     class="img-fluid"
@@ -36,6 +37,7 @@
                     title="{$image.legend}"
                   >
               </div>
+              {/if}
             {/foreach}
           </div>
         </div>
