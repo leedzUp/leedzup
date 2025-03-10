@@ -3,16 +3,15 @@
  * file that was distributed with this source code.
  *}
 {if $product.show_price}
-  <div class="sticky-top bg-light mb-4  product__prices js-product-prices">
-
-  {if $product.grouped_features}
+  <div class="sticky-top bg-light mb-4 mt-4 p-4 product__prices js-product-prices">
       <h2 class="f-3"> 
-            {foreach from=$product.grouped_features item=feature}
-              {if $feature.name == 'feat_type_du_bien'}{$feature.name}{/if} {if $feature.name == 'feat_surface_du_bien'}{$feature.name}{/if} m² - {if $feature.name == 'feat_ville'}{$feature.name}{/if}
-            {/foreach}
+              {if $product.grouped_features['feat_type_du_bien']}{$product.grouped_features['feat_type_du_bien'].value}{/if} 
+              {if $product.grouped_features['feat_surface_habitable']}{$product.grouped_features['feat_surface_habitable'].value}{/if} m² 
+              - {if $product.grouped_features['feat_ville']}{$product.grouped_features['feat_ville'].value}{/if}
+              {if $product.grouped_features['feat_region']}<span class="text-uppercase">{$product.grouped_features['feat_region'].value}</span>{/if} 
+                <br/>- À VENDRE
       </h2>
         
-  {/if}
 
     {block name='product_price'}
       <div class="prices__wrapper d-flex flex-column gap-2 mb-4">
