@@ -40,85 +40,63 @@
           <h1 class="fs-1">{block name='page_title'}{$product.name}{/block}</h1>
         {/block}
 
-
-
-        {*
-        feat_type_du_bien
-        feat_ville
-        feat_surface_habitable
-        feat_superficie_du_terrain
-        feat_ascenseur
-feat_acces_handicape
-feat_cave
-feat_climatisation
-feat_etage
-feat_garage
-feat_jardin
-feat_piscine
-feat_nombre_de_chambres
-feat_nombre_de_salle_de_bain
-feat_parking
-feat_quartier
-feat_region
-feat_pays
-feat_acces_handicape
-        *}
         {block name='product_features'}
           {if $product.grouped_features}
 
             <div class="mt-4 info" id="product-features">
-            <h2 class="info__title fs-3" id="product-details-heading">
-            {l s='Caractéristiques:' d='Shop.Theme.Catalog'}
-        </h2>
+              <h2 class="info__title fs-3" id="product-details-heading">
+                {l s='Caractéristiques:' d='Shop.Theme.Catalog'}
+              </h2>
               <div class="info__content">
                 <div class="row">
                   {assign var="allowed_features" value=[
-                    'feat_type_du_bien', 'feat_ville', 'feat_surface_habitable', 'feat_superficie_du_terrain',
-                    'feat_ascenseur', 'feat_acces_handicape', 'feat_cave', 'feat_climatisation',
-                    'feat_etage', 'feat_garage', 'feat_jardin', 'feat_piscine',
-                    'feat_nombre_de_chambres', 'feat_nombre_de_salle_de_bain', 'feat_parking',
-                    'feat_quartier', 'feat_region', 'feat_pays'
-                  ]}
-        
-                  {assign var="feature_labels" value=[
-                    'feat_type_du_bien' => 'Type de bien',
-                    'feat_ville' => 'Ville',
-                    'feat_surface_habitable' => 'Surface hab.',
-                    'feat_superficie_du_terrain' => 'Superficie terrain',
-                    'feat_ascenseur' => 'Ascenseur',
-                    'feat_acces_handicape' => 'Accès handicapé',
-                    'feat_cave' => 'Cave',
-                    'feat_climatisation' => 'Climatisation',
-                    'feat_etage' => 'Étage',
-                    'feat_garage' => 'Garage',
-                    'feat_jardin' => 'Jardin',
-                    'feat_piscine' => 'Piscine',
-                    'feat_nombre_de_chambres' => 'Nb chambres',
-                    'feat_nombre_de_salle_de_bain' => 'Nb salles de bain',
-                    'feat_parking' => 'Parking',
-                    'feat_quartier' => 'Quartier',
-                    'feat_region' => 'Région',
-                    'feat_pays' => 'Pays'
-                  ]}
+                                'feat_type_du_bien', 'feat_ville', 'feat_surface_habitable', 'feat_superficie_du_terrain',
+                                'feat_ascenseur', 'feat_acces_handicape', 'feat_cave', 'feat_climatisation',
+                                'feat_etage', 'feat_garage', 'feat_jardin', 'feat_piscine',
+                                'feat_nombre_de_chambres', 'feat_nombre_de_salle_de_bain', 'feat_parking',
+                                'feat_quartier', 'feat_region', 'feat_pays'
+                              ]}
 
-                 {* <pre>{$product.grouped_features|@var_dump}</pre>*}
-        
+                  {assign var="feature_labels" value=[
+                                'feat_type_du_bien' => 'Type de bien',
+                                'feat_ville' => 'Ville',
+                                'feat_surface_habitable' => 'Surface hab.',
+                                'feat_superficie_du_terrain' => 'Superficie terrain',
+                                'feat_ascenseur' => 'Ascenseur',
+                                'feat_acces_handicape' => 'Accès handicapé',
+                                'feat_cave' => 'Cave',
+                                'feat_climatisation' => 'Climatisation',
+                                'feat_etage' => 'Étage',
+                                'feat_garage' => 'Garage',
+                                'feat_jardin' => 'Jardin',
+                                'feat_piscine' => 'Piscine',
+                                'feat_nombre_de_chambres' => 'Nb chambres',
+                                'feat_nombre_de_salle_de_bain' => 'Nb salles de bain',
+                                'feat_parking' => 'Parking',
+                                'feat_quartier' => 'Quartier',
+                                'feat_region' => 'Région',
+                                'feat_pays' => 'Pays'
+                              ]}
+
+
                   {foreach from=$product.grouped_features item=feature key=featureKey}
                     {assign var="featureValue" value=$feature.value}
-        
+
                     {if in_array($featureKey, $allowed_features) && $featureValue !== "Non" && $featureValue !== "0" && ($featureValue == "Oui" || $featureValue|floatval > 0)}
                       <div class="col-12 col-md-4 mb-3">
                         <div class="detail">
                           <div class="detail__left">
                             <span class="detail__title fw-bold">
-                                {$feature_labels[$featureKey]}
-                             
+                              {$feature_labels[$featureKey]}
+
                             </span>
                           </div>
                           <div class="detail__right">
                             <span>
                               {if $featureValue != "Oui"}
-                                {$featureValue} {if $feature_labels[$featureKey] == "Surface hab." || $feature_labels[$featureKey] == "Superficie terrain"} m²{/if}
+                                {$featureValue}
+                                {if $feature_labels[$featureKey] == "Surface hab." || $feature_labels[$featureKey] == "Superficie terrain"}
+                                m²{/if}
                               {/if}
                             </span>
                           </div>
@@ -131,8 +109,8 @@ feat_acces_handicape
             </div>
           {/if}
         {/block}
-        
-        
+
+
 
         {* SECOND PART - REASSURANCE, TABS *}
 
@@ -143,11 +121,11 @@ feat_acces_handicape
               {if $product.description}
                 <div class="info" id="description">
                   <h2 class="info__title fs-3" id="product-description-heading">
-                
-                      {l s='Description:' d='Shop.Theme.Catalog'}
+
+                    {l s='Description:' d='Shop.Theme.Catalog'}
                   </h2>
-                  <div id="product-description" class="info__content"
-                    data-bs-parent="#product-infos-accordion" aria-labelledby="product-description-heading">
+                  <div id="product-description" class="info__content" data-bs-parent="#product-infos-accordion"
+                    aria-labelledby="product-description-heading">
                     <div class="product__description accordion-body rich-text">
                       {$product.description nofilter}
                     </div>
@@ -180,6 +158,149 @@ feat_acces_handicape
 
             {hook h='displayAfterProductThumbs' product=$product}
 
+            <h2 class="info__title fs-3 mt-4">
+              {l s='Localisation:' d='Shop.Theme.Catalog'}
+            </h2>
+            <div class="row">
+              <div class="info__content mb-4 col-md-4">
+                {foreach from=$product.grouped_features item=feature key=featureKey}
+                  {if $featureKey == 'feat_region'}
+                    <div class="mb-2">
+                      <span class="fw-bold">
+                        {l s='Région' d='Shop.Theme.Catalog'}:
+                      </span>
+                      <span>
+                        {$feature.value}
+                      </span>
+                    </div>
+                  {/if}
+                  {if $featureKey == 'feat_departement'}
+                    <div class="mb-2">
+                      <span class=" fw-bold">
+                        {l s='Province' d='Shop.Theme.Catalog'}:
+                      </span>
+                      <span>
+                        {$feature.value}
+                      </span>
+                    </div>
+                  {/if}
+                  {if $featureKey == 'feat_ville'}
+                    <div class="mb-2">
+                      <span class=" fw-bold">
+                        {l s='Ville' d='Shop.Theme.Catalog'}:
+                      </span>
+                      <span>
+                        {$feature.value}
+                      </span>
+                    </div>
+                  {/if}
+                  {if $featureKey == 'feat_pays'}
+                    <div class="mb-2">
+                      <span class=" fw-bold">
+                        {l s='Pays' d='Shop.Theme.Catalog'}:
+                      </span>
+                      <span>
+                        {$feature.value}
+                      </span>
+                    </div>
+                  {/if}
+                  {if $featureKey == 'feat_quartier'}
+                    <div class="mb-2">
+                      <span class=" fw-bold">
+                        {l s='Quartier' d='Shop.Theme.Catalog'}:
+                      </span>
+                      <span>
+                        {$feature.value}
+                      </span>
+                    </div>
+                  {/if}
+                  {if $featureKey == 'feat_address'}
+                    <div class="mb-2">
+                      <span class=" fw-bold">
+                        {l s='Adresse' d='Shop.Theme.Catalog'}:
+                      </span>
+                      <span>
+                        {$feature.value}
+                      </span>
+                    </div>
+                  {/if}
+                  {if $featureKey == 'feat_latitude'}
+
+                    {assign var="latitude" value=$feature.value}
+                  {/if}
+                  {if $featureKey == 'feat_longitude'}
+                    {assign var="longitude" value=$feature.value}
+                  {/if}
+
+                {/foreach}
+              </div>
+              <div class="col-md-8">
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+                <style>
+                  #map {
+                    width: 100%;
+                    height: 400px;
+                  }
+                </style>
+                <div id="map"></div>
+                <script>
+                  let latitude = parseFloat({$latitude});
+                  let longitude = parseFloat({$longitude});
+                  let region = "{$product.grouped_features['feat_region'].value}";
+                </script>
+
+                {literal}
+                  <script>
+                 
+
+                    var map = L.map('map').setView([latitude, longitude], 15);
+
+                    // Ajouter la couche OpenStreetMap
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(map);
+
+                    // Ajouter un marqueur unique aux coordonnées du bien immobilier
+                    L.marker([latitude, longitude], {
+                      icon: L.divIcon({
+                        className: 'custom-icon',
+                        html: `
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    background: white;
+                    border-radius: 8px;
+                    padding: 2px;
+                    font-weight: bold;
+                    font-size: 14px;
+                    opacity: 0.8;
+                    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+                ">
+                    <span style="
+                        background: #1C354C;
+                        color: white;
+                        border-radius: 50%;
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 12px;
+                        margin-right: 8px;
+                    ">🏡</span>
+                    <span>Localisation du bien</span>
+                </div>`,
+                        iconSize: [180, 30]
+                      })
+                    }).addTo(map);
+                  </script>
+                {/literal}
+
+              </div>
+            </div>
+
             {block name='product_details'}
               {include file='catalog/_partials/product-details.tpl'}
             {/block}
@@ -188,8 +309,8 @@ feat_acces_handicape
               {if $product.attachments}
                 <div class="info" id="attachments">
                   <h2 class="info__title fs-3" id="product-attachments-heading">
-                  
-                      {l s='Download' d='Shop.Theme.Actions'}
+
+                    {l s='Download' d='Shop.Theme.Actions'}
                   </h2>
                   <div id="product-attachments" class="info__content">
                     <div class="product__attachments">
@@ -212,8 +333,7 @@ feat_acces_handicape
 
             {* New collapses for module hooked content *}
             {foreach from=$product.extraContent item=extra key=extraKey}
-              <div class="info" id="extra-{$extraKey}" {foreach $extra.attr as $key => $val} {$key}="{$val}"
-                {/foreach}>
+              <div class="info" id="extra-{$extraKey}" {foreach $extra.attr as $key => $val} {$key}="{$val}" {/foreach}>
                 <h2 class="info__title accordion-header" id="product-extra{$extraKey}-heading">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#product-extra{$extraKey}-collapse" aria-expanded="true"
