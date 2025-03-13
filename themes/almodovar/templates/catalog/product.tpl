@@ -249,6 +249,8 @@
                   let latitude = parseFloat({$latitude});
                   let longitude = parseFloat({$longitude});
                   let region = "{$product.grouped_features['feat_region'].value}";
+                  let name = "{$product.name}";
+
                 </script>
 
                 {literal}
@@ -266,33 +268,22 @@
                     L.marker([latitude, longitude], {
                       icon: L.divIcon({
                         className: 'custom-icon',
-                        html: `
-                <div style="
+                        html: `<div style="
+                    background: #1C354C;
+                    color: white;
+                    border-radius: 50%;
+                    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+                    opacity: 0.8;
+                    width: 40px;
+                    height: 40px;
                     display: flex;
                     align-items: center;
-                    background: white;
-                    border-radius: 8px;
-                    padding: 2px;
-                    font-weight: bold;
-                    font-size: 14px;
-                    opacity: 0.8;
-                    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-                ">
-                    <span style="
-                        background: #1C354C;
-                        color: white;
-                        border-radius: 50%;
-                        width: 30px;
-                        height: 30px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-size: 12px;
-                        margin-right: 8px;
-                    ">🏡</span>
-                    <span>Localisation du bien</span>
-                </div>`,
-                        iconSize: [180, 30]
+                    justify-content: center;
+                    font-size: 16px;
+                ">🏡</div>`,
+                iconSize: [40, 40],  // Taille réelle de l'icône
+        iconAnchor: [20, 40], // Centrage correct (moitié de la largeur et tout en bas pour pointer correctement)
+        popupAnchor: [0, -40] // Ajustement du popup pour éviter qu'il ne soit trop bas
                       })
                     }).addTo(map);
                   </script>
