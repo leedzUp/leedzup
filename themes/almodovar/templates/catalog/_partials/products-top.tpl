@@ -2,7 +2,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *}
-<div id="js-product-list-top" class="products-selection">
+<div id="js-product-list-top">
   <div class="products-selections-filters row">
     <div class="col-lg-6 total-products order-2 order-lg-1 mt-4 mt-lg-0">
       {if $listing.pagination.total_items> 1}
