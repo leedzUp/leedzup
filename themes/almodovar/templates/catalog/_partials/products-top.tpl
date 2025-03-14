@@ -14,9 +14,7 @@
 
     <div class="col-lg-6 order-1 order-lg-2">
       <div class="d-flex align-items-center justify-content-md-end sort-by-row">
-        {block name='sort_by'}
-          {include file='catalog/_partials/sort-orders.tpl' sort_orders=$listing.sort_orders}
-        {/block}
+       
 
         {if !empty($listing.rendered_facets)}
           <div class="col-4 d-block d-md-none filter-button">
