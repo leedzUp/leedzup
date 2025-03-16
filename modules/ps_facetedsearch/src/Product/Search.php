@@ -526,6 +526,8 @@ class Search
      */
     private function addSurfaceFilter($minSurface, $maxSurface)
     {
+        $minSurface =1;
+
         $this->getSearchAdapter()->addFilter('surface_min', [$maxSurface], '<=');
         $this->getSearchAdapter()->addFilter('surface_max', [$minSurface], '>=');
     }
@@ -538,6 +540,8 @@ class Search
      */
     private function addRoomFilter($minRoom, $maxRoom)
     {
+        $minRoom = 0;
+
         $this->getSearchAdapter()->addFilter('room_min', [$maxRoom], '<=');
         $this->getSearchAdapter()->addFilter('room_max', [$minRoom], '>=');
     }
