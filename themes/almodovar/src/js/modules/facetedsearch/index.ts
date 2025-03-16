@@ -107,19 +107,19 @@ export const initSliders = () => {
 
       [inputStart, inputEnd].forEach((input, index) => {
         if (input) {
-          input.addEventListener('input', () => {
-            let valStart = parseInt(inputStart.value, 10) || min;
-            let valEnd = parseInt(inputEnd.value, 10) || max;
-
-            if (valStart < min) valStart = min;
-            if (valEnd > max) valEnd = max;
-            if (valStart > valEnd) valStart = valEnd;
-
-            // Vérifie que le slider existe avant d'appliquer la mise à jour
-            if (initiatedSlider) {
-              setTimeout(() => {
+          input.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+              let valStart = parseInt(inputStart.value, 10) || min;
+              let valEnd = parseInt(inputEnd.value, 10) || max;
+      
+              if (valStart < min) valStart = min;
+              if (valEnd > max) valEnd = max;
+              if (valStart > valEnd) valStart = valEnd;
+      
+              // Vérifie que le slider existe avant d'appliquer la mise à jour
+              if (initiatedSlider) {
                 initiatedSlider.set([valStart, valEnd]);
-              }, 50); // Petit délai pour éviter les conflits
+              }
             }
           });
         }
