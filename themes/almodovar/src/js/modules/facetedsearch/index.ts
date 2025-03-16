@@ -130,12 +130,14 @@ export const initSliders = () => {
       initiatedSlider.on('update', (values) => {
 
         if (inputStart && inputEnd) {
-          inputStart.value = Math.round(Number(values[0])).toString();
-          inputEnd.value = Math.round(Number(values[1])).toString();
+          inputStart.value = wNumb({ thousand: ' ', decimals: 0 }).to(Number(values[0]));
+          inputEnd.value = wNumb({ thousand: ' ', decimals: 0 }).to(Number(values[1]));
         }
         const formattedValues: string[] = values.map((value) => {
           const numValue = typeof value === 'string' ? parseFloat(value) : value;
-          return unitPosition === 'suffix' ? `${Math.round(numValue)}${unitSymbol}` : `${unitSymbol}${Math.round(numValue)}`;
+          return unitPosition === 'suffix'
+            ? `${wNumb({ thousand: ' ', decimals: 0 }).to(numValue)}${unitSymbol}`
+            : `${unitSymbol}${wNumb({ thousand: ' ', decimals: 0 }).to(numValue)}`;
         });
 
         const parentFacet = initiatedSlider.target.closest(Theme.selectors.facetedsearch.filterSlider) as HTMLElement;
