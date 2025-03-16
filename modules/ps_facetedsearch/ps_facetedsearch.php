@@ -685,7 +685,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
      */
     public function indexProductSurfaces($idProduct, $smart = true)
     {
-
+        
         $shopList = Shop::getShops(false, null, true);
 
         foreach ($shopList as $idShop) {
@@ -694,9 +694,12 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
             $this->getDatabase()->execute('DELETE FROM `' . _DB_PREFIX_ . 'layered_surface_index` WHERE `id_product` = ' . (int) $idProduct . ' AND `id_shop` = ' . (int) $idShop);
             // }
 
-            $product = new Product((int) $idProduct, false, $idShop);
+
+            $product = new Product((int) $idProduct,false, 3, $idShop);
             $features = $product->getFeatures(); // Récupère toutes les caractéristiques du produit
 
+
+           
             $surfaceValue = null;
             foreach ($features as $feature) {
                 if ((int) $feature['id_feature'] === 28) { // Vérifie si c'est la surface habitable
@@ -704,11 +707,15 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
                     break;
                 }
             }
-
+            $surfaceText = null;
             // Si une valeur a été trouvée, récupérer son texte associé
             if ($surfaceValue) {
-                $surfaceText = FeatureValue::getFeatureValueLang((int) $surfaceValue, 1);
+                $surfaceText = FeatureValue::getFeatureValueLang((int) $surfaceValue, 3);
             }
+
+         
+
+         
 
             $realValue = $surfaceText[0]['value'];
 
@@ -763,7 +770,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
             $this->getDatabase()->execute('DELETE FROM `' . _DB_PREFIX_ . 'layered_room_index` WHERE `id_product` = ' . (int) $idProduct . ' AND `id_shop` = ' . (int) $idShop);
             // }
 
-            $product = new Product((int) $idProduct, false, $idShop);
+            $product = new Product((int) $idProduct,false, 3, $idShop);
             $features = $product->getFeatures(); // Récupère toutes les caractéristiques du produit
 
             $roomValue = null;
@@ -776,7 +783,7 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
 
             // Si une valeur a été trouvée, récupérer son texte associé
             if ($roomValue) {
-                $roomText = FeatureValue::getFeatureValueLang((int) $roomValue, 1);
+                $roomText = FeatureValue::getFeatureValueLang((int) $roomValue, 3);
             }
 
             $realValue = $roomText[0]['value'];
