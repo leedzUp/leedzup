@@ -375,7 +375,7 @@ class Block
             'name' => $this->context->getTranslator()->trans('Room', [], 'Modules.Facetedsearch.Shop'),
             'max' => '8',
             'min' => '0',
-            'unit' => 'u',
+            'unit' => 'ch.',
             'specifications' => [],
             'filter_show_limit' => (int) $filter['filter_show_limit'],
             'filter_type' => Converter::WIDGET_TYPE_SLIDER,
@@ -1133,6 +1133,7 @@ class Block
             /* @var NumberSymbolList */
             $symbolList = $priceSpecification->getSymbolsByNumberingSystem(Locale::NUMBERING_SYSTEM_LATIN);
 
+            
             $symbol = [
                 $symbolList->getDecimal(),
                 $symbolList->getGroup(),
