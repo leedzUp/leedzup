@@ -125,11 +125,12 @@ themes/core.js.map
 
 themes/*-chunk.js
 themes/*-chunk.js.map
-themes/almodovar/src/
-themes/almodovar/webpack/
-themes/almodovar/types/
-themes/almodovar/puglins/
-themes/node_modules/
+#themes/almodovar/src/
+#themes/almodovar/webpack/
+#themes/almodovar/types/
+#themes/almodovar/puglins/
+#themes/node_modules/
+!themes/node_modules/
 
 # Install folder
 /install-dev/theme/custom/*
