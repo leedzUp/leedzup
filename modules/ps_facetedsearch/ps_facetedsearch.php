@@ -713,11 +713,8 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
                 $surfaceText = FeatureValue::getFeatureValueLang((int) $surfaceValue, 3);
             }
 
-         
+            $realValue = !empty($surfaceText[0]['value']) ? $surfaceText[0]['value'] : 1;
 
-         
-
-            $realValue = $surfaceText[0]['value'];
 
             $minSurface = (int)$realValue;
             $maxSurface = (int)$realValue;
@@ -786,7 +783,8 @@ class Ps_Facetedsearch extends Module implements WidgetInterface
                 $roomText = FeatureValue::getFeatureValueLang((int) $roomValue, 3);
             }
 
-            $realValue = $roomText[0]['value'];
+            $realValue = !empty($roomText[0]['value']) ? $roomText[0]['value'] : 1;
+
 
             $minRoom = (int)$realValue;
             $maxRoom = (int)$realValue;
