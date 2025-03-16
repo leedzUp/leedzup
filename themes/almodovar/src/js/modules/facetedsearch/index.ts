@@ -109,8 +109,9 @@ export const initSliders = () => {
         if (input) {
           input.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
-              let valStart = parseInt(inputStart.value, 10) || min;
-              let valEnd = parseInt(inputEnd.value, 10) || max;
+              // Supprime les espaces avant la conversion
+              let valStart = parseInt(inputStart.value.replace(/\s/g, ''), 10) || min;
+              let valEnd = parseInt(inputEnd.value.replace(/\s/g, ''), 10) || max;
       
               if (valStart < min) valStart = min;
               if (valEnd > max) valEnd = max;
@@ -124,6 +125,7 @@ export const initSliders = () => {
           });
         }
       });
+      
 
       
 
