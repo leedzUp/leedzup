@@ -168,7 +168,7 @@
                    <pre></pre>
  
                    {if $facet.type == 'price'}
-                     {assign var="stepValue" value=100}
+                     {assign var="stepValue" value=1000}
                    {else if $facet.type == 'surface'}
                      {assign var="stepValue" value=10}
                    {else if $facet.type == 'room'}
