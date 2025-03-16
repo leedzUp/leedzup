@@ -25,7 +25,7 @@
  
      <div class="row order-1 order-md-1">
        {foreach from=$displayedFacets item="facet" name="facets"}
-         <div class="col-md-3 facet">
+         <div class="col-md-4 facet">
            {assign var=_expand_id value=10|mt_rand:100000}
            {assign var=_collapse value=true}
            {foreach from=$facet.filters item="filter"}
@@ -168,7 +168,7 @@
                    <pre></pre>
  
                    {if $facet.type == 'price'}
-                     {assign var="stepValue" value=1000}
+                     {assign var="stepValue" value=100}
                    {else if $facet.type == 'surface'}
                      {assign var="stepValue" value=10}
                    {else if $facet.type == 'room'}
@@ -184,7 +184,7 @@
                      <div class="input-group">
                        <span class="input-group-text">Min</span>
                        <input 
-                         type="number"
+                         type="text"
                          class="form-control form-range-start js-faceted-slider js-faceted-slider-start"
                          id="slider-range_{$_expand_id}-start"
                          min="{$facet.properties.min}"
@@ -193,21 +193,23 @@
                          step="{$stepValue}"
  
                        >
+                       <span class="input-group-text">{$facet.properties.unit}</span>
+
                      </div>
                    
                      <!-- Input de fin avec préfixe -->
                      <div class="input-group">
                        <span class="input-group-text">Max</span>
                        <input 
-                         type="number"
+                         type="text"
                          class="form-control form-range-end js-faceted-slider js-faceted-slider-end"
                          id="slider-range_{$_expand_id}-end"
                          min="{$facet.properties.min}"
                          max="{$facet.properties.max}"
                          value="{$filter.value.1|default:$facet.properties.max}"
-                         step="{$stepValue}"
- 
-                       >
+                         step="{$stepValue}">
+                         <span class="input-group-text">{$facet.properties.unit}</span>
+
                      </div>
                    </div>
                    
