@@ -6,17 +6,17 @@
  {/block}
 
 {block name="content"}
-  {hook h="displayLeftColumn"}
   
-  <div class="container">
+  <div class="container mt-4">
    {block name="product_list_top"}
           {include file="catalog/_partials/products-top.tpl" listing=$listing}
         {/block}
+        {hook h="displayLeftColumn"}
 
         {block name="product_list_active_filters"}
           {$listing.rendered_active_filters nofilter}
         {/block}
-</div>
+  </div>
 
   {if isset($smarty.get.simulation) && $smarty.get.simulation == 1}
     {* SIMULATION *}
