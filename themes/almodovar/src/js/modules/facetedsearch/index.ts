@@ -54,6 +54,9 @@ export const initSliders = () => {
     const min = parseInt(<string>container.dataset.sliderMin ?? "0", 10) || 0;
     const max = parseInt(<string>container.dataset.sliderMax ?? "1000000", 10) || 1000000;
 
+    const originalMin = min;
+    const originalMax = max;
+
     // const sliderType = container.dataset.sliderSpecifications ? 'price' : 'weight';
     const sliderDirection = container.dataset.sliderDirection === '1' ? 'rtl' : 'ltr';
 
@@ -69,8 +72,11 @@ export const initSliders = () => {
 
     const rawValues = container.dataset.sliderValues ? JSON.parse(container.dataset.sliderValues) : [];
     const sliderValues = (Array.isArray(rawValues) && rawValues.length === 2)
-      ? rawValues.map(v => Math.round(Number(v)))
-      : [min, max]; // Valeurs de secours
+    ? [
+        Math.max(min, Math.round(Number(rawValues[0]))),
+        Math.min(max, Math.round(Number(rawValues[1]))),
+      ]
+    : [min, max];
 
     const inputStart = document.getElementById(`slider-range_${container.dataset.sliderId}-start`) as HTMLInputElement;
     const inputEnd = document.getElementById(`slider-range_${container.dataset.sliderId}-end`) as HTMLInputElement;
@@ -101,7 +107,7 @@ export const initSliders = () => {
 
      
 
-      initiatedSlider.on('set', (values, handle, unencoded, tap, positions, instance) => {
+      initiatedSlider.on('change', (values, handle, unencoded, tap, positions, instance) => {
         filterHandler(values, instance);
       });
 
@@ -115,8 +121,11 @@ export const initSliders = () => {
       
               if (valStart < min) valStart = min;
               if (valEnd > max) valEnd = max;
-              if (valStart > valEnd) valStart = valEnd;
-      
+              if (valStart > valEnd) {
+                let temp = valStart;
+                valStart = valEnd;
+                valEnd = temp;
+              }      
               // Vérifie que le slider existe avant d'appliquer la mise à jour
               if (initiatedSlider) {
                 initiatedSlider.set([valStart, valEnd]);
@@ -147,14 +156,8 @@ export const initSliders = () => {
         showValues.innerHTML = formattedValues.join(' - ');
       });
     } else {
-      container.noUiSlider.updateOptions({
-        start: sliderValues ?? [min, max],
-        tooltips: [tooltipsFormat, tooltipsFormat],
-        range: {
-          min,
-          max,
-        },
-      }, true);
+      container.noUiSlider.set(sliderValues);
+
 
       // Remove tooltips:
       container.noUiSlider.removeTooltips();
