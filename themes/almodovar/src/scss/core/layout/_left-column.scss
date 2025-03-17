@@ -11,10 +11,6 @@ $component-name: left-block;
 }
 
 .#{$component-name} {
-  padding-bottom: 1rem;
-  margin-bottom: 2rem;
-  border-bottom: var(--#{$component-name}-border-bottom);
-
   &__title {
     padding: 0;
     margin-bottom: var(--#{$component-name}-title-spacing);
