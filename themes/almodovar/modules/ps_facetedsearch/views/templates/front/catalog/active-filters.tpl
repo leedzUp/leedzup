@@ -19,6 +19,18 @@
           </li>
         {/block}
       {/foreach}
+      {block name='facets_clearall_button'}
+        {if $activeFilters|count}
+          <li class="p-1">
+            <button data-search-url="{$clear_all_link}"
+              class="btn border rounded-pill text-gray py-1 my-2 js-search-filters-clear-all">
+              {l s='Clear all' d='Shop.Theme.Actions'}
+            </button>
+          </li>
+        {/if}
+      {/block}
     </ul>
+    
   {/if}
+
 </section>
