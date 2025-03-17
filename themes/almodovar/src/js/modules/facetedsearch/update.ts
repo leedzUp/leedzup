@@ -115,7 +115,7 @@ export default () => {
 
   prestashop.on(events.updateProductList, (data: Record<string, never>) => {
     updateProductListDOM(data);
-    useQuantityInput();
-    populateMinQuantityInput();
+    //useQuantityInput();
+    //populateMinQuantityInput();
   });
 };
