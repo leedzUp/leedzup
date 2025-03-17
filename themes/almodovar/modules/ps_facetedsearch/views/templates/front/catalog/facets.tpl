@@ -7,7 +7,7 @@
 
     <div class="row order-1 order-md-1">
       {foreach from=$displayedFacets item="facet" name="facets"}
-        <div class="col-md-4 facet">
+        <div class="ps-0 col-md-4 facet">
           {assign var=_expand_id value=10|mt_rand:100000}
           {assign var=_collapse value=true}
           {foreach from=$facet.filters item="filter"}
@@ -202,12 +202,11 @@
               {/block}
             {/if}
           </div>
-          {if !$smarty.foreach.facets.last}
-          <hr class="my-0">{/if}
+          {if !$smarty.foreach.facets.last}{/if}
         </div>
       {/foreach}
 
-      <div class="mt-4 text-center ">
+      <div class="mt-4 mb-4 text-center ">
         <button class="btn btn-primary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters"
           aria-expanded="true" aria-controls="collapseFilters">
           + plus de filtres
