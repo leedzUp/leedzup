@@ -75,6 +75,7 @@ class Ps_Searchbar extends Module implements WidgetInterface
             && $this->registerHook('displayTop')
             && $this->registerHook('displaySearch')
             && $this->registerHook('displayHeader')
+            && $this->registerHook('actionProductSearchProvider')
         ;
     }
 
@@ -105,5 +106,13 @@ class Ps_Searchbar extends Module implements WidgetInterface
         $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
 
         return $this->fetch($this->templateFile);
+    }
+
+    public function hookActionProductSearchProvider($params)
+    {
+        return new \TonModule\Search\ProductSearchProviderOverride(
+            $params['translator'],
+            $params['query']
+        );
     }
 }
