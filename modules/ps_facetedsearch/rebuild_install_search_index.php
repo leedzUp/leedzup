@@ -24,10 +24,10 @@ switch ($action) {
         $ajax = (bool) Tools::getValue('ajax');
         $full = (bool) Tools::getValue('full');
 
-        $response = $full ? 
-            $module->fullSurfacesIndexProcess($cursor, $ajax, true) : 
+        $response = $full ?
+            $module->fullSurfacesIndexProcess($cursor, $ajax, true) :
             $module->surfacesIndexProcess($cursor, $ajax);
-        
+
         header('Content-Type: application/json');
         die(json_encode($response));
 
@@ -36,12 +36,29 @@ switch ($action) {
         $ajax = (bool) Tools::getValue('ajax');
         $full = (bool) Tools::getValue('full');
 
-        $response = $full ? 
-            $module->fullRoomsIndexProcess($cursor, $ajax, true) : 
+        $response = $full ?
+            $module->fullRoomsIndexProcess($cursor, $ajax, true) :
             $module->roomsIndexProcess($cursor, $ajax);
-        
+
         header('Content-Type: application/json');
         die(json_encode($response));
+
+    case 'clearCache':
+        $psFacetedsearch = new Ps_Facetedsearch();
+        $this->ajaxRender($psFacetedsearch->invalidateLayeredFilterBlockCache());
+        break;
+        
+    case 'indexPrices':
+        Shop::setContext(Shop::CONTEXT_ALL);
+
+        $module = new Ps_Facetedsearch();
+        if (Tools::getValue('full')) {
+            $this->ajaxRender($module->fullPricesIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax'), true));
+        } else {
+            $this->ajaxRender($module->pricesIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax')));
+        }
+
+        break;
 
     default:
         header('HTTP/1.1 403 Forbidden');
