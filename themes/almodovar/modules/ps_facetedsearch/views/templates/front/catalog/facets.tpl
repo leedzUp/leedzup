@@ -1,26 +1,27 @@
+{$componentName = 'search-filters'}
 
- {$componentName = 'search-filters'}
- 
- {if $displayedFacets|count}
-   <div id="search-filters" class="{$componentName}">
-   {block name='facets_title'}
-   {/block}
- 
-     <div class="row order-1 order-md-1">
-       {foreach from=$displayedFacets item="facet" name="facets"}
-         <div class="col-md-4 facet">
-           {assign var=_expand_id value=10|mt_rand:100000}
-           {assign var=_collapse value=true}
-           {foreach from=$facet.filters item="filter"}
-             {if $filter.active}{assign var=_collapse value=false}{/if}
-           {/foreach}
- 
-           <span class="{$componentName}-subtitle facet-title">
-               {$facet.label}
-           </span>
-           <div id="facet_{$_expand_id}">
-             
-             {*{if in_array($facet.widgetType, ['radio', 'checkbox'])}
+{if $displayedFacets|count}
+  <div id="search-filters" class="{$componentName}">
+    {block name='facets_title'}
+    {/block}
+
+    <div class="row order-1 order-md-1">
+      {foreach from=$displayedFacets item="facet" name="facets"}
+        <div class="col-md-4 facet">
+          {assign var=_expand_id value=10|mt_rand:100000}
+          {assign var=_collapse value=true}
+          {foreach from=$facet.filters item="filter"}
+            {if $filter.active}{assign var=_collapse value=false}{/if}
+          {/foreach}
+          {if $facet.widgetType == 'slider'}
+
+            <span class="{$componentName}-subtitle facet-title">
+              {$facet.label}
+            </span>
+          {/if}
+          <div id="facet_{$_expand_id}">
+
+            {*{if in_array($facet.widgetType, ['radio', 'checkbox'])}
                {block name='facet_item_other'}
                  <ul  class="px-0 mb-0 pb-1 pt-0">
                    {foreach from=$facet.filters key=filter_key item="filter"}
@@ -28,7 +29,7 @@
                      {if !$filter.displayed}
                        {continue}
                      {/if}
- 
+
                      <li>
                        <div class="{$componentName}-label facet-label{if $filter.active} active {/if}">
                          {if $facet.multipleSelectionAllowed}
@@ -100,7 +101,7 @@
                    {/foreach}
                  </ul>
                {/block}
- 
+
              {elseif $facet.widgetType == 'dropdown'}
                {block name='facet_item_dropdown'}
                  <ul class="accordion-body">
@@ -144,111 +145,131 @@
                    </li>
                  </ul>
                {/block}*}
- 
-             {if $facet.widgetType == 'slider'}
-               {block name='facet_item_slider'}
-                 {foreach from=$facet.filters item="filter"}
- 
-                   {if $facet.type == 'price'}
-                     {assign var="stepValue" value=100}
-                   {else if $facet.type == 'surface'}
-                     {assign var="stepValue" value=10}
-                   {else if $facet.type == 'room'}
-                     {assign var="stepValue" value=1}
-                   {else}
-                     {assign var="stepValue" value=1} <!-- Valeur par défaut -->
-                   {/if}
-                   <div class="faceted-filter px-0 js-faceted-filter-slider">
-                     
-                     <!-- Inputs placés au-dessus du slider -->
-                     <div class="d-flex align-items-center gap-3 faceted-slider-inputs">
-                     <!-- Input de début avec préfixe -->
-                     <div class="input-group">
-                       <span class="input-group-text">Min</span>
-                       <input 
-                         type="text"
-                         class="form-control form-range-start js-faceted-slider js-faceted-slider-start"
-                         id="slider-range_{$_expand_id}-start"
-                         min="{$facet.properties.min}"
-                         max="{$facet.properties.max}"
-                         value="{$filter.value.0|default:$facet.properties.min}"
-                         step="{$stepValue}"
- 
-                       >
-                       <span class="input-group-text">{$facet.properties.unit}</span>
 
-                     </div>
-                   
-                     <!-- Input de fin avec préfixe -->
-                     <div class="input-group">
-                       <span class="input-group-text">Max</span>
-                       <input 
-                         type="text"
-                         class="form-control form-range-end js-faceted-slider js-faceted-slider-end"
-                         id="slider-range_{$_expand_id}-end"
-                         min="{$facet.properties.min}"
-                         max="{$facet.properties.max}"
-                         value="{$filter.value.1|default:$facet.properties.max}"
-                         step="{$stepValue}">
-                         <span class="input-group-text">{$facet.properties.unit}</span>
+            {if $facet.widgetType == 'slider'}
+              {block name='facet_item_slider'}
+                {foreach from=$facet.filters item="filter"}
 
-                     </div>
-                   </div>
-                   
-                 
-                     <!-- Slider -->
-                     <div
-                       class="faceted-slider js-faceted-slider-container"
-                       data-slider-max="{$facet.properties.max}"
-                       data-slider-id="{$_expand_id}"
-                       data-slider-values="{$filter.value|@json_encode}"
-                       data-slider-unit="{$facet.properties.unit}"
-                       data-slider-label="{$facet.label}"
-                       data-slider-specifications="{$facet.properties.specifications|@json_encode}"
-                       data-slider-encoded-url="{$filter.nextEncodedFacetsURL}"
-                       data-slider-direction="{$language.is_rtl}"
-                     ></div>
-                 
-                     <div class="js-faceted-values"></div>  
-                   </div>
-                 {/foreach}
-                
- 
- 
-               {/block}
-             {/if}
-           </div>
-           {if !$smarty.foreach.facets.last}<hr class="my-0">{/if}
-         </div>
-       {/foreach}
- 
-       <div class="col-md-3">
-       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
-         + Plus de filtres
-       </button>
-       </div>
- 
-       <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="collapseFilters">
-         <div class="accordion-body">
-           <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-         </div>
-       </div>
- 
- 
-     </div>
- 
-     
- 
-     {block name='facets_clearall_button'}
-       {if $activeFilters|count}
-         <div class="clear-all-wrapper w-100 order-2 order-md-2">
-           <button data-search-url="{$clear_all_link}" class="btn border rounded-pill text-gray py-1 my-2 js-search-filters-clear-all">
-             {l s='Clear all' d='Shop.Theme.Actions'}
-           </button>
-         </div>
-       {/if}
-     {/block}
- 
-   </div>
- {/if}
- 
+                  {if $facet.type == 'price'}
+                    {assign var="stepValue" value=100}
+                  {else if $facet.type == 'surface'}
+                    {assign var="stepValue" value=10}
+                  {else if $facet.type == 'room'}
+                    {assign var="stepValue" value=1}
+                  {else}
+                    {assign var="stepValue" value=1}
+                    <!-- Valeur par défaut -->
+                  {/if}
+                  <div class="faceted-filter px-0 js-faceted-filter-slider">
+
+                    <!-- Inputs placés au-dessus du slider -->
+                    <div class="d-flex align-items-center gap-3 faceted-slider-inputs">
+                      <!-- Input de début avec préfixe -->
+                      <div class="input-group">
+                        <span class="input-group-text">Min</span>
+                        <input type="text" class="form-control form-range-start js-faceted-slider js-faceted-slider-start"
+                          id="slider-range_{$_expand_id}-start" min="{$facet.properties.min}" max="{$facet.properties.max}"
+                          value="{$filter.value.0|default:$facet.properties.min}" step="{$stepValue}">
+                        <span class="input-group-text">{$facet.properties.unit}</span>
+
+                      </div>
+
+                      <!-- Input de fin avec préfixe -->
+                      <div class="input-group">
+                        <span class="input-group-text">Max</span>
+                        <input type="text" class="form-control form-range-end js-faceted-slider js-faceted-slider-end"
+                          id="slider-range_{$_expand_id}-end" min="{$facet.properties.min}" max="{$facet.properties.max}"
+                          value="{$filter.value.1|default:$facet.properties.max}" step="{$stepValue}">
+                        <span class="input-group-text">{$facet.properties.unit}</span>
+
+                      </div>
+                    </div>
+
+
+                    <!-- Slider -->
+                    <div class="faceted-slider js-faceted-slider-container" data-slider-max="{$facet.properties.max}"
+                      data-slider-id="{$_expand_id}" data-slider-values="{$filter.value|@json_encode}"
+                      data-slider-unit="{$facet.properties.unit}" data-slider-label="{$facet.label}"
+                      data-slider-specifications="{$facet.properties.specifications|@json_encode}"
+                      data-slider-encoded-url="{$filter.nextEncodedFacetsURL}" data-slider-direction="{$language.is_rtl}"></div>
+
+                    <div class="js-faceted-values"></div>
+                  </div>
+                {/foreach}
+
+
+
+              {/block}
+            {/if}
+          </div>
+          {if !$smarty.foreach.facets.last}
+          <hr class="my-0">{/if}
+        </div>
+      {/foreach}
+
+      <div class="mt-4 col-md-4 text-center ">
+        <button class="btn btn-primary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters"
+          aria-expanded="true" aria-controls="collapseFilters">
+          + Plus de filtres
+        </button>
+      </div>
+
+      <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="collapseFilters">
+        <div class="accordion-body">
+
+          <div class="row accordion" id="facetAccordion">
+            {foreach from=$displayedFacets item="facet" name="facets"}
+              {if in_array($facet.widgetType, ['radio', 'checkbox'])}
+                <div class="col-md-4">
+                  <!-- Ajuste la largeur selon ton besoin -->
+                  <h4 class="facet-title">{$facet.label}</h4>
+                  <ul class="list-unstyled">
+                    {foreach from=$facet.filters key=filter_key item="filter"}
+                      {if !$filter.displayed} {continue} {/if}
+                      <li>
+                        <div class="form-check">
+                          <input class="form-check-input" id="facet_input_{$facet.label|escape:'htmlall':'UTF-8'}_{$filter_key}"
+                            data-search-url="{$filter.nextEncodedFacetsURL}"
+                            type="{if $facet.multipleSelectionAllowed}checkbox{else}radio{/if}" name="filter_{$facet.label}"
+                            {if $filter.active}checked{/if}>
+                          <label class="form-check-label"
+                            for="facet_input_{$facet.label|escape:'htmlall':'UTF-8'}_{$filter_key}">
+                            <a href="{$filter.nextEncodedFacetsURL}" class="search-link js-search-link" rel="nofollow">
+                              {$filter.label} {if $filter.magnitude and $show_quantities}({$filter.magnitude}){/if}
+                            </a>
+                          </label>
+                        </div>
+                      </li>
+                    {/foreach}
+                  </ul>
+                </div>
+              {/if}
+
+            {/foreach}
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+    {block name='facets_clearall_button'}
+      {if $activeFilters|count}
+        <div class="clear-all-wrapper w-100 order-2 order-md-2">
+          <button data-search-url="{$clear_all_link}"
+            class="btn border rounded-pill text-gray py-1 my-2 js-search-filters-clear-all">
+            {l s='Clear all' d='Shop.Theme.Actions'}
+          </button>
+        </div>
+      {/if}
+    {/block}
+
+  </div>
+{/if}
