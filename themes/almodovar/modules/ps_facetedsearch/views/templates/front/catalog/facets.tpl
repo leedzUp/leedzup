@@ -207,10 +207,10 @@
         </div>
       {/foreach}
 
-      <div class="mt-4 col-md-4 text-center ">
+      <div class="mt-4 text-center ">
         <button class="btn btn-primary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters"
           aria-expanded="true" aria-controls="collapseFilters">
-          + Plus de filtres
+          + plus de filtres
         </button>
       </div>
 
