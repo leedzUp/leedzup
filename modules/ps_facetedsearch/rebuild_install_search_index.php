@@ -43,11 +43,20 @@ switch ($action) {
         header('Content-Type: application/json');
         die(json_encode($response));
 
+    case 'indexFeatures':
+        Shop::setContext(Shop::CONTEXT_ALL);
+
+        $psFacetedsearch = new Ps_Facetedsearch();
+        $psFacetedsearch->indexFeatures();
+
+        header('Content-Type: application/json');
+        die(json_encode($response));
+
     case 'clearCache':
         $psFacetedsearch = new Ps_Facetedsearch();
         $this->ajaxRender($psFacetedsearch->invalidateLayeredFilterBlockCache());
         break;
-        
+
     case 'indexPrices':
         Shop::setContext(Shop::CONTEXT_ALL);
 
