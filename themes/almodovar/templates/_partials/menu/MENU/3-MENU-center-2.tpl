@@ -1,0 +1,1 @@
+<a href="/fr/blog"><span class="menu-item menu-item-right" id="menu-item-2">Actualité</span></a>

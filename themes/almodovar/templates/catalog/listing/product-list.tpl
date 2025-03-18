@@ -6,17 +6,20 @@
  {/block}
 
 {block name="content"}
-  
-  <div class="container mt-4">
+  {if $page.page_name == 'category'}
+
+  <div class="container  mt-4">
    {block name="product_list_top"}
           {include file="catalog/_partials/products-top.tpl" listing=$listing}
         {/block}
         {hook h="displayLeftColumn"}
-
-        {block name="product_list_active_filters"}
+         {block name="product_list_active_filters"}
           {$listing.rendered_active_filters nofilter}
         {/block}
-  </div>
+
+       
+</div>
+
 
   {if isset($smarty.get.simulation) && $smarty.get.simulation == 1}
     {* SIMULATION *}
@@ -46,4 +49,22 @@
 
         {include file=$category_id_tpl}
   {/if}
+
+{else}
+  <div class="container  mt-4">
+   {block name="product_list_top"}
+          {include file="catalog/_partials/products-top.tpl" listing=$listing}
+        {/block}
+        {hook h="displayLeftColumn"}
+       
+
+       
+</div>
+  <div class="container  mt-4">
+
+
+  {include file="catalog/_partials/products.tpl" listing=$listing_search}
+  </div>
+
+{/if}
 {/block}
