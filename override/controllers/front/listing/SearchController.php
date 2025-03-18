@@ -22,10 +22,18 @@ class SearchController extends SearchControllerCore
     {
         parent::init();
 
-        $this->location = Tools::getValue('location');
-        $this->property_type = Tools::getValue('property_type');
-        $this->min_surface = Tools::getValue('min_surface');
-        $this->max_price = Tools::getValue('max_price');
+        $location = trim(Tools::getValue('location', 'Espagne'));
+        $property_type = trim(Tools::getValue('property_type', 'Maison'));
+        $min_surface = (int) Tools::getValue('min_surface', 0);
+        $max_price = (int) Tools::getValue('max_price', 2000000);
+        
+        // Protection SQL uniquement sur les chaînes
+        $this->location = !empty($location) ? pSql($location) : 'Espagne';
+        $this->property_type = !empty($property_type) ? pSql($property_type) : 'Maison';
+        $this->min_surface = max(0, $min_surface);  // Empêche les valeurs négatives
+        $this->max_price = max(0, $max_price);      // Empêche les valeurs négatives
+
+
 
         // Assigner les variables au template
         $this->context->smarty->assign([
