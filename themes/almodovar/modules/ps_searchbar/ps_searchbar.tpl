@@ -52,8 +52,9 @@
      <div class="mt-1 mb-1 col-auto">
 
      <button type="submit" class="fs-5 btn text-white btn btn-transparent" style="
-        min-height: 68px;
-    min-width: 149px;
+         min-height: 68px;
+           min-width: 122px;
+    max-width: 149px;
 ">
        {l s='chercher' d='Shop.Theme.Catalog'}
      </button>
