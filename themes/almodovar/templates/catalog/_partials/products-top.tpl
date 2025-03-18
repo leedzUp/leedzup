@@ -6,11 +6,12 @@
   <div class="products-selections-filters row">
     <div class="col-lg-6 total-products order-2 order-lg-1 mt-4 mt-lg-0">
       {if $listing.pagination.total_items> 1}
-        <h1 class="fs-4">{$category.name} : {l s='%product_count%' d='Shop.Theme.Catalog' sprintf=['%product_count%' => $listing.pagination.total_items]} biens à vendre</h1>
+      <h1 class="fs-4">{if $page.page_name == 'category'}{$category.name}{elseif $page.page_name == 'search'}Recherche{/if}: {l s='%product_count%' d='Shop.Theme.Catalog' sprintf=['%product_count%' => $listing.pagination.total_items]} biens à vendre</h1>
       {elseif $listing.pagination.total_items> 0}
-        <h1>{$category.name} : {l s='1' d='Shop.Theme.Catalog'} bien à vendre</h1>
+        <h1>{if $page.page_name == 'category'}{$category.name}{elseif $page.page_name == 'search'}Recherche{/if}: {l s='1' d='Shop.Theme.Catalog'} bien à vendre</h1>
       {/if}
     </div>
+
 
     <div class="col-lg-6 order-1 order-lg-2">
       <div class="d-flex align-items-center justify-content-md-end sort-by-row">
@@ -19,12 +20,13 @@
         {if !empty($listing.rendered_facets)}
           <div class="col-4 d-block d-md-none filter-button">
             <button id="search_filter_toggler" class="btn btn-outline-primary btn-with-icon w-100 js-search-toggler" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-faceted">
-              <i class="material-icons" aria-hidden="true">filter_list</i>
               {l s='Filter' d='Shop.Theme.Actions'}
             </button>
           </div>
         {/if}
       </div>
     </div>
+
+
   </div>
 </div>
