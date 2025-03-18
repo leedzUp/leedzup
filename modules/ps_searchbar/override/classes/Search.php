@@ -1,14 +1,17 @@
 <?php
-
 class Search extends SearchCore
 {
-
-        public static function find(
+        /*
+    * module: ps_searchbar
+    * date: 2025-03-17 17:26:07
+    * version: 2.1.3
+    */
+    public static function find(
             $id_lang,
             $expr,
             $page_number = 1,
             $page_size = 1,
-            $order_by = 'position',
+            $order_by = 'id_product',
             $order_way = 'desc',
             $ajax = false,
             $use_cookie = true,
@@ -21,7 +24,6 @@ class Search extends SearchCore
     
             $db = Db::getInstance(_PS_USE_SQL_SLAVE_);
     
-            // Initialisation des paramètres de pagination
             if (empty($page_number)) {
                 $page_number = 1;
             }
@@ -35,28 +37,40 @@ class Search extends SearchCore
     
             $foundProductIds = [];
     
-            // Traitement des facettes (si présentes)
             $facetConditions = [];
+
+
+
+            //dump($encodedFacets);
+            // "{"controller":"search","location":"espagne","property_type":"","min_surface":"","max_price":"100","isolang":"fr","id_lang":3}"
+            //die();
             if (!empty($encodedFacets)) {
                 $decodedFacets = json_decode($encodedFacets, true);
                 if (is_array($decodedFacets)) {
                     foreach ($decodedFacets as $facet => $values) {
                         if (!empty($values)) {
-                            if ($facet === 'price') {
+                            if ($facet === 'max_price') {
                                 $facetConditions[] = "product_shop.price <= " . (float) $values;
-                            } elseif ($facet === 'surface') {
+                            } elseif ($facet === 'min_surface') {
                                 $facetConditions[] = "p.surface >= " . (int) $values;
-                            } elseif ($facet === 'location') {
-                                $facetConditions[] = "p.location IN ('" . implode("','", array_map('pSQL', $values)) . "')";
-                            } elseif ($facet === 'type') {
-                                $facetConditions[] = "p.type IN ('" . implode("','", array_map('pSQL', $values)) . "')";
-                            }
+                            } /*elseif ($facet === 'location' && is_array($values)) { // Vérifier si c'est un tableau
+                                $safeValues = array_map('pSQL', $values);
+                                if (!empty($safeValues)) {
+                                    $facetConditions[] = "p.location IN ('" . implode("','", $safeValues) . "')";
+                                }
+                            } elseif ($facet === 'type' && is_array($values)) { // Vérifier si c'est un tableau
+                                $safeValues = array_map('pSQL', $values);
+                                if (!empty($safeValues)) {
+                                    $facetConditions[] = "p.type IN ('" . implode("','", $safeValues) . "')";
+                                }
+                            }*/
                         }
                     }
                 }
             }
+
+           
     
-            // Requête de recherche textuelle si une expression est fournie
             if (!empty($expr)) {
                 $expressions = explode(';', $expr);
                 foreach ($expressions as $expression) {
@@ -80,10 +94,9 @@ class Search extends SearchCore
                 }
             }
     
-            // Suppression des doublons
             $foundProductIds = array_unique($foundProductIds);
-    
-            // Application des facettes seules si aucune recherche textuelle
+
+            
             if (empty($expr) && !empty($facetConditions)) {
                 $facetSql = "SELECT p.id_product FROM " . _DB_PREFIX_ . "product p
                              INNER JOIN " . _DB_PREFIX_ . "product_shop product_shop 
@@ -94,34 +107,32 @@ class Search extends SearchCore
                     $foundProductIds = array_column($result, 'id_product');
                 }
             }
+
     
-            // Si aucun produit trouvé, retour vide
             if (empty($foundProductIds)) {
                 return $ajax ? [] : ['total' => 0, 'result' => []];
             }
     
-            // Requête finale avec tri et pagination
             $product_pool = ' IN (' . implode(',', $foundProductIds) . ') ';
-            $sql = 'SELECT p.*, product_shop.*, stock.out_of_stock, IFNULL(stock.quantity, 0) as quantity,
+            $sql = 'SELECT p.*, product_shop.*,
                     pl.description_short, pl.available_now, pl.available_later, pl.link_rewrite, pl.name,
-                    image_shop.id_image, il.legend, m.name manufacturer_name
+                    image_shop.id_image, il.legend
                     FROM ' . _DB_PREFIX_ . 'product p
                     INNER JOIN ' . _DB_PREFIX_ . 'product_lang pl 
                     ON p.id_product = pl.id_product AND pl.id_lang = ' . (int) $id_lang . Shop::addSqlRestrictionOnLang('pl') . '
                     ' . Shop::addSqlAssociation('product', 'p') . '
-                    LEFT JOIN ' . _DB_PREFIX_ . 'manufacturer m 
-                    ON m.id_manufacturer = p.id_manufacturer
                     LEFT JOIN ' . _DB_PREFIX_ . 'image_shop image_shop 
                     ON image_shop.id_product = p.id_product AND image_shop.cover=1 AND image_shop.id_shop=' . (int) $context->shop->id . '
                     LEFT JOIN ' . _DB_PREFIX_ . 'image_lang il 
                     ON image_shop.id_image = il.id_image AND il.id_lang = ' . (int) $id_lang . '
                     WHERE p.id_product ' . $product_pool . '
-                    ORDER BY ' . pSQL($order_by) . ' ' . pSQL($order_way) . '
+                    ORDER BY p.id_product DESC
                     LIMIT ' . (int) (($page_number - 1) * $page_size) . ', ' . (int) $page_size;
     
-            $result = $db->executeS($sql, true, false);
+            $result = $db->executeS($sql);
+
+            
     
-            // Récupération du nombre total de résultats
             $total = count($foundProductIds);
     
             return ['total' => $total, 'result' => $result];

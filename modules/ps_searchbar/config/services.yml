@@ -1,0 +1,6 @@
+services:
+  ps_searchbar.search_provider:
+    class: 'Ps_Searchbar\Search\SearchProductSearchProviderOverride'
+    public: true
+    arguments:
+      - '@translator'
