@@ -68,6 +68,10 @@ switch ($action) {
         }
 
         break;
+    
+    case 'indexProductsSearch':
+        
+        Search::indexation(1);
 
     default:
         header('HTTP/1.1 403 Forbidden');
