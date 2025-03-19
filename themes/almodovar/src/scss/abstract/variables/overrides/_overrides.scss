@@ -32,8 +32,11 @@ $modal-xl: 1280px; // Utilisez cette variable pour définir la largeur
 $link-color: $primary;
 $link-hover-color: darken($primary, 10%);
 
+#footer {
+  margin-top: 5rem;
+}
 .bg-lightgray {
-  background-color: #f5f5f5;
+  background-color: #efefef;
 }
 .form-check-label {
   font-size: 1rem;
