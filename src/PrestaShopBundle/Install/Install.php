@@ -909,7 +909,7 @@ class Install extends AbstractInstall
     /**
      * Get all modules present on the disk
      */
-    public function getModulesOnDisk(): array
+   /* public function getModulesOnDisk(): array
     {
         $modulesOnDisk = (new Finder())->directories()->depth('== 0')->in(_PS_MODULE_DIR_);
 
@@ -930,6 +930,18 @@ class Install extends AbstractInstall
 
                 $modules[$module->getFileName()] = $moduleData;
             }
+        }
+
+        return $modules;
+    }*/
+
+    public function getAllModulesFromDisk(): array
+    {
+        $modulesOnDisk = (new Finder())->directories()->depth('== 0')->in(_PS_MODULE_DIR_);
+
+        $modules = [];
+        foreach ($modulesOnDisk as $module) {
+            $modules[] = $module->getFileName(); // Récupérer simplement le nom du dossier du module
         }
 
         return $modules;

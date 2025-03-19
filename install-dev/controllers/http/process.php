@@ -97,12 +97,13 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
             } elseif (Tools::getValue('configureShop') && !empty($this->session->process_validated['populateDatabase'])) {
                 Language::getRtlStylesheetProcessor()
                     ->setLanguageCode($this->session->lang)
-                    ->setProcessFOThemes(['classic'])
+                    ->setProcessFOThemes(['almodovar'])
                     ->process();
                 $this->processConfigureShop();
             } elseif (Tools::getValue('installTheme') && !empty($this->session->process_validated['configureShop'])) {
                 $this->processInstallTheme();
-            } elseif (Tools::getValue('installModules') && (!empty($this->session->process_validated['installTheme']) || !$validateFixturesInstallation)) {
+           // } elseif (Tools::getValue('installModules') && (!empty($this->session->process_validated['installTheme']) || !$validateFixturesInstallation)) {
+            } elseif (Tools::getValue('installModules')) {
                 $this->processInstallModules();
             } elseif (Tools::getValue('installFixtures') && !empty($this->session->process_validated['installModules'])) {
                 $this->processInstallFixtures();
