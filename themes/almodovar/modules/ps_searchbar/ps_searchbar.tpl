@@ -4,9 +4,9 @@
  <div class="search-widgets js-search-widget mt-5" data-search-controller-url="{$search_controller_url}">
  <h1 class="title text-center mb-5 text-white text-shadow" style="text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);font-size: 66px;
 ">L’immobilier à Alicante, c’est ici !</h1>
-   <form class="mx-auto w-75" style="max-width: 973px;" method="get" action="{$search_controller_url}">
+   <form class="pt-3 mx-auto w-75" style="max-width: 973px;" method="get" action="{$search_controller_url}">
      <input type="hidden" name="controller" value="search">
-     <div class="pt-3 bg-white rounded-pill ps-5 d-flex flex-wrap align-items-center gap-2">
+     <div class="bg-white rounded-pill ps-5 d-flex flex-wrap align-items-center gap-2">
      <!-- Localisation -->
      <div class="mt-1 mb-1 col-4 border-end">
        <label for="search-location" class="form-label">{l s='Localisation' d='Shop.Theme.Catalog'}</label>
