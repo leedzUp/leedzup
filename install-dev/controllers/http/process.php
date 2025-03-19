@@ -236,11 +236,28 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
      * PROCESS : installModules
      * Install all modules in ~/modules/ directory
      */
-    public function processInstallModules()
+    /*public function processInstallModules()
     {
         $this->initializeContext();
 
         $result = $this->model_install->installModules($this->session->content_modules);
+        if (!$result || $this->model_install->getErrors()) {
+            $this->ajaxJsonAnswer(false, $this->model_install->getErrors());
+        }
+
+        $this->session->process_validated = array_merge($this->session->process_validated, ['installModules' => true]);
+        $this->ajaxJsonAnswer(true);
+    }*/
+    public function processInstallModules()
+    {
+        $this->initializeContext();
+
+        // Récupérer tous les modules présents sur le disque
+        $modules = array_keys($this->model_install->getModulesOnDisk());
+
+        // Installer tous les modules détectés
+        $result = $this->model_install->installModules($modules);
+
         if (!$result || $this->model_install->getErrors()) {
             $this->ajaxJsonAnswer(false, $this->model_install->getErrors());
         }
