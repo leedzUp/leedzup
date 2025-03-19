@@ -105,7 +105,6 @@ $link-hover-color: darken($primary, 10%);
   a {
     color: rgb(25, 25, 25); // Couleur des liens
     font-weight: bold;
-    text-transform: uppercase;
     position: relative; // Nécessaire pour positionner le ::after
 
     &::after {
