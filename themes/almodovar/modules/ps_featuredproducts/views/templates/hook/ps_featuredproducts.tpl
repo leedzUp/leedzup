@@ -11,7 +11,7 @@
   </div>
 
   <div class="featured-products-footer text-center">
-    <a class="all-product-link btn btn-outline-primary btn-large rounded-pill" href="{$allProductsLink}">
+    <a class="all-product-link btn btn-outline-primary btn-large rounded-pill fs-5" href="{$allProductsLink}">
       {l s='See more' d='Shop.Theme.Catalog'}
     </a>
   </div>
