@@ -1,9 +1,8 @@
 
-<div class="d-flex align-items-center" style="background:url('/modules/code_buildhomepage/uploads/block/2.webp?20250304144634') no-repeat center center; background-size: cover; height: 100vh; width: 100%;">  
- <div class="container">
- <div class="search-widgets js-search-widget" data-search-controller-url="{$search_controller_url}">
- <h1 class="title text-center mb-5 text-white text-shadow" style="    text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);
-    font-size: 66px;
+<div class="d-flex mt-5" style="background:url('/modules/code_buildhomepage/uploads/block/2.webp?20250304144634') no-repeat center center; background-size: cover; height: 100vh; width: 100%;">  
+ <div class="container mt-5">
+ <div class="search-widgets js-search-widget mt-5" data-search-controller-url="{$search_controller_url}">
+ <h1 class="title text-center mb-5 text-white text-shadow" style="text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);font-size: 66px;
 ">L’immobilier à Alicante, c’est ici !</h1>
    <form class="mx-auto w-75" style="max-width: 972px;" method="get" action="{$search_controller_url}">
      <input type="hidden" name="controller" value="search">
