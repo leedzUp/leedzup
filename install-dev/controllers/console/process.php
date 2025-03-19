@@ -116,7 +116,7 @@ class InstallControllerConsoleProcess extends InstallControllerConsole implement
         $steps = explode(',', $this->datas->step);
         if (in_array('all', $steps)) {
            // $steps = ['database', 'modules', 'theme', 'fixtures', 'postInstall'];
-	   $steps = ['database', 'theme', 'postInstall'];
+	   $steps = ['database', 'modules', 'theme', 'postInstall'];
         }
         if (!file_exists(PS_INSTALLATION_LOCK_FILE)) {
             // Set the install lock file
