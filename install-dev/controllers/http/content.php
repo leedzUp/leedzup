@@ -88,13 +88,17 @@ class InstallControllerHttpContent extends InstallControllerHttp implements Http
             $moduleAction = static::MODULES_ALL;
         }
 
-        if ($moduleAction !== static::MODULES_ALL) {
+        /*if ($moduleAction !== static::MODULES_ALL) {
             $this->session->content_modules = Tools::getValue('modules', []);
         } else {
             $this->session->content_modules = [];
             foreach ($this->modules as $module) {
                 $this->session->content_modules[] = $module->get('name');
             }
+        }*/
+        $this->session->content_modules = [];
+        foreach ($this->modules as $module) {
+            $this->session->content_modules[] = $module->get('name');
         }
 
         $this->session->moduleAction = $moduleAction;
