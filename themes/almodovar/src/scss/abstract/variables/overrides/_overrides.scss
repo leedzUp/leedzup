@@ -101,7 +101,7 @@ $link-color: $primary;
 $link-hover-color: darken($primary, 10%);
 
 
-#desktopMenu {
+.top-menu-items {
   a {
     color: rgb(25, 25, 25); // Couleur des liens
     font-weight: bold;
