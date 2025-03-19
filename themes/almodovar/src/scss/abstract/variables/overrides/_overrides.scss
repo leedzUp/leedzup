@@ -1,4 +1,16 @@
 // Bootstrap variables, maps overrides
+
+// Vérifier si $theme-colors existe, sinon l'initialiser
+$theme-colors: if(global-variable-exists(theme-colors), $theme-colors, ());
+
+// Ajouter la nouvelle couleur
+$theme-colors: map-merge(
+  $theme-colors,
+  (
+    "lightgray": #d3d3d3
+  )
+);
+
 // Breakpoints
 $container-max-widths: (
   sm: 540px,
@@ -16,6 +28,7 @@ $carousel-transition-duration: 0.25s;
 // Changer la couleur des liens Bootstrap
 
 $primary: #D23836;
+
 
 $modal-padding: 0;
 :root {
