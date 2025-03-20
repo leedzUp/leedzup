@@ -112,7 +112,7 @@
         
           <div class="{$componentName}__infos__top">
             {block name='product_name'}
-              <a href="{$product.url}"><p class="{$componentName}__title">{$product.name}</p></a>
+              <a href="{$product.url}"><p class="fs-5 {$componentName}__title">{$product.name}</p></a>
             {/block}
             {hook h="displayProductFeatures" product=$product}
           </div>
