@@ -59,11 +59,5 @@ INSERT INTO `PREFIX_configuration` (`name`, `value`, `id_shop_group`, `id_shop`,
 VALUES ('PS_ROUTE_cms_category_rule', 'category/{rewrite}-{id}', NULL, NULL, NOW(), NOW())
 ON DUPLICATE KEY UPDATE `value` = 'category/{rewrite}-{id}', `date_upd` = NOW();
 
-/* Autres configurations */
-UPDATE `PREFIX_lang` SET `id_lang` = 1 WHERE `iso_code` = 'en';
-UPDATE `PREFIX_lang` SET `id_lang` = 2 WHERE `iso_code` = 'es';
-UPDATE `PREFIX_lang` SET `id_lang` = 3 WHERE `iso_code` = 'fr';
-UPDATE `PREFIX_lang` SET `id_lang` = 4 WHERE `iso_code` = 'de';
-UPDATE `PREFIX_lang` SET `id_lang` = 5 WHERE `iso_code` = 'nl';
-UPDATE `PREFIX_lang` SET `id_lang` = 6 WHERE `iso_code` = 'pl';
+
 
