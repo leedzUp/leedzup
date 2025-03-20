@@ -1123,13 +1123,7 @@ class Install extends AbstractInstall
         foreach (EntityLanguage::getLanguages(false) as $lang) {
             $languages[$lang['id_lang']] = $lang['iso_code'];
         }
-        $languages = [
-            1 => 'en', // Anglais
-            2 => 'es', // Espagnol
-            3 => 'fr', // Français
-            4 => 'de', // Allemand
-            5 => 'nl', // Néerlandais
-        ];
+       
         $xml_loader->setLanguages($languages);
 
         if ($entity) {
