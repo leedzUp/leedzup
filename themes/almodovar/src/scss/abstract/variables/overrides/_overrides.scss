@@ -179,3 +179,8 @@ $link-hover-color: darken($primary, 10%);
   width: 100%;
   height: 250px;
 }
+
+/* Appliquer la police Nexa à tout le site */
+body {
+  font-family: "Nexa", Arial, sans-serif;
+}
