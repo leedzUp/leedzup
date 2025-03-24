@@ -11,7 +11,7 @@
      <div class="mt-1 mb-1 col-4 border-end">
        <label for="search-location" class="form-label">{l s='Localisation' d='Shop.Theme.Almodovar'}</label>
        <input id="search-location" class="form-control border-0 p-0 shadow-none" type="text" name="location" 
-         placeholder="{l s='Région, Département, Ville...' d='Shop.Theme.Almodovar'}" 
+         placeholder="{l s='Region, Department, City...' d='Shop.Theme.Almodovar'}" 
          aria-label="{l s='Search' d='Shop.Theme.Almodovar'}">
      </div>
 
