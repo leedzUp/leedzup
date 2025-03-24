@@ -54,7 +54,7 @@ switch ($action) {
 
     case 'clearCache':
         $psFacetedsearch = new Ps_Facetedsearch();
-        $this->ajaxRender($psFacetedsearch->invalidateLayeredFilterBlockCache());
+        $psFacetedsearch->ajaxRender($psFacetedsearch->invalidateLayeredFilterBlockCache());
         break;
 
     case 'indexPrices':
@@ -62,9 +62,9 @@ switch ($action) {
 
         $module = new Ps_Facetedsearch();
         if (Tools::getValue('full')) {
-            $this->ajaxRender($module->fullPricesIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax'), true));
+            $module->ajaxRender($module->fullPricesIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax'), true));
         } else {
-            $this->ajaxRender($module->pricesIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax')));
+            $module->ajaxRender($module->pricesIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax')));
         }
 
         break;
