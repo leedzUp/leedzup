@@ -66,7 +66,7 @@ class Ps_FeaturedProducts extends Module implements WidgetInterface
         $this->_clearCache('*');
 
         Configuration::updateValue('HOME_FEATURED_NBR', 3);
-        Configuration::updateValue('HOME_FEATURED_CAT', 5);
+        Configuration::updateValue('HOME_FEATURED_CAT', 12);
         Configuration::updateValue('HOME_FEATURED_RANDOMIZE', false);
 
         return parent::install()
