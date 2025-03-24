@@ -16,7 +16,7 @@
           {if $facet.widgetType == 'slider'}
 
             <span class="{$componentName}-subtitle facet-title">
-              {$facet.label}
+              {if $facet.label == "Surface"}{l s='Surface' d='Shop.Theme.Almodovar'}{elseif $facet.label == "Room"}{l s='Room' d='Shop.Theme.Almodovar'}{else}{$facet.label}{/if}
             </span>
           {/if}
           <div id="facet_{$_expand_id}">
@@ -209,7 +209,7 @@
       <div class="mt-4 mb-4 text-center ">
         <button class="btn btn-primary btn-xs" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters"
           aria-expanded="true" aria-controls="collapseFilters">
-          + plus de filtres
+          + {l s='more filters' d='Shop.Theme.Almodovar'}
         </button>
       </div>
 
@@ -243,23 +243,10 @@
                   </ul>
                 </div>
               {/if}
-
             {/foreach}
           </div>
-
-
-
-
-
         </div>
       </div>
-
-
     </div>
-
-
-
-    
-
   </div>
 {/if}
