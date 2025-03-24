@@ -11,7 +11,7 @@
      <div class="mt-1 mb-1 col-4 border-end">
        <label for="search-location" class="form-label">{l s='Localisation' d='Shop.Theme.Almodovar'}</label>
        <input id="search-location" class="form-control border-0 p-0 shadow-none" type="text" name="location" 
-         placeholder="{l s='Region, Department, City...' d='Shop.Theme.Almodovar'}" 
+         placeholder="{l s='Region Department City' d='Shop.Theme.Almodovar'}" 
          aria-label="{l s='Search' d='Shop.Theme.Almodovar'}">
      </div>
 
@@ -19,7 +19,7 @@
      <div class="mt-1 mb-1 col-2 border-end">
        <label for="property-type" class="form-label">{l s='Property type' d='Shop.Theme.Almodovar'}</label>
        <select id="property-type" class="form-select border-0 p-0 shadow-none" name="property_type">
-         <option value="">{l s='To choose...' d='Shop.Theme.Almodovar'}</option>
+         <option value="">{l s='To choose' d='Shop.Theme.Almodovar'}</option>
          {foreach from=$property_types item=type}
            <option value="{$type.id_feature}">{$type.name}</option>
          {/foreach}
