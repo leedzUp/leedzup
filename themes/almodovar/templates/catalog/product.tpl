@@ -134,7 +134,7 @@
             {hook h='displayAfterProductThumbs' product=$product}
 
             <h2 class="info__title fs-3 mt-4">
-            {l s='Localisation' d='Shop.Theme.Almodovar'}
+            {l s='Localisation' d='Shop.Theme.Almodovar'}:
             </h2>
             <div class="row">
               <div class="info__content mb-4 col-md-4">
