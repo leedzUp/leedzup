@@ -232,7 +232,7 @@
                     {l s='feat_nombre_de_chambres' d='Shop.Theme.Almodovar'}
                   {elseif $facet.label == "feat_nombre_de_salle_de_bain"}
                     {l s='feat_nombre_de_salle_de_bain' d='Shop.Theme.Almodovar'}
-                  {else}{$facet.label}{/if}
+                  {else}{$facet.label|upper}{/if}
                   </h2>
                   <ul class="list-unstyled">
                     {foreach from=$facet.filters key=filter_key item="filter"}
@@ -257,13 +257,14 @@
               {/if}
             {/foreach}
             <div class="row">
+            <h2 class="facet-title">
+            {l s='feat_installation' d='Shop.Theme.Almodovar'}
+            </h2>
           {foreach from=$displayedFacets item="facet" name="facets"}
             {if in_array($facet.label, ['feat_climatisation', 'feat_garage', 'feat_piscine']) && in_array($facet.widgetType, ['radio', 'checkbox'])}
               <div class="col-md-4">
                 <!-- Ajuste la largeur selon ton besoin -->
-                <h2 class="facet-title">
-                {l s='feat_installation' d='Shop.Theme.Almodovar'}
-                </h2>
+               
                 <ul class="list-unstyled">
                   {foreach from=$facet.filters key=filter_key item="filter"}
                     {if !$filter.displayed} {continue} {/if}
@@ -277,7 +278,14 @@
                         <label class="form-check-label"
                           for="facet_input_{$facet.label|escape:'htmlall':'UTF-8'}_{$filter_key}">
                           <a href="{$filter.nextEncodedFacetsURL}" class="search-link js-search-link" rel="nofollow">
-                            {$facet.label} {if $filter.magnitude and $show_quantities}({$filter.magnitude}){/if}
+                          {if $facet.label == "feat_climatisation"}
+                            {l s='feat_climatisation' d='Shop.Theme.Almodovar'}
+                          {elseif $facet.label == "feat_garage"}
+                            {l s='feat_garage' d='Shop.Theme.Almodovar'}
+                          {elseif $facet.label == "feat_piscine"}
+                            {l s='feat_piscine' d='Shop.Theme.Almodovar'}
+                          {/if}
+                        {if $filter.magnitude and $show_quantities}({$filter.magnitude}){/if}
                           </a>
                         </label>
                       </div>
