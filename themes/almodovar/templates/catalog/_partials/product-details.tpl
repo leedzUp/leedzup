@@ -5,7 +5,7 @@
   data-product="{$product.embedded_attributes|json_encode}"
 >
   <h2 class="info__title fs-3" id="product-details-heading">
-      {l s='Détails:' d='Shop.Theme.Catalog'}
+      {l s='Details' d='Shop.Theme.Almodovar'}:
   </h2>
   <div id="product-details" class="info__content">
     <div>
@@ -74,7 +74,7 @@
 
         {* if product have specific references, a table will be added to product details section *}
         {block name='product_condition'}
-          {if $product.condition}
+         {* {if $product.condition}
             <li class="detail">
               <div class="detail__left">
                 <span class="detail__title">{l s='Condition' d='Shop.Theme.Catalog'}</span>
@@ -84,7 +84,7 @@
                 <span>{$product.condition.label}</span>
               </div>
             </li>
-          {/if}
+          {/if}*}
         {/block}
 
         {block name='product_specific_references'}

@@ -116,10 +116,11 @@
             {/block}
             {hook h="displayProductFeatures" product=$product}
           </div>
-
+          {if $page.page_name == 'category'}
           <div class="{$componentName}__infos__bottom  d-flex justify-content-end">
               {widget name="code_childleadsform" product=$product}
           </div>
+          {/if}
         </div>
       {/block}
     </div>
