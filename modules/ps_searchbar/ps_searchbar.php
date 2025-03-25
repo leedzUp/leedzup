@@ -98,8 +98,26 @@ class Ps_Searchbar extends Module implements WidgetInterface
 
     public function getWidgetVariables($hookName, array $configuration = [])
     {
+        $id_lang = $this->context->language->id; // Corrige ici : un seul "=" pour affectation
+
+        // On récupère les caractéristiques "Type de bien"
+        $features = Feature::getFeatures($id_lang);
+
+       
+        $feat_type_de_bien = [];
+        foreach ($features as $feature) {
+            if ($feature['name'] === 'feat_type_du_bien') { // Remplace par le nom exact de la caractéristique
+                // Récupération des valeurs de cette caractéristique
+                $feat_type_de_bien = FeatureValue::getFeatureValuesWithLang($id_lang, $feature['id_feature']);
+                break;
+            }
+        }
+
+        
+
         $widgetVariables = [
             'search_controller_url' => $this->context->link->getPageLink('search', null, null, null, false, null, true),
+            'properties_types' => $feat_type_de_bien,
         ];
 
         /** @var array $templateVars */
