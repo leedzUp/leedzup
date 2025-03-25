@@ -42,7 +42,6 @@
 
         {block name='product_features'}
           {if $product.grouped_features}
-
             <div class="mt-4 info" id="product-features">
               <h2 class="info__title fs-3" id="product-details-heading">
                 {l s='Features' d='Shop.Theme.Almodovar'}:
@@ -50,53 +49,31 @@
               <div class="info__content">
                 <div class="row">
                   {assign var="allowed_features" value=[
-                                'feat_type_du_bien', 'feat_ville', 'feat_surface_habitable', 'feat_superficie_du_terrain',
-                                'feat_ascenseur', 'feat_acces_handicape', 'feat_cave', 'feat_climatisation',
-                                'feat_etage', 'feat_garage', 'feat_jardin', 'feat_piscine',
-                                'feat_nombre_de_chambres', 'feat_nombre_de_salle_de_bain', 'feat_parking',
-                                'feat_quartier', 'feat_region', 'feat_pays'
-                              ]}
-
-                  {assign var="feature_labels" value=[
-                                'feat_type_du_bien' => 'Type de bien',
-                                'feat_ville' => 'Ville',
-                                'feat_surface_habitable' => 'Surface hab.',
-                                'feat_superficie_du_terrain' => 'Superficie terrain',
-                                'feat_ascenseur' => 'Ascenseur',
-                                'feat_acces_handicape' => 'Accès handicapé',
-                                'feat_cave' => 'Cave',
-                                'feat_climatisation' => 'Climatisation',
-                                'feat_etage' => 'Étage',
-                                'feat_garage' => 'Garage',
-                                'feat_jardin' => 'Jardin',
-                                'feat_piscine' => 'Piscine',
-                                'feat_nombre_de_chambres' => 'Nb chambres',
-                                'feat_nombre_de_salle_de_bain' => 'Nb salles de bain',
-                                'feat_parking' => 'Parking',
-                                'feat_quartier' => 'Quartier',
-                                'feat_region' => 'Région',
-                                'feat_pays' => 'Pays'
-                              ]}
-
-
+                    'feat_type_du_bien', 'feat_ville', 'feat_surface_habitable', 'feat_superficie_du_terrain',
+                    'feat_ascenseur', 'feat_acces_handicape', 'feat_cave', 'feat_climatisation',
+                    'feat_etage', 'feat_garage', 'feat_jardin', 'feat_piscine',
+                    'feat_nombre_de_chambres', 'feat_nombre_de_salle_de_bain', 'feat_parking',
+                    'feat_quartier', 'feat_region', 'feat_pays'
+                  ]}
+        
                   {foreach from=$product.grouped_features item=feature key=featureKey}
                     {assign var="featureValue" value=$feature.value}
-
+        
                     {if in_array($featureKey, $allowed_features) && $featureValue !== "Non" && $featureValue !== "0" && ($featureValue == "Oui" || $featureValue|floatval > 0)}
                       <div class="col-12 col-md-4 mb-3">
                         <div class="detail">
                           <div class="detail__left">
                             <span class="detail__title fw-bold">
-                              {$feature_labels[$featureKey]}
-
+                              {l s=$featureKey d='Shop.Theme.Almodovar'}
                             </span>
                           </div>
                           <div class="detail__right">
                             <span>
                               {if $featureValue != "Oui"}
                                 {$featureValue}
-                                {if $feature_labels[$featureKey] == "Surface hab." || $feature_labels[$featureKey] == "Superficie terrain"}
-                                m²{/if}
+                                {if $featureKey == 'feat_surface_habitable' || $featureKey == 'feat_superficie_du_terrain'}
+                                  m²
+                                {/if}
                               {/if}
                             </span>
                           </div>
@@ -109,6 +86,7 @@
             </div>
           {/if}
         {/block}
+        
 
         {* SECOND PART - REASSURANCE, TABS *}
 
