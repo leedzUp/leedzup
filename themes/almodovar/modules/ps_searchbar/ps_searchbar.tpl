@@ -15,15 +15,22 @@
          aria-label="{l s='Search' d='Shop.Theme.Almodovar'}">
      </div>
 
-     <!-- Type de bien -->
-     <div class="mt-1 mb-1 col-2 border-end">
+       <!-- Type de bien -->
+       <div class="mt-1 mb-1 col-2 border-end">
        <label for="property-type" class="form-label">{l s='Property type' d='Shop.Theme.Almodovar'}</label>
-       <select id="property-type" class="form-select border-0 p-0 shadow-none" name="property_type">
-         <option value="">{l s='To choose' d='Shop.Theme.Almodovar'}</option>
-         {foreach from=$property_types item=type}
-           <option value="{$type.id_feature}">{$type.name}</option>
-         {/foreach}
-       </select>
+       
+ 
+       {if isset($properties_types) && $properties_types|@count > 0}
+        <select class="form-select border-0 p-0 shadow-none" name="property_type">
+            <option value="">{l s='To choose' d='Shop.Theme.Almodovar'}...</option>
+            {foreach from=$properties_types item=type}
+                <option value="{$type.value}">{$type.value}</option>
+            {/foreach}
+        </select>
+        {else}
+            <p>Aucun type de bien trouvé.</p>
+        {/if}
+ 
      </div>
 
      <!-- Surface minimale -->
