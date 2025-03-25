@@ -45,7 +45,7 @@
 
             <div class="mt-4 info" id="product-features">
               <h2 class="info__title fs-3" id="product-details-heading">
-                {l s='Caractéristiques:' d='Shop.Theme.Catalog'}
+                {l s='Features' d='Shop.Theme.Almodovar'}:
               </h2>
               <div class="info__content">
                 <div class="row">
@@ -110,8 +110,6 @@
           {/if}
         {/block}
 
-
-
         {* SECOND PART - REASSURANCE, TABS *}
 
         {block name='product_tabs'}
@@ -121,8 +119,7 @@
               {if $product.description}
                 <div class="info" id="description">
                   <h2 class="info__title fs-3" id="product-description-heading">
-
-                    {l s='Description:' d='Shop.Theme.Catalog'}
+                    {l s='Description' d='Shop.Theme.Almodovar'}:
                   </h2>
                   <div id="product-description" class="info__content" data-bs-parent="#product-infos-accordion"
                     aria-labelledby="product-description-heading">
@@ -136,7 +133,7 @@
 
             {block name='product_images'}
               <h2 class="info__title fs-5 mt-4" id="product-description-heading">
-                {l s='+ de photos' d='Shop.Theme.Catalog'}
+              + {l s='more photos' d='Shop.Theme.Almodovar'}
               </h2>
               <div class="thumbnails__container">
                 <ul class="thumbnails__list row g-2">
@@ -159,7 +156,7 @@
             {hook h='displayAfterProductThumbs' product=$product}
 
             <h2 class="info__title fs-3 mt-4">
-              {l s='Localisation:' d='Shop.Theme.Catalog'}
+            {l s='Localisation' d='Shop.Theme.Almodovar'}
             </h2>
             <div class="row">
               <div class="info__content mb-4 col-md-4">
@@ -167,7 +164,7 @@
                   {if $featureKey == 'feat_region'}
                     <div class="mb-2">
                       <span class="fw-bold">
-                        {l s='Région' d='Shop.Theme.Catalog'}:
+                      {l s='Region' d='Shop.Theme.Almodovar'}
                       </span>
                       <span>
                         {$feature.value}
@@ -177,7 +174,7 @@
                   {if $featureKey == 'feat_departement'}
                     <div class="mb-2">
                       <span class=" fw-bold">
-                        {l s='Province' d='Shop.Theme.Catalog'}:
+                        {l s='Province' d='Shop.Theme.Almodovar'}:
                       </span>
                       <span>
                         {$feature.value}
@@ -187,7 +184,7 @@
                   {if $featureKey == 'feat_ville'}
                     <div class="mb-2">
                       <span class=" fw-bold">
-                        {l s='Ville' d='Shop.Theme.Catalog'}:
+                        {l s='City' d='Shop.Theme.Almodovar'}:
                       </span>
                       <span>
                         {$feature.value}
@@ -197,7 +194,7 @@
                   {if $featureKey == 'feat_pays'}
                     <div class="mb-2">
                       <span class=" fw-bold">
-                        {l s='Pays' d='Shop.Theme.Catalog'}:
+                        {l s='Country' d='Shop.Theme.Almodovar'}:
                       </span>
                       <span>
                         {$feature.value}
@@ -207,7 +204,7 @@
                   {if $featureKey == 'feat_quartier'}
                     <div class="mb-2">
                       <span class=" fw-bold">
-                        {l s='Quartier' d='Shop.Theme.Catalog'}:
+                        {l s='Neighbourhood' d='Shop.Theme.Almodovar'}:
                       </span>
                       <span>
                         {$feature.value}
@@ -217,7 +214,7 @@
                   {if $featureKey == 'feat_address'}
                     <div class="mb-2">
                       <span class=" fw-bold">
-                        {l s='Adresse' d='Shop.Theme.Catalog'}:
+                        {l s='Address' d='Shop.Theme.Almodovar'}:
                       </span>
                       <span>
                         {$feature.value}

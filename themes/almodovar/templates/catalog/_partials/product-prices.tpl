@@ -7,8 +7,7 @@
       <h2 class="fs-5"> 
               {if $product.grouped_features['feat_type_du_bien']}{$product.grouped_features['feat_type_du_bien'].value}{/if} 
               {if $product.grouped_features['feat_surface_habitable']}{$product.grouped_features['feat_surface_habitable'].value}{/if} m² 
-              - {if $product.grouped_features['feat_ville']}{$product.grouped_features['feat_ville'].value}{/if} - À VENDRE
-      </h2>
+              - {if $product.grouped_features['feat_ville']}{$product.grouped_features['feat_ville'].value}{/if} - {l s='FOR SALE' d='Shop.Theme.Almodovar'}</h2>
         
 
     {block name='product_price'}
