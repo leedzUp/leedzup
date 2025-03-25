@@ -60,12 +60,9 @@ class Ps_Searchbar extends Module implements WidgetInterface
 
         parent::__construct();
 
-
         $this->displayName = $this->trans('Search bar', [], 'Modules.Searchbar.Admin');
         $this->description = $this->trans('Help your visitors find what they are looking for, add a quick search field to your store.', [], 'Modules.Searchbar.Admin');
-
         $this->ps_versions_compliancy = ['min' => '1.7.8.0', 'max' => _PS_VERSION_];
-
         $this->templateFile = 'module:ps_searchbar/ps_searchbar.tpl';
     }
 
@@ -99,11 +96,9 @@ class Ps_Searchbar extends Module implements WidgetInterface
     public function getWidgetVariables($hookName, array $configuration = [])
     {
         $id_lang = $this->context->language->id; // Corrige ici : un seul "=" pour affectation
-
         // On récupère les caractéristiques "Type de bien"
         $features = Feature::getFeatures($id_lang);
 
-       
         $feat_type_de_bien = [];
         foreach ($features as $feature) {
             if ($feature['name'] === 'feat_type_du_bien') { // Remplace par le nom exact de la caractéristique
@@ -112,8 +107,6 @@ class Ps_Searchbar extends Module implements WidgetInterface
                 break;
             }
         }
-
-        
 
         $widgetVariables = [
             'search_controller_url' => $this->context->link->getPageLink('search', null, null, null, false, null, true),
@@ -293,8 +286,6 @@ class Ps_Searchbar extends Module implements WidgetInterface
             return []; // Sécurisation pour éviter les erreurs
         }
 
-       
-
         // Récupérer les données de pagination et de tri
         $pagination = $this->context->smarty->getTemplateVars('pagination');
         $sortOrders = $this->context->smarty->getTemplateVars('sort_orders');
@@ -337,28 +328,27 @@ class Ps_Searchbar extends Module implements WidgetInterface
     }
 
     protected function prepareProductArrayForAjaxReturn(array $products)
-{
-    foreach ($products as &$product) {
-        // Vérifie que ce n'est pas un LazyArray avant de modifier
-        if (!($product instanceof PrestaShop\PrestaShop\Adapter\Presenter\Product\ProductListingLazyArray)) {
-            if (isset($product['id_product']) && !isset($product['url'])) {
-                $product['url'] = $this->context->link->getProductLink($product['id_product']);
-            }
+    {
+        foreach ($products as &$product) {
+            // Vérifie que ce n'est pas un LazyArray avant de modifier
+            if (!($product instanceof PrestaShop\PrestaShop\Adapter\Presenter\Product\ProductListingLazyArray)) {
+                if (isset($product['id_product']) && !isset($product['url'])) {
+                    $product['url'] = $this->context->link->getProductLink($product['id_product']);
+                }
 
-            // Ajoute une image par défaut si elle n'existe pas
-            if (!isset($product['cover']) || empty($product['cover'])) {
-                $product['cover'] = [
-                    'bySize' => [
-                        'home_default' => [
-                            'url' => _PS_IMG_ . 'p/' . $product['id_product'] . '.jpg',
+                // Ajoute une image par défaut si elle n'existe pas
+                if (!isset($product['cover']) || empty($product['cover'])) {
+                    $product['cover'] = [
+                        'bySize' => [
+                            'home_default' => [
+                                'url' => _PS_IMG_ . 'p/' . $product['id_product'] . '.jpg',
+                            ],
                         ],
-                    ],
-                ];
+                    ];
+                }
             }
         }
+        return $products;
     }
-    return $products;
-}
-
 
 }
