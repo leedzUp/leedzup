@@ -16,7 +16,11 @@
           {if $facet.widgetType == 'slider'}
 
             <span class="{$componentName}-subtitle facet-title">
-              {if $facet.label == "Surface"}{l s='Surface' d='Shop.Theme.Almodovar'}{elseif $facet.label == "Room"}{l s='Room' d='Shop.Theme.Almodovar'}{else}{$facet.label}{/if}
+              {if $facet.label == "Surface"}
+                {l s='Surface' d='Shop.Theme.Almodovar'}
+              {elseif $facet.label == "Room"}
+                {l s='Room' d='Shop.Theme.Almodovar'}
+              {else}{$facet.label}{/if}
             </span>
           {/if}
           <div id="facet_{$_expand_id}">
@@ -218,10 +222,18 @@
 
           <div class="row accordion" id="facetAccordion">
             {foreach from=$displayedFacets item="facet" name="facets"}
-              {if in_array($facet.widgetType, ['radio', 'checkbox'])}
+              {if in_array($facet.label, ['feat_type_du_bien', 'feat_nombre_de_chambres', 'feat_nombre_de_salle_de_bain']) && in_array($facet.widgetType, ['radio', 'checkbox'])}
                 <div class="col-md-4">
                   <!-- Ajuste la largeur selon ton besoin -->
-                  <h4 class="facet-title">{$facet.label}</h4>
+                  <h2 class="facet-title">
+                  {if $facet.label == "feat_type_du_bien"}
+                    {l s='feat_type_du_bien' d='Shop.Theme.Almodovar'}
+                  {elseif $facet.label == "feat_nombre_de_chambres"}
+                    {l s='feat_nombre_de_chambres' d='Shop.Theme.Almodovar'}
+                  {elseif $facet.label == "feat_nombre_de_salle_de_bain"}
+                    {l s='feat_nombre_de_salle_de_bain' d='Shop.Theme.Almodovar'}
+                  {else}{$facet.label}{/if}
+                  </h2>
                   <ul class="list-unstyled">
                     {foreach from=$facet.filters key=filter_key item="filter"}
                       {if !$filter.displayed} {continue} {/if}
@@ -244,7 +256,47 @@
                 </div>
               {/if}
             {/foreach}
+            <div class="row">
+          {foreach from=$displayedFacets item="facet" name="facets"}
+            {if in_array($facet.label, ['feat_climatisation', 'feat_garage', 'feat_piscine']) && in_array($facet.widgetType, ['radio', 'checkbox'])}
+              <div class="col-md-4">
+                <!-- Ajuste la largeur selon ton besoin -->
+                <h2 class="facet-title">
+                {l s='feat_installation' d='Shop.Theme.Almodovar'}
+                </h2>
+                <ul class="list-unstyled">
+                  {foreach from=$facet.filters key=filter_key item="filter"}
+                    {if !$filter.displayed} {continue} {/if}
+                    {if $filter.label == 'Oui'}
+                    <li>
+                      <div class="form-check">
+                        <input class="form-check-input" id="facet_input_{$facet.label|escape:'htmlall':'UTF-8'}_{$filter_key}"
+                          data-search-url="{$filter.nextEncodedFacetsURL}"
+                          type="{if $facet.multipleSelectionAllowed}checkbox{else}radio{/if}" name="filter_{$facet.label}"
+                          {if $filter.active}checked{/if}>
+                        <label class="form-check-label"
+                          for="facet_input_{$facet.label|escape:'htmlall':'UTF-8'}_{$filter_key}">
+                          <a href="{$filter.nextEncodedFacetsURL}" class="search-link js-search-link" rel="nofollow">
+                            {$facet.label} {if $filter.magnitude and $show_quantities}({$filter.magnitude}){/if}
+                          </a>
+                        </label>
+                      </div>
+                    </li>
+                      {/if}
+                  {/foreach}
+                </ul>
+              </div>
+            {/if}
+          {/foreach}
+        </div>
+
+
+
+
           </div>
+
+          
+
         </div>
       </div>
     </div>
