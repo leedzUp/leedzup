@@ -31,7 +31,7 @@ npm-debug.log.*
 !/download/index.php
 
 # Images
-/img/*
+!/img/*
 # Mais ne pas ignorer img/c/ et son contenu
 !img/c/
 !img/c/*
