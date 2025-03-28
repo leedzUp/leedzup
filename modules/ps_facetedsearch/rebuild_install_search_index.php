@@ -3,78 +3,97 @@
 require_once dirname(__FILE__).'/../../config/config.inc.php';
 require_once dirname(__FILE__).'/../../init.php';
 
-// Considering the indexing task can be really long, we ask the PHP process to not stop before 2 hours.
+// Permettre une exécution prolongée du script
 ini_set('max_execution_time', '7200');
 
-$action = $argv[1] ?? null; // Récupère le premier argument passé en CLI
+$action = $argv[1] ?? null; // Récupère l'action passée en CLI
 
-// Vérifie si le module existe avant de l'instancier
-if (!class_exists('Ps_Facetedsearch')) {
-    header('HTTP/1.1 500 Internal Server Error');
+// Vérifie si le module est installé et activé
+if (!Module::isInstalled('ps_facetedsearch') || !Module::isEnabled('ps_facetedsearch')) {
+    http_response_code(500);
     header('Content-Type: application/json');
-    die(json_encode(['error' => 'Module Ps_Facetedsearch not found']));
+    die(json_encode(['error' => 'Module Ps_Facetedsearch not installed or disabled']));
 }
 
-$module = new Ps_Facetedsearch();
+// Instanciation du module après vérification
+$module = Module::getInstanceByName('ps_facetedsearch');
+
 Shop::setContext(Shop::CONTEXT_ALL);
 
 switch ($action) {
     case 'indexSurfaces':
-        $cursor = (int) Tools::getValue('cursor');
-        $ajax = (bool) Tools::getValue('ajax');
-        $full = (bool) Tools::getValue('full');
+        $cursor = isset($argv[2]) ? (int) $argv[2] : 0;
+        $ajax = isset($argv[3]) ? filter_var($argv[3], FILTER_VALIDATE_BOOLEAN) : false;
+        $full = isset($argv[4]) ? filter_var($argv[4], FILTER_VALIDATE_BOOLEAN) : false;
 
-        $response = $full ?
-            $module->fullSurfacesIndexProcess($cursor, $ajax, true) :
-            $module->surfacesIndexProcess($cursor, $ajax);
+        $response = $full
+            ? $module->fullSurfacesIndexProcess($cursor, $ajax, true)
+            : $module->surfacesIndexProcess($cursor, $ajax);
 
         header('Content-Type: application/json');
-        die(json_encode($response));
+        echo json_encode($response);
+        exit;
 
     case 'indexRooms':
-        $cursor = (int) Tools::getValue('cursor');
-        $ajax = (bool) Tools::getValue('ajax');
-        $full = (bool) Tools::getValue('full');
+        $cursor = isset($argv[2]) ? (int) $argv[2] : 0;
+        $ajax = isset($argv[3]) ? filter_var($argv[3], FILTER_VALIDATE_BOOLEAN) : false;
+        $full = isset($argv[4]) ? filter_var($argv[4], FILTER_VALIDATE_BOOLEAN) : false;
 
-        $response = $full ?
-            $module->fullRoomsIndexProcess($cursor, $ajax, true) :
-            $module->roomsIndexProcess($cursor, $ajax);
+        $response = $full
+            ? $module->fullRoomsIndexProcess($cursor, $ajax, true)
+            : $module->roomsIndexProcess($cursor, $ajax);
 
         header('Content-Type: application/json');
-        die(json_encode($response));
+        echo json_encode($response);
+        exit;
 
     case 'indexFeatures':
-        Shop::setContext(Shop::CONTEXT_ALL);
-
-        $psFacetedsearch = new Ps_Facetedsearch();
-        $psFacetedsearch->indexFeatures();
-
-        header('Content-Type: application/json');
-        die(json_encode($response));
+        $module->indexFeatures();
+        exit;
 
     case 'clearCache':
-        $psFacetedsearch = new Ps_Facetedsearch();
-        $psFacetedsearch->ajaxRender($psFacetedsearch->invalidateLayeredFilterBlockCache());
-        break;
+        $module->ajaxRender($module->invalidateLayeredFilterBlockCache());
+        exit;
 
     case 'indexPrices':
-        Shop::setContext(Shop::CONTEXT_ALL);
+        $cursor = isset($argv[2]) ? (int) $argv[2] : 0;
+        $ajax = isset($argv[3]) ? filter_var($argv[3], FILTER_VALIDATE_BOOLEAN) : false;
+        $full = isset($argv[4]) ? filter_var($argv[4], FILTER_VALIDATE_BOOLEAN) : false;
 
-        $module = new Ps_Facetedsearch();
-        if (Tools::getValue('full')) {
-            $module->ajaxRender($module->fullPricesIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax'), true));
+        if ($full) {
+            $module->ajaxRender($module->fullPricesIndexProcess($cursor, $ajax, true));
         } else {
-            $module->ajaxRender($module->pricesIndexProcess((int) Tools::getValue('cursor'), (bool) Tools::getValue('ajax')));
+            $module->ajaxRender($module->pricesIndexProcess($cursor, $ajax));
         }
+        exit;
 
-        break;
-    
     case 'indexProductsSearch':
-        
         Search::indexation(1);
+        exit;
+
+    case 'generateSitemap':
+        $gsitemap = Module::getInstanceByName('gsitemap');
+        /* Check if the module is enabled */
+        if ($gsitemap->active) {
+            /* Check if the requested shop exists */
+            $shops = Db::getInstance()->ExecuteS('SELECT id_shop FROM `' . _DB_PREFIX_ . 'shop`');
+            $list_id_shop = [];
+            foreach ($shops as $shop) {
+                $list_id_shop[] = (int) $shop['id_shop'];
+            }
+            $id_shop = (Tools::getIsset('id_shop') && in_array(Tools::getValue('id_shop'), $list_id_shop)) ? (int) Tools::getValue('id_shop') : (int) Configuration::get('PS_SHOP_DEFAULT');
+            $gsitemap->cron = true;
+            /* for the main run initiat the sitemap's files name stored in the database */
+            if (!Tools::getIsset('continue')) {
+                $gsitemap->emptySitemap((int) $id_shop);
+            }
+            /* Create the Google sitemap's files */
+            $gsitemap->createSitemap((int) $id_shop);
+        }
+        exit;
 
     default:
-        header('HTTP/1.1 403 Forbidden');
+        http_response_code(403);
         header('Content-Type: application/json');
         die(json_encode(['error' => 'Unknown action']));
 }
