@@ -8,7 +8,7 @@
 
 
  {block name='page_content_container'}
-   <div id="content" class="container page-content page-cms rich-text">
+   <div id="content" class="container page-content page-cms rich-text px-3 px-md-5">
    {block name='page_title'}
      <h1>{$cms.meta_title}</h1>
    {/block}
