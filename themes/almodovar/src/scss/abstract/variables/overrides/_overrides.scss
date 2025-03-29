@@ -200,4 +200,9 @@ body {
   height: 535px !important;
 }
 
+@media (min-width: 768px) { /* À partir de md (tablette et desktop) */
+  .rounded-md-5 {
+    border-radius: var(--bs-border-radius-xxl) !important;
+  }
+}
 
