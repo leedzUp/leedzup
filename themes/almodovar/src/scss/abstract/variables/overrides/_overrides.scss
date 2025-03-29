@@ -198,9 +198,14 @@ body {
   height: 535px !important;
 }
 
-// Définir la classe rounded-md-5
-@media (min-width: 768px) {  // Taille 'md' dans Bootstrap 5 correspond à 768px et plus
+// Styles par défaut
+.rounded-2 {
+  border-radius: var(--bs-border-radius) !important;
+}
+
+// Styles spécifiques à l'écran md (et plus grand)
+@media (min-width: 768px) {
   .rounded-md-5 {
-    border-radius: var(--bs-border-radius-xxl)!important;
+    border-radius: var(--bs-border-radius-xxl) !important;
   }
 }
