@@ -5,12 +5,13 @@
 
 {extends file='page.tpl'}
 
-{block name='page_title'}
-  {l s='Sitemap' d='Shop.Theme.Global'}
-{/block}
+
 
 {block name='page_content'}
   <div class="container">
+  {block name='page_title'}
+    {l s='Sitemap' d='Shop.Theme.Global'}
+  {/block}
     <div class="row sitemap">
       {foreach $sitemapUrls as $group}
         <div class="col-md-6 col-lg-3">
