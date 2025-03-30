@@ -36,17 +36,10 @@ class SitemapControllerCore extends FrontController
     public function initContent()
     {
         $sitemapUrls = [
-            'our_offers' => [
-                'name' => $this->trans('Our Offers', [], 'Shop.Theme.Global'),
-                'links' => $this->getOffersLinks(),
-            ],
+            
             'categories' => [
                 'name' => $this->trans('Categories', [], 'Shop.Theme.Catalog'),
                 'links' => $this->getCategoriesLinks(),
-            ],
-            'your_account' => [
-                'name' => $this->trans('Your account', [], 'Shop.Theme.Customeraccount'),
-                'links' => $this->getUserAccountLinks(),
             ],
             'pages' => [
                 'name' => $this->trans('Pages', [], 'Shop.Theme.Catalog'),
@@ -101,23 +94,11 @@ class SitemapControllerCore extends FrontController
         $cms = CMSCategory::getRecurseCategory($this->context->language->id, 1, 1, 1);
         $links = $this->getCmsTree($cms);
 
-        $links[] = [
-            'id' => 'stores-page',
-            'label' => $this->trans('Our stores', [], 'Shop.Theme.Global'),
-            'url' => $this->context->link->getPageLink('stores'),
-        ];
+       
 
-        $links[] = [
-            'id' => 'contact-page',
-            'label' => $this->trans('Contact us', [], 'Shop.Theme.Global'),
-            'url' => $this->context->link->getPageLink('contact'),
-        ];
+   
 
-        $links[] = [
-            'id' => 'sitemap-page',
-            'label' => $this->trans('Sitemap', [], 'Shop.Theme.Global'),
-            'url' => $this->context->link->getPageLink('sitemap'),
-        ];
+       
 
         return $links;
     }
