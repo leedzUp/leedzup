@@ -38,7 +38,6 @@ foreach ($meta_data as $data) {
     $meta = new Meta((int)$data['id_meta'], (int)$data['id_lang']);
     
     // Mise à jour des champs
-    $meta->id_shop = (int)$data['id_shop'];
     $meta->title = $data['title'];
     $meta->description = $data['description'];
     $meta->url_rewrite = $data['url_rewrite'];
