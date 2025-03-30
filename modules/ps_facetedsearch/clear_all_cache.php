@@ -3,35 +3,22 @@
 require_once dirname(__FILE__) . '/../../config/config.inc.php';
 require_once dirname(__FILE__) . '/../../init.php';
 
-// Vider le cache Smarty
-Context::getContext()->smarty->clearAllCache();
-Context::getContext()->smarty->clearCompiledTemplate();
+$id_meta = 9; // Remplace par l'ID de la page
+$id_lang = 3; // ID de la langue
 
-// Vider le cache XML et fichiers temporaires
-Tools::clearXMLCache();
-Media::clearCache();
+// Nouvelle URL réécrite
+$new_url = 'plan-du-site';
 
-// Supprimer les fichiers du cache
-$cache_dirs = [
-    _PS_CACHE_DIR_ . 'smarty/cache/',
-    _PS_CACHE_DIR_ . 'smarty/compile/',
-    _PS_CACHE_DIR_ . 'xml/',
-    _PS_CACHE_DIR_ . 'cachefs/',
-];
+// Récupération de l'objet Meta
+$meta = new Meta($id_meta);
+$meta->url_rewrite[$id_lang] = $new_url;
 
-// Supprimer tous les fichiers du cache
-foreach ($cache_dirs as $dir) {
-    if (is_dir($dir)) {
-        $files = glob($dir . '*'); 
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                @unlink($file);
-            }
-        }
-    }
+if ($meta->update()) {
+    echo "Mise à jour réussie !";
+} else {
+    echo "Échec de la mise à jour.";
 }
 
-// Rafraîchir le cache d'indexation
-Search::indexation(true);
+echo "Meta succès ! \n";
 
-echo "Cache vidé avec succès !";
+
