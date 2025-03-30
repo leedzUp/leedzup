@@ -1,8 +1,7 @@
 // 1️⃣ Importer les fonctions de Bootstrap en premier
 @import "~bootstrap/scss/functions";
 
-// 2️⃣ Surcharger les variables AVANT Bootstrap (ex: changer border-radius, couleurs, etc.)
-@import "overrides"; 
+
 
 // 3️⃣ Importer les variables et mixins Bootstrap
 @import "~bootstrap/scss/variables";
@@ -44,3 +43,5 @@
 
 // 5️⃣ Importer les styles spécifiques à PrestaShop **après Bootstrap**
 @import "prestashop";
+
+@import "overrides"; 
