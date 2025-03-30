@@ -197,13 +197,11 @@ body {
   border-top-left-radius: 8rem !important;
 }
 
-.h-535 {
-  height: 535px !important;
-}
+
 
 @media (min-width: 768px) { /* À partir de md (tablette et desktop) */
-  .rounded-md-5 {
-    border-radius: var(--bs-border-radius-xxl) !important;
+  .h-535 {
+    height: 535px !important;
   }
 }
 
