@@ -6,7 +6,7 @@
 
 {block name='breadcrumb'}{/block}
 
-{block name='container_class'}container container--limited-md text-center{/block}
+<div class="container container--limited-md text-center">
 
 {block name='page_header_container'}
   {block name='page_title'}
@@ -33,3 +33,4 @@
 {block name='page_content_container'}
   {include file='errors/not-found.tpl' errorContent=$errorContent}
 {/block}
+</div>
