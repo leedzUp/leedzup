@@ -2,7 +2,6 @@
 @import "~bootstrap/scss/functions";
 
 // 2️⃣ Surcharger les variables AVANT Bootstrap (ex: changer border-radius, couleurs, etc.)
-@import "overrides"; 
 
 // 3️⃣ Importer les variables et mixins Bootstrap
 @import "~bootstrap/scss/variables";
@@ -47,5 +46,7 @@
 @import "~bootstrap/scss/placeholders";
 @import "~bootstrap/scss/helpers";
 @import "~bootstrap/scss/utilities/api";
+
+@import "overrides"; 
 
 
