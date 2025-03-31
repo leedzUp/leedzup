@@ -57,6 +57,7 @@ exports.extractScss = ({mode = 'production'}) => ({
         {
           loader: 'postcss-loader',
           options: {
+            sourceMap: true, // Active les source maps pour SCSS
             postcssOptions: {
               config: path.resolve(__dirname, '../postcss.config.js'),
             },
