@@ -197,12 +197,34 @@ body {
   border-top-left-radius: 8rem !important;
 }
 
-
-
 @media (min-width: 768px) { /* À partir de md (tablette et desktop) */
   .h-535 {
     height: 535px !important;
   }
 }
 
+.carousel-control-next, .carousel-control-prev {
+  align-items: center;
+  background: none;
+  border: 0;
+  bottom: 0;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  opacity: .5;
+  padding: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transition: opacity .15s ease;
+  width: 4rem;
+  z-index: 1;
+}
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 16 16'%3E%3Cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0'/%3E%3C/svg%3E")
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708'/%3E%3C/svg%3E")
+}
 
