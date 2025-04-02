@@ -167,7 +167,6 @@ themes/default-bootstrap/modules/*/mails/*
 
 # MISC
 
-*sitemap.xml
 /robots.txt
 
 # Symfony
