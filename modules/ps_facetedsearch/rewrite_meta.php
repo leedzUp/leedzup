@@ -25,12 +25,12 @@ $meta_data = [
     [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 6, 'title' => 'Sitemap', 'description' => 'Zagubiony ? Znajdź to, czego szukasz', 'url_rewrite' => 'sitemap' ],
     
     // ID 4 - Voguimmo real estate pages
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 1, 'title' => 'Voguimmo - Real estate in Alicante, it\'s here!', 'description' => 'Voguimmo brings you the best real estate options in Alicante.', 'url_rewrite' => 'real-estate-alicante' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 2, 'title' => 'Voguimmo - Inmobiliaria en Alicante, ¡ya está aquí!', 'description' => 'Voguimmo te ofrece las mejores opciones inmobiliarias en Alicante.', 'url_rewrite' => 'inmobiliaria-alicante' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 3, 'title' => 'Voguimmo - L’immobilier à Alicante, c’est ici !', 'description' => 'Voguimmo vous propose les meilleures options immobilières à Alicante.', 'url_rewrite' => 'immobilier-alicante' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 4, 'title' => 'Voguimmo - Immobilien in Alicante gibt es hier!', 'description' => 'Voguimmo bietet dir die besten Immobilienoptionen in Alicante.', 'url_rewrite' => 'immobilien-alicante' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 5, 'title' => 'Voguimmo - Onroerend goed in Alicante, hier is het!', 'description' => 'Voguimmo biedt de beste vastgoedopties in Alicante.', 'url_rewrite' => 'onroerend-goed-alicante' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 6, 'title' => 'Voguimmo - Nieruchomości w Alicante, to tutaj!', 'description' => 'Voguimmo oferuje najlepsze opcje nieruchomości w Alicante.', 'url_rewrite' => 'nieruchomosci-alicante' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 1, 'title' => 'Voguimmo - Real estate in Alicante, it\'s here!', 'description' => 'Voguimmo brings you the best real estate options in Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 2, 'title' => 'Voguimmo - Inmobiliaria en Alicante, ¡ya está aquí!', 'description' => 'Voguimmo te ofrece las mejores opciones inmobiliarias en Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 3, 'title' => 'Voguimmo - L’immobilier à Alicante, c’est ici !', 'description' => 'Voguimmo vous propose les meilleures options immobilières à Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 4, 'title' => 'Voguimmo - Immobilien in Alicante gibt es hier!', 'description' => 'Voguimmo bietet dir die besten Immobilienoptionen in Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 5, 'title' => 'Voguimmo - Onroerend goed in Alicante, hier is het!', 'description' => 'Voguimmo biedt de beste vastgoedopties in Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 6, 'title' => 'Voguimmo - Nieruchomości w Alicante, to tutaj!', 'description' => 'Voguimmo oferuje najlepsze opcje nieruchomości w Alicante.', 'url_rewrite' => '' ],
 ];
 
 foreach ($meta_data as $data) {
