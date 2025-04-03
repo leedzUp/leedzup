@@ -113,6 +113,8 @@
           <div class="{$componentName}__infos__top">
             {block name='product_name'}
               <a href="{$product.url}"><p class="fs-5 {$componentName}__title">{$product.name}</p></a>
+              <p class="overflow-auto" style="max-height: 100px;">{$product.description_short}</p>
+
             {/block}
             {hook h="displayProductFeatures" product=$product}
           </div>
