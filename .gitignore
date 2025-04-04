@@ -153,7 +153,6 @@ themes/_libraries
 
 # Translations and emails templates
 
-translations/*
 !translations/default
 mails/*
 !mails/themes/
