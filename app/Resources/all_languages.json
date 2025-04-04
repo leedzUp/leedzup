@@ -461,12 +461,12 @@
   },
   "no": {
     "name": "Bokmål (Norwegian)",
-    "iso_code": "nb",
+    "iso_code": "no",
     "date_format_lite": "Y-m-d",
     "date_format_full": "Y-m-d H:i:s",
     "is_rtl": "0",
-    "language_code": "nb-no",
-    "locale": "nb-NO"
+    "language_code": "no-no",
+    "locale": "no-NO"
   },
   "pl": {
     "name": "Polski (Polish)",

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language>
-	<name><![CDATA[Norsk (Bokmal)]]></name>
+	<name><![CDATA[Norsk (Norwegian)]]></name>
 	<locale>no-NO</locale>
 	<language_code>no</language_code>
 	<date_format_lite>m/j/Y</date_format_lite>
