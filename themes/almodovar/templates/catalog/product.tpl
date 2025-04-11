@@ -319,6 +319,8 @@
           </div>
         {/block}
         {* END OF SECOND PART *}
+        {hook h='displayProductVideo' product=$product} 
+
 
 
       </div>
