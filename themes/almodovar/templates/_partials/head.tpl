@@ -78,4 +78,18 @@
   {$HOOK_HEADER nofilter}
 {/block}
 
-{block name='hook_extra'}{/block}
+{block name='hook_extra'}
+{literal}
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X9FTSH5BQ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X9FTSH5BQ5');
+</script>
+{/literal}
+
+{/block}

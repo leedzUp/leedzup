@@ -37,7 +37,7 @@
       <div class="product__left col-md-8">
 
         {block name='product_header'}
-          <h1 class="fs-1">{block name='page_title'}{$product.name}{/block}</h1>
+          <h1 class="fs-1">{block name='page_title'}{$page.meta.title}{/block}</h1>
         {/block}
 
         {block name='product_features'}
