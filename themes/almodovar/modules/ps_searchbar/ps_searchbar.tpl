@@ -23,11 +23,11 @@ width: 100%;
 
        <!-- Type de bien -->
        <div class="mt-1 mb-1 col-12 col-md-2 {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}border-end{/if}">
-       <label for="property-type" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Property type' d='Shop.Theme.Almodovar'}</label>
+       <label for="propertyType" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Property type' d='Shop.Theme.Almodovar'}</label>
        
  
        {if isset($properties_types) && $properties_types|@count > 0}
-        <select class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} form-select border-0 p-0 shadow-none" name="property_type">
+        <select class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} form-select border-0 p-0 shadow-none" name="property_type" id="propertyType">
             <option value="">{l s='To choose' d='Shop.Theme.Almodovar'}...</option>
             {foreach from=$properties_types item=type}
                 <option value="{$type.value}">{$type.value}</option>
