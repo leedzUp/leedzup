@@ -6,7 +6,7 @@
 {function renderLogo}
   <a class="navbar-brand d-block" href="{$urls.pages.index}">
     <img
-      class="p-3 logo img-fluid"
+      class="logo img-fluid"
       src="{$shop.logo_details.src}"
       alt="{$shop.name}"
       width="{$shop.logo_details.width}"
