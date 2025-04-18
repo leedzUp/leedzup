@@ -9,8 +9,7 @@ width: 100%;
 ">  
  <div class="container mt-5">
  <div class="search-widgets js-search-widget mt-5" data-search-controller-url="{$search_controller_url}">
- <h1 class="fw-bold text-center mb-5 text-white text-shadow" style="text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);font-size: 66px;
-">{l s='slogan' d='Shop.Theme.Almodovar'}</h1>
+ <h1 class="fw-bold text-center mb-5 text-white text-shadow">{l s='slogan' d='Shop.Theme.Almodovar'}</h1>
    <form class="pt-3 mx-auto {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}w-75{else}w-100{/if}" style="max-width: 973px;" method="get" action="{$search_controller_url}">
      <input type="hidden" name="controller" value="search">
      <div class="bg-white {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-pill ps-5 {else}rounded-4 px-4{/if} d-flex flex-wrap align-items-center gap-2">
