@@ -3,7 +3,7 @@
 {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
 background:url('/modules/code_buildhomepage/uploads/block/2.webp?20250304144634') no-repeat center center; background-size: cover;
 height: 100vh; {else}
-background:linear-gradient(to bottom, #a8dadc, #457b9d);
+background:linear-gradient(to bottom, #9c6d92, #457b9d);
 padding-bottom: 60px;{/if}
 width: 100%;
 ">  
