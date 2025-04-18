@@ -9,19 +9,19 @@
      <div class="bg-white {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-pill ps-5 {else}rounded-4 px-4{/if} d-flex flex-wrap align-items-center gap-2">
      <!-- Localisation -->
      <div class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}mt-3{else}mt-1 border-end{/if} mb-1 col-12 col-md-4">
-       <label for="search-location" class="fw-bold form-label">{l s='Localisation' d='Shop.Theme.Almodovar'}</label>
-       <input id="search-location" class="form-control border-0 p-0 shadow-none" type="text" name="location" 
+       <label for="search-location" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Localisation' d='Shop.Theme.Almodovar'}</label>
+       <input id="search-location" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} form-control border-0 p-0 shadow-none" type="text" name="location" 
          placeholder="{l s='Region Department City' d='Shop.Theme.Almodovar'}" 
          aria-label="{l s='Search' d='Shop.Theme.Almodovar'}">
      </div>
 
        <!-- Type de bien -->
        <div class="mt-1 mb-1 col-12 col-md-2 {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}border-end{/if}">
-       <label for="property-type" class="fw-bold form-label">{l s='Property type' d='Shop.Theme.Almodovar'}</label>
+       <label for="property-type" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Property type' d='Shop.Theme.Almodovar'}</label>
        
  
        {if isset($properties_types) && $properties_types|@count > 0}
-        <select class="form-select border-0 p-0 shadow-none" name="property_type">
+        <select class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} form-select border-0 p-0 shadow-none" name="property_type">
             <option value="">{l s='To choose' d='Shop.Theme.Almodovar'}...</option>
             {foreach from=$properties_types item=type}
                 <option value="{$type.value}">{$type.value}</option>
@@ -35,9 +35,9 @@
 
      <!-- Surface minimale -->
      <div class="mt-1 mb-1 col-12 col-md-2 {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}border-end{/if}">
-       <label for="min-surface" class="fw-bold form-label">{l s='Minimum area' d='Shop.Theme.Almodovar'}</label>
+       <label for="min-surface" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Minimum area' d='Shop.Theme.Almodovar'}</label>
        <div class="input-group">
-         <input id="min-surface" class="form-control border-0 p-0 shadow-none" type="text" name="min_surface" 
+         <input id="min-surface" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} form-control border-0 p-0 shadow-none" type="text" name="min_surface" 
            placeholder="{l s='Minimum area' d='Shop.Theme.Almodovar'}">
          <span class="input-group-text border-0 bg-white py-0 pe-3">m²</span>
        </div>
@@ -45,11 +45,11 @@
 
      <!-- Prix maximum -->
      <div class="mt-1 mb-1 col-12 col-md-2">
-       <label for="max-price" class="fw-bold form-label">{l s='Maximum price' d='Shop.Theme.Almodovar'}</label>
+       <label for="max-price" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Maximum price' d='Shop.Theme.Almodovar'}</label>
        <div class="input-group">
          <span class="input-group-text border-0 bg-white py-0">€</span>
 
-         <input id="max-price" class="form-control border-0 p-0 shadow-none" type="text" name="max_price" 
+         <input id="max-price" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} form-control border-0 p-0 shadow-none" type="text" name="max_price" 
            placeholder="{l s='Max price' d='Shop.Theme.Almodovar'}">
        </div>
      </div>
