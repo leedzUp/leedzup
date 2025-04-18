@@ -1,1 +1,0 @@
-<a href="/fr/contact"><span class="menu-item menu-item-right" id="menu-item-3">Nous contacter</span></a>

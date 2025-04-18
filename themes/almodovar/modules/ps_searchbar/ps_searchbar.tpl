@@ -4,11 +4,11 @@
  <div class="search-widgets js-search-widget mt-5" data-search-controller-url="{$search_controller_url}">
  <h1 class="title text-center mb-5 text-white text-shadow" style="text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);font-size: 66px;
 ">{l s='slogan' d='Shop.Theme.Almodovar'}</h1>
-   <form class="pt-3 mx-auto w-75" style="max-width: 973px;" method="get" action="{$search_controller_url}">
+   <form class="pt-3 mx-auto {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}w-75{else}w-100{/if}" style="max-width: 973px;" method="get" action="{$search_controller_url}">
      <input type="hidden" name="controller" value="search">
-     <div class="bg-white rounded-pill ps-5 d-flex flex-wrap align-items-center gap-2">
+     <div class="bg-white {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-pill ps-5 {else}rounded-4 px-4{/if} d-flex flex-wrap align-items-center gap-2">
      <!-- Localisation -->
-     <div class="mt-1 mb-1 col-4 border-end">
+     <div class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}mt-3{else}mt-1 border-end{/if} mb-1 col-12 col-md-4">
        <label for="search-location" class="fw-bold form-label">{l s='Localisation' d='Shop.Theme.Almodovar'}</label>
        <input id="search-location" class="form-control border-0 p-0 shadow-none" type="text" name="location" 
          placeholder="{l s='Region Department City' d='Shop.Theme.Almodovar'}" 
@@ -16,7 +16,7 @@
      </div>
 
        <!-- Type de bien -->
-       <div class="mt-1 mb-1 col-2 border-end">
+       <div class="mt-1 mb-1 col-12 col-md-2 {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}border-end{/if}">
        <label for="property-type" class="fw-bold form-label">{l s='Property type' d='Shop.Theme.Almodovar'}</label>
        
  
@@ -34,7 +34,7 @@
      </div>
 
      <!-- Surface minimale -->
-     <div class="mt-1 mb-1 col-2 border-end">
+     <div class="mt-1 mb-1 col-12 col-md-2 {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}border-end{/if}">
        <label for="min-surface" class="fw-bold form-label">{l s='Minimum area' d='Shop.Theme.Almodovar'}</label>
        <div class="input-group">
          <input id="min-surface" class="form-control border-0 p-0 shadow-none" type="text" name="min_surface" 
@@ -44,7 +44,7 @@
      </div>
 
      <!-- Prix maximum -->
-     <div class="mt-1 mb-1 col-2">
+     <div class="mt-1 mb-1 col-12 col-md-2">
        <label for="max-price" class="fw-bold form-label">{l s='Maximum price' d='Shop.Theme.Almodovar'}</label>
        <div class="input-group">
          <span class="input-group-text border-0 bg-white py-0">€</span>
@@ -53,7 +53,7 @@
            placeholder="{l s='Max price' d='Shop.Theme.Almodovar'}">
        </div>
      </div>
-     <div class="bg-primary rounded-end-pill">
+     <div class="bg-primary {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-end-pill{else}mx-auto rounded-4 mb-2{/if}">
 
      <div class="mt-1 mb-1 col-auto">
 

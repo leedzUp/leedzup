@@ -6,8 +6,7 @@
  {/block}
 
 {block name="content"}
-  {if $page.page_name == 'category'}
-
+  
   <div class="container  mt-4">
    {block name="product_list_top"}
           {include file="catalog/_partials/products-top.tpl" listing=$listing}
@@ -20,6 +19,8 @@
        
 </div>
 
+{if $page.page_name == "category"}
+{hook h="displayProductListMap" category=$listing}
 
   {if isset($smarty.get.simulation) && $smarty.get.simulation == 1}
     {* SIMULATION *}
@@ -51,9 +52,11 @@
   {/if}
 
 {else}
-  <div class="container  mt-4">
+{hook h="displayProductListMap" category=$listing_search}
+
+ <div class="container  mt-4">
    {block name="product_list_top"}
-          {include file="catalog/_partials/products-top.tpl" listing=$listing}
+          {include file="catalog/_partials/products-top.tpl" listing=$listing_search}
         {/block}
         {hook h="displayLeftColumn"}
        
@@ -61,7 +64,6 @@
        
 </div>
   <div class="container  mt-4">
-
 
   {include file="catalog/_partials/products.tpl" listing=$listing_search}
   </div>

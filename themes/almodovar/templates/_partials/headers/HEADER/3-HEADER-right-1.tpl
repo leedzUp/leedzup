@@ -1,1 +1,1 @@
-{widget name=ps_customersignin}	{widget name=ps_languageselector}	
+{widget name=ps_languageselector}	

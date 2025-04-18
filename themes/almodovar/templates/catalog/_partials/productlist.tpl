@@ -8,7 +8,7 @@
               </div>
   {/block}
 
-{capture assign="productClasses"}col-6 col-md-4{/capture}
+{capture assign="productClasses"}col-12 col-md-4{/capture}
 <div class="mt-2 products row">
     {foreach from=$products item="product" key="position"}
         {include file="catalog/_partials/miniatures/product.tpl" product=$product position=$position productClasses=$productClasses}
@@ -20,7 +20,7 @@
   {/if}
 
 {else}
-{capture assign="productClasses"}col-6 col-md-4{/capture}
+{capture assign="productClasses"}col-12 col-md-4{/capture}
 
 <div class="mt-2 products row">
     {foreach from=$products item="product" key="position"}

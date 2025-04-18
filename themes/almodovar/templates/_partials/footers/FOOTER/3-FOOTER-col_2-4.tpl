@@ -1,0 +1,1 @@
+<div class="" id="target-4"><h3 class="fw-bold">L&#039;agence</h3><ul class="link_list"><li><a href="a-propos-voguimmo-11">À propos</a></li><li><a href="/plan-du-site">Site Map</a></li><li><a href="/politique-de-confidentialite-1">Politique de confidentialité</a></li><li><a href="/mentions-legales-2">Mentions légales</a></li></ul></div>

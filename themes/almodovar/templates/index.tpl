@@ -1,53 +1,22 @@
-{**
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *}
- {extends file=$layout}
-
-{block name='breadcrumb'}{/block}
-
-{block name='content_columns'}
-  {block name='left_column'}{/block}
-
-  {block name='content_wrapper'}
-    <div id="content-wrapper" class="wrapper__content">
-      {hook h="displayContentWrapperTop"}
-
-      {block name='content'}
-        <!-- TODO INSIDE -->
-          {block name='page_header_container'}
-            {block name='page_title' hide}
-              <header class="page-header">
-                <h1 class="h1">{$smarty.block.child}</h1>
-              </header>
-            {/block}
-          {/block}
-
-          {block name='page_content_container'}
-            <section id="content" class="page-content page-home">
-              {block name='page_content_top'}{/block}
-
-              {block name='page_content'}
-                {block name='hook_home'}
-                  {$HOOK_HOME nofilter}
-                {/block}
-              {/block}
-            </section>
-          {/block}
-
-          {block name='page_footer_container'}
-            <footer class="page-footer">
-              {block name='page_footer'}
-                <!-- Footer content -->
-              {/block}
-            </footer>
-          {/block}
-        <!-- TODO INSIDE -->
-      {/block}
-
-      {hook h="displayContentWrapperBottom"}
-    </div>
-  {/block}
-
-  {block name='right_column'}{/block}
-{/block}
+{extends file=$layout}
+                    {block name="breadcrumb"}{/block}
+                                {block name="content"}
+                                    {if isset($smarty.get.simulation) && $smarty.get.simulation == 1}
+                                        {* SIMULATION *}
+                                          {assign var="id_homepage_simulation" value="{hook h="displayIdIndexSimulation" var="id_homepage_simulation"}"}
+                                          {if !empty($id_homepage_simulation)}
+                                          
+                                            {assign var="homepage_id_tpl" value="{$smarty.const._PS_THEME_DIR_}templates/index/HOMEPAGE/HOMEPAGE-{$id_homepage_simulation}.tpl"}
+                                            {include file=$homepage_id_tpl}
+                                          {else}
+                                            {assign var="id_homepage_default" value="{hook h="displayIdIndexDefault" value="HOMEPAGE"}"}
+                                            {assign var="homepage_id_default_tpl" value="{$smarty.const._PS_THEME_DIR_}templates/index/HOMEPAGE/HOMEPAGE-{$id_homepage_default}.tpl"}
+                                            {include file=$homepage_id_default_tpl}
+                                          {/if}
+                                      {else}
+                                        {* PRODUCTION *}
+                                          {assign var="id_homepage_default" value="{hook h="displayIdIndexDefault" value="HOMEPAGE"}"}
+                                          {assign var="homepage_id_default_tpl" value="{$smarty.const._PS_THEME_DIR_}templates/index/HOMEPAGE/HOMEPAGE-{$id_homepage_default}.tpl"}
+                                        {include file=$homepage_id_default_tpl}
+                                      {/if}
+                                      {/block}
