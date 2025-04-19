@@ -4,7 +4,7 @@
     <div class="col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-header bg-black text-white">
-          <h2 class="h5 mb-0">{l s='Type de bien' d='Shop.Theme.Almodovar'}</h2>
+          <h2 class="h5 mb-0">{l s='Property type' d='Shop.Theme.Almodovar'}</h2>
         </div>
         <div class="card-body">
           <ul class="list-group list-group-flush">
@@ -61,7 +61,7 @@
     <div class="col-md-4">
       <div class="card h-100 shadow-sm">
         <div class="card-header bg-black text-white">
-          <h2 class="h5 mb-0">{l s='Style de vie' d='Shop.Theme.Almodovar'}</h2>
+          <h2 class="h5 mb-0">{l s='Lifestyle' d='Shop.Theme.Almodovar'}</h2>
         </div>
         <div class="card-body">
           <ul class="list-group list-group-flush">
