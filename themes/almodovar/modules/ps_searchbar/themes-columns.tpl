@@ -3,8 +3,8 @@
     <!-- Colonne Type de bien -->
     <div class="col-md-4">
       <div class="card h-100 shadow-sm">
-        <div class="card-header bg-primary text-white">
-          <h2 class="h5 mb-0">Type de bien</h2>
+        <div class="card-header bg-black text-white">
+          <h2 class="h5 mb-0">{l s='Type de bien' d='Shop.Theme.Almodovar'}</h2>
         </div>
         <div class="card-body">
           <ul class="list-group list-group-flush">
@@ -24,8 +24,8 @@
     <!-- Colonne Localisation -->
     <div class="col-md-4">
       <div class="card h-100 shadow-sm">
-        <div class="card-header bg-primary text-white">
-          <h2 class="h5 mb-0">Localisation</h2>
+        <div class="card-header bg-black text-white">
+          <h2 class="h5 mb-0">{l s='Localisation' d='Shop.Theme.Almodovar'}</h2>
         </div>
         <div class="card-body">
           <ul class="list-group list-group-flush">
@@ -52,6 +52,7 @@
               </li>
             {/foreach}
           </ul>
+         
         </div>
       </div>
     </div>
@@ -59,8 +60,8 @@
     <!-- Colonne Style de vie -->
     <div class="col-md-4">
       <div class="card h-100 shadow-sm">
-        <div class="card-header bg-primary text-white">
-          <h2 class="h5 mb-0">Style de vie</h2>
+        <div class="card-header bg-black text-white">
+          <h2 class="h5 mb-0">{l s='Style de vie' d='Shop.Theme.Almodovar'}</h2>
         </div>
         <div class="card-body">
           <ul class="list-group list-group-flush">
@@ -73,6 +74,20 @@
               </li>
             {/foreach}
           </ul>
+
+          <ul class="list-group list-group-flush">
+          {foreach $themes.tourism.items as $item}
+            <li class="list-group-item border-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <a href="{$item.url}" class="text-decoration-none">
+                  {$item.label}
+                </a>
+                <span class="badge bg-primary rounded-pill">{$item.count}</span>
+              </div>
+             
+            </li>
+          {/foreach}
+        </ul>
         </div>
       </div>
     </div>

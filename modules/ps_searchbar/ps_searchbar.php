@@ -89,40 +89,49 @@ class Ps_Searchbar extends Module implements WidgetInterface
 
     public function hookDisplayCategoryMap()
     {
+        $categoryIds = [
+            'types' => 3,
+            'locations' => 7,
+            'lifestyles' => 4,
+            'tourism' => 5
+        ];
+    
         $categories = $this->getCategoriesLinks();
         $mainCategories = $categories[0]['children'] ?? [];
-
+    
         $themes = [
             'types' => [
-                'title' => 'Type de bien',
-                'items' => $this->getCategoriesWithCount($mainCategories, 'Type de bien immobilier')
+                'title' => $this->trans('Property Type', [], 'Shop.Theme.Almodovar'),
+                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['types'])
             ],
             'locations' => [
-                'title' => 'Localisation',
-                'items' => $this->getCategoriesWithCount($mainCategories, 'Immobilier en Espagne')
+                'title' => $this->trans('Location', [], 'Shop.Theme.Almodovar'),
+                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['locations'])
             ],
             'lifestyles' => [
-                'title' => 'Style de vie',
-                'items' => $this->getCategoriesWithCount($mainCategories, 'Style de vie: Golf et soleil')
+                'title' => $this->trans('Lifestyle', [], 'Shop.Theme.Almodovar'),
+                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['lifestyles'])
+            ],
+            'tourism' => [
+                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['tourism'])
             ]
         ];
-
+    
         $this->context->smarty->assign(['themes' => $themes]);
         return $this->display(__FILE__, 'themes-columns.tpl');
     }
-
-    protected function getCategoriesWithCount($categories, $searchName)
+    
+    protected function getCategoriesWithCountById($categories, $id_category)
     {
         foreach ($categories as $category) {
-            if ($category['label'] == $searchName) {
+            $current_id = (int)str_replace('category-page-', '', $category['id']);
+            if ($current_id === $id_category) {
                 $items = $category['children'] ?? [];
-
-                // Ajout du comptage pour chaque catégorie
+                
                 foreach ($items as &$item) {
-                    $id_category = (int)str_replace('category-page-', '', $item['id']);
-                    $item['count'] = $this->getProductCount($id_category);
-
-                    // Comptage pour les sous-catégories
+                    $item_id = (int)str_replace('category-page-', '', $item['id']);
+                    $item['count'] = $this->getProductCount($item_id);
+                    
                     if (!empty($item['children'])) {
                         foreach ($item['children'] as &$child) {
                             $child_id = (int)str_replace('category-page-', '', $child['id']);
@@ -130,7 +139,7 @@ class Ps_Searchbar extends Module implements WidgetInterface
                         }
                     }
                 }
-
+                
                 return $items;
             }
         }
@@ -144,16 +153,7 @@ class Ps_Searchbar extends Module implements WidgetInterface
     }
 
 
-    protected function findCategoryChildren($categories, $searchName)
-    {
-        foreach ($categories as $category) {
-            if ($category['label'] == $searchName) {
-                return $category['children'] ?? [];
-            }
-        }
-        return [];
-    }
-
+    
     public function getCategoriesLinks()
     {
         $id_lang = $this->context->language->id;
