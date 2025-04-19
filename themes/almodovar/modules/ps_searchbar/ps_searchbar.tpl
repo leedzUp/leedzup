@@ -65,8 +65,8 @@ width: 100%;
 
      <button type="submit" class="fw-bold fs-5 btn text-white btn btn-transparent" style="
          min-height: 68px;
-           min-width: 122px;
-    max-width: 149px;
+          min-width: 149px;
+          max-width: 149px;
 ">
        {l s='Search' d='Shop.Theme.Almodovar'}
      </button>
