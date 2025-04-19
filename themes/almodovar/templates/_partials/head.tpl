@@ -55,6 +55,11 @@
     <meta property="og:url" content="{$urls.current_url|escape:'htmlall':'UTF-8'}" />
     <meta property="og:site_name" content="{$shop.name|escape:'htmlall':'UTF-8'}" />
     <meta property="og:type" content="{if $page.page_name == 'product'}product{else}website{/if}" />
+    {if $page.page_name == 'product' && isset($product.cover)}
+      <meta property="og:image" content="{$link->getImageLink($product.link_rewrite, $product.cover.id_image, 'large_default')|escape:'htmlall':'UTF-8'}" />
+    {else}
+      <meta property="og:image" content="{$shop.logo|escape:'htmlall':'UTF-8'}" />
+    {/if}
   {/block}
 {/block}
 
