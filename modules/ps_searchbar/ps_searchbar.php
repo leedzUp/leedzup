@@ -79,11 +79,85 @@ class Ps_Searchbar extends Module implements WidgetInterface
         return parent::install()
             && $this->registerHook('displayTop')
             && $this->registerHook('displaySearch')
+            && $this->registerHook('displayCategoryMap')
             && $this->registerHook('displayHeader')
             && $this->registerHook('actionProductSearchProviderRunQueryAfter')
             && $this->registerHook('filterProductSearch')
             && $this->reloadContainer(); // Recharge les services
         ;
+    }
+
+    public function hookDisplayCategoryMap()
+    {
+        $categories = $this->getCategoriesLinks();
+        $mainCategories = $categories[0]['children'] ?? [];
+
+        $themes = [
+            'types' => [
+                'title' => 'Type de bien',
+                'items' => $this->getCategoriesWithCount($mainCategories, 'Type de bien immobilier')
+            ],
+            'locations' => [
+                'title' => 'Localisation',
+                'items' => $this->getCategoriesWithCount($mainCategories, 'Immobilier en Espagne')
+            ],
+            'lifestyles' => [
+                'title' => 'Style de vie',
+                'items' => $this->getCategoriesWithCount($mainCategories, 'Style de vie: Golf et soleil')
+            ]
+        ];
+
+        $this->context->smarty->assign(['themes' => $themes]);
+        return $this->display(__FILE__, 'themes-columns.tpl');
+    }
+
+    protected function getCategoriesWithCount($categories, $searchName)
+    {
+        foreach ($categories as $category) {
+            if ($category['label'] == $searchName) {
+                $items = $category['children'] ?? [];
+
+                // Ajout du comptage pour chaque catégorie
+                foreach ($items as &$item) {
+                    $id_category = (int)str_replace('category-page-', '', $item['id']);
+                    $item['count'] = $this->getProductCount($id_category);
+
+                    // Comptage pour les sous-catégories
+                    if (!empty($item['children'])) {
+                        foreach ($item['children'] as &$child) {
+                            $child_id = (int)str_replace('category-page-', '', $child['id']);
+                            $child['count'] = $this->getProductCount($child_id);
+                        }
+                    }
+                }
+
+                return $items;
+            }
+        }
+        return [];
+    }
+
+    protected function getProductCount($id_category)
+    {
+        $category = new Category($id_category, $this->context->language->id);
+        return $category->getProducts(null, null, null, null, null, true);
+    }
+
+
+    protected function findCategoryChildren($categories, $searchName)
+    {
+        foreach ($categories as $category) {
+            if ($category['label'] == $searchName) {
+                return $category['children'] ?? [];
+            }
+        }
+        return [];
+    }
+
+    public function getCategoriesLinks()
+    {
+        $id_lang = $this->context->language->id;
+        return [Category::getRootCategory()->recurseLiteCategTree(0, 0, $id_lang, null, 'sitemap')];
     }
 
     public function hookDisplayHeader()

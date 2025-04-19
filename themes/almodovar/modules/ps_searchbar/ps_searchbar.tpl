@@ -10,7 +10,7 @@ width: 100%;
  <div class="container mt-5">
  <div class="search-widgets js-search-widget mt-5" data-search-controller-url="{$search_controller_url}">
  <h1 class="fw-bold text-center mb-5 text-white text-shadow" style="text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);">{l s='slogan' d='Shop.Theme.Almodovar'}</h1>
-   <form class="pt-3 mx-auto {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}w-75{else}w-100{/if}" style="max-width: 1000;" method="get" action="{$search_controller_url}">
+   <form class="pt-3 mx-auto {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}w-75{else}w-100{/if}" style="min-width: 1135px;" method="get" action="{$search_controller_url}">
      <input type="hidden" name="controller" value="search">
      <div class="bg-white {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-pill ps-5 {else}rounded-4 px-4{/if} d-flex flex-wrap align-items-center gap-2">
      <!-- Localisation -->
@@ -25,7 +25,6 @@ width: 100%;
        <div class="mt-1 mb-1 col-12 col-md-2 {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}border-end{/if}">
        <label for="propertyType" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Property type' d='Shop.Theme.Almodovar'}</label>
        
- 
        {if isset($properties_types) && $properties_types|@count > 0}
         <select class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} form-select border-0 p-0 shadow-none" name="property_type" id="propertyType">
             <option value="">{l s='To choose' d='Shop.Theme.Almodovar'}...</option>
