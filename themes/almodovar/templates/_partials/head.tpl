@@ -49,11 +49,12 @@
   {/block}
 
   {block name='head_open_graph'}
-    <meta property="og:title" content="{$page.meta.title}" />
-    <meta property="og:description" content="{$page.meta.description}" />
-    <meta property="og:url" content="{$urls.current_url}" />
-    <meta property="og:site_name" content="{$shop.name}" />
-    {if !isset($product) && $page.page_name != 'product'}<meta property="og:type" content="website" />{/if}
+    <meta property="og:locale" content="{$lang_iso|replace:'-':'_'}" />
+    <meta property="og:title" content="{$page.meta.title|escape:'htmlall':'UTF-8'}" />
+    <meta property="og:description" content="{$page.meta.description|escape:'htmlall':'UTF-8'}" />
+    <meta property="og:url" content="{$urls.current_url|escape:'htmlall':'UTF-8'}" />
+    <meta property="og:site_name" content="{$shop.name|escape:'htmlall':'UTF-8'}" />
+    <meta property="og:type" content="{if $page.page_name == 'product'}product{else}website{/if}" />
   {/block}
 {/block}
 
