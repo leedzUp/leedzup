@@ -5,7 +5,7 @@
 {$componentName = 'product-miniature'}
 
 {block name='product_miniature_item'}
-  <article
+  <div
     class="{$componentName} js-{$componentName}{if !empty($productClasses)} {$productClasses}{/if}"
     data-id-product="{$product.id_product}"
     data-id-product-attribute="{$product.id_product_attribute}"
@@ -126,5 +126,5 @@
         </div>
       {/block}
     </div>
-  </article>
+  </div>
 {/block}
