@@ -49,7 +49,7 @@
   {/block}
 
   {block name='head_open_graph'}
-    <meta property="og:locale" content="{$lang_iso|replace:'-':'_'}" />
+    <meta property="og:locale" content="{$language.iso_code|replace:'-':'_'}" />
     <meta property="og:title" content="{$page.meta.title|escape:'htmlall':'UTF-8'}" />
     <meta property="og:description" content="{$page.meta.description|escape:'htmlall':'UTF-8'}" />
     <meta property="og:url" content="{$urls.current_url|escape:'htmlall':'UTF-8'}" />
