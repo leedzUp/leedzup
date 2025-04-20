@@ -7,14 +7,14 @@
 <div class="product__images js-images-container">
   {if $product.images|@count > 0}
     <div
-    style="height: calc(100vh - 245px); min-height: calc(100vh - 245px);"
+      {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
+      style="height: calc(100vh - 245px); min-height: calc(100vh - 245px);"
+      {/if}
       id="product-images"
       class="carousel slide js-product-carousel"
       data-bs-ride="carousel"
       >
-
       <div class="carousel-inner">
-        {include file='catalog/_partials/product-flags.tpl'}
 
         {if $product.images|@count > 1}
           <button class="carousel-control-prev" type="button" data-bs-target="#product-images" data-bs-slide="prev">
@@ -31,26 +31,24 @@
         {block name='product_cover'}
           {foreach from=$product.images item=image key=key name=productImages}
             {if $image.id_image == $product.default_image.id_image}
-
-
             <div class="carousel-item{if $image.id_image == $product.default_image.id_image} active{/if}"
               data-bs-target="#product-images-modal"
               data-bs-slide-to="{$key}"
               >
-                
-
                 <img
                   class="img-fluid"
-                 
-                  src="{$image.bySize.product_main.url|replace:'medium':'wide'}" 
+                  src="{if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}{$image.bySize.product_main.url|replace:'medium':'wide'}{else}{$image.bySize.product_main.url|replace:'medium':'small'}{/if}" 
+                  {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
                   width="1930"
                   height="718"
+                  {else}
+                    width="320"
+                    height="180"
+                  {/if}
                   loading="{if $smarty.foreach.productImages.first}eager{else}lazy{/if}"
                   alt="{$image.legend}"
                   title="{$image.legend}"
-"
                 >
-
             </div>
               {/if}
           {/foreach}

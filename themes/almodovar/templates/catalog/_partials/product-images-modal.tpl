@@ -29,9 +29,17 @@
               <div class="carousel-item{if $image.id_image == $product.default_image.id_image} active{/if}">
                   <img
                     class="img-fluid"
+                    {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
                     src="{$image.bySize.product_main.url|replace:'medium':'large'}" 
                     width="1280"
                     height="718"
+                    {else}
+                    src="{$image.bySize.product_main.url|replace:'medium':'medium'}"
+                    width="475"
+                    height="267"
+                    {/if}
+                    
+                   
                     loading="{if $smarty.foreach.productImages.first}eager{else}lazy{/if}"
                     alt="{$image.legend}"
                     title="{$image.legend}"

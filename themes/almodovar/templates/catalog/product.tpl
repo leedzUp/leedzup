@@ -27,18 +27,38 @@
 
 {block name='content'}
   <div class="mb-4 p-0 container-fluid">
+  {if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}
+    {block name='product_header'}
+    <h1 class="mx-3 fs-4 text-center mt-5 mb-5 fw-bold">{block name='page_title'}{$page.meta.title}{/block}</h1>
+  {/block}
+  {/if}
     {block name='product_cover_thumbnails'}
       {include file='catalog/_partials/product-cover-thumbnails.tpl'}
     {/block}
+
+    {if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}
+      <div class="container">
+      {block name='product_prices'}
+        {include file='catalog/_partials/product-prices.tpl'}
+        {*{include file='catalog/_partials/product-flags.tpl'}*}
+      {/block}
+
+      {widget name="code_childleadsform" product=$product}
+      {widget name="ps_sharebuttons"}
+      </div>
+
+    {/if}
   </div>
   <div class="container">
     {* FIRST PART - PHOTO, NAME, PRICES, ADD TO CART*}
     <div class="row g-4 g-xl-5 product js-product-container">
       <div class="product__left col-md-8">
+      {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
 
         {block name='product_header'}
           <h1 class="fs-1">{block name='page_title'}{$page.meta.title}{/block}</h1>
         {/block}
+      {/if}
 
         {block name='product_features'}
           {if $product.grouped_features}
@@ -326,13 +346,16 @@
       </div>
 
       <div class="product__col col-md-4">
+        {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
 
         {block name='product_prices'}
           {include file='catalog/_partials/product-prices.tpl'}
+          {*{include file='catalog/_partials/product-flags.tpl'}*}
         {/block}
-        {widget name="code_childleadsform" product=$product}
 
-        {widget name="ps_sharebuttons"}
+          {widget name="code_childleadsform" product=$product}
+          {widget name="ps_sharebuttons"}
+        {/if}
 
 
         <div class="col-lg-6 col-xl-5 order-lg-1">
