@@ -1,16 +1,12 @@
 
 <div class="d-flex" style=" 
-{if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
-background:url('/modules/code_buildhomepage/uploads/block/2.webp?20250304144634') no-repeat center center; background-size: cover;
-{else}
 background:linear-gradient(to bottom, #9c6d92, #457b9d);
-padding-bottom: 60px;{/if}
-width: 100%;
+padding-bottom: 60px;
 ">  
  <div class="container mt-5">
  <div class="search-widgets js-search-widget mt-5" data-search-controller-url="{$search_controller_url}">
  <h1 class="fw-bold text-center mb-5 text-white text-shadow" style="text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);">{l s='slogan' d='Shop.Theme.Almodovar'}</h1>
-   <form class="pt-3 mx-auto w-100" method="get" action="{$search_controller_url}">
+   <form class="pt-3 mx-auto w-75" method="get" action="{$search_controller_url}">
      <input type="hidden" name="controller" value="search">
      <div class="bg-white {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-pill ps-5 {else}rounded-4 px-4{/if} d-flex flex-wrap align-items-center gap-2">
      <!-- Localisation -->
@@ -63,7 +59,7 @@ width: 100%;
 
      <div class="p-3">
 
-     <button type="submit" class="p-3 fw-bold fs-5 btn text-white btn btn-transparent">
+     <button type="submit" class="fw-bold fs-5 btn text-white btn btn-transparent">
        {l s='Search' d='Shop.Theme.Almodovar'}
      </button>
      </div>
