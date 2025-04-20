@@ -10,7 +10,7 @@ padding-bottom: 60px;
      <input type="hidden" name="controller" value="search">
      <div class="bg-white {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-pill ps-5 {else}rounded-4 px-4{/if} d-flex flex-wrap align-items-center gap-2">
      <!-- Localisation -->
-     <div class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}mt-3{else}mt-1 border-end{/if} mb-1 col-12 col-md-4">
+     <div class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}mt-3{else}mt-1 border-end{/if} mb-1 col-12 col-md-3">
        <label for="search-location" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Localisation' d='Shop.Theme.Almodovar'}</label>
        <input id="search-location" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} form-control border-0 p-0 shadow-none" type="text" name="location" 
          placeholder="{l s='Region Department City' d='Shop.Theme.Almodovar'}" 
