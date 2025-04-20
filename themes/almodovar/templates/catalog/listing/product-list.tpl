@@ -20,7 +20,7 @@
 </div>
 
 {if $page.page_name == "category"}
-{hook h="displayProductListMap" category=$listing}
+  {hook h="displayProductListMap" category=$category}
 
   {if isset($smarty.get.simulation) && $smarty.get.simulation == 1}
     {* SIMULATION *}
@@ -52,7 +52,7 @@
   {/if}
 
 {else}
-{hook h="displayProductListMap" category=$listing_search}
+{*{hook h="displayProductListMap" category=$listing_search}*}
 
  <div class="container  mt-4">
    {block name="product_list_top"}
