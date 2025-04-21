@@ -35,7 +35,9 @@
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
+      "@type": "{$shop.name}",
+      "name": "Alicante Immobilier",
+
       "url" : "{$urls.pages.index}",
       "image": {
         "@type": "ImageObject",

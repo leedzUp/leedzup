@@ -23,6 +23,8 @@
 
   <meta name="description" content="{block name='head_seo_description'}{$page.meta.description}{/block}">
 
+  <meta name="site_name" content="{$shop.name|escape:'htmlall':'UTF-8'}">
+
   {if $page.meta.robots !== 'index'}
     <meta name="robots" content="{$page.meta.robots}">
   {/if}
