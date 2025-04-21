@@ -6,7 +6,7 @@
   <div class="products-selections-filters row">
     <div class="col-lg-12 total-products order-2 order-lg-1 mt-4 mt-lg-0">
       {if $listing.pagination.total_items> 1}
-      <h1 class="fs-4">{if $page.page_name == 'category'}{$category.name}{elseif $page.page_name == 'search'}{l s='Search' d='Shop.Theme.Almodovar'}{/if}: {l s='%product_count%' d='Shop.Theme.Catalog' sprintf=['%product_count%' => $listing.pagination.total_items]} {l s='properties for sale' d='Shop.Theme.Almodovar'}</h1>
+      <h1 class="fs-2">{if $page.page_name == 'category'}<strong>{$category.name}</strong>{elseif $page.page_name == 'search'}{l s='Search' d='Shop.Theme.Almodovar'}{/if}: {l s='%product_count%' d='Shop.Theme.Catalog' sprintf=['%product_count%' => $listing.pagination.total_items]} {l s='properties for sale' d='Shop.Theme.Almodovar'}</h1>
       {elseif $listing.pagination.total_items> 0}
         <h1>{if $page.page_name == 'category'}{$category.name}{elseif $page.page_name == 'search'}Recherche{/if}: {l s='1' d='Shop.Theme.Catalog'} {l s='propertie for sale' d='Shop.Theme.Almodovar'}</h1>
       {/if}
