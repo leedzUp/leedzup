@@ -108,9 +108,9 @@ $meta_data = [
 
     // ID 9 - Sitemap pages
     [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 1, 'title' => 'Sitemap', 'description' => 'Lost ? Find what your are looking for', 'url_rewrite' => 'sitemap' ],
-    [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 2, 'title' => 'Mapa del sitio', 'description' => '¿Perdido? Encuentre lo que busca', 'url_rewrite' => 'mapa-del-sitio' ],
-    [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 3, 'title' => 'Plan du site', 'description' => 'Perdu ? Trouvez ce que vous cherchez', 'url_rewrite' => 'plan-du-site' ],
-    [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 4, 'title' => 'Inhaltsverzeichnis', 'description' => 'Verloren ? Finden Sie was Sie suchen', 'url_rewrite' => 'inhaltsverzeichnis' ],
+    [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 2, 'title' => 'Mapa del sitio', 'description' => '¿Perdido? Encuentre lo que busca', 'url_rewrite' => 'sitemap' ],
+    [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 3, 'title' => 'Plan du site', 'description' => 'Perdu ? Trouvez ce que vous cherchez', 'url_rewrite' => 'sitemap' ],
+    [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 4, 'title' => 'Inhaltsverzeichnis', 'description' => 'Verloren ? Finden Sie was Sie suchen', 'url_rewrite' => 'sitemap' ],
     [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 5, 'title' => 'Sitemap', 'description' => 'Verloren ? Vind wat u zoekt', 'url_rewrite' => 'sitemap' ],
     [ 'id_meta' => 9, 'id_shop' => 1, 'id_lang' => 6, 'title' => 'Sitemap', 'description' => 'Zagubiony ? Znajdź to, czego szukasz', 'url_rewrite' => 'sitemap' ],
     // English (United Kingdom)
@@ -129,7 +129,7 @@ $meta_data = [
         'id_lang' => 8,
         'title' => 'Sivukartta',
         'description' => 'Kadonnut? Löydä etsimäsi',
-        'url_rewrite' => 'sivukartta'
+        'url_rewrite' => 'sitemap'
     ],
     // Norwegian Bokmål
     [
@@ -147,7 +147,7 @@ $meta_data = [
         'id_lang' => 10,
         'title' => 'Mappa del sito',
         'description' => 'Perso? Trova quello che stai cercando',
-        'url_rewrite' => 'mappa-del-sito'
+        'url_rewrite' => 'sitemap'
     ],
     // Portuguese PT
     [
@@ -156,7 +156,7 @@ $meta_data = [
         'id_lang' => 11,
         'title' => 'Mapa do site',
         'description' => 'Perdido? Encontre o que está procurando',
-        'url_rewrite' => 'mapa-do-site'
+        'url_rewrite' => 'sitemap'
     ],
     // Swedish
     [
@@ -183,7 +183,7 @@ $meta_data = [
         'id_lang' => 14,
         'title' => 'Hartă site',
         'description' => 'Pierdut? Găsește ce cauți',
-        'url_rewrite' => 'harta-site'
+        'url_rewrite' => 'sitemap'
     ],
     // Russian
     [
@@ -192,7 +192,7 @@ $meta_data = [
         'id_lang' => 15,
         'title' => 'Карта сайта',
         'description' => 'Потерялись? Найдите то, что ищете',
-        'url_rewrite' => 'karta-sajta'
+        'url_rewrite' => 'sitemap'
     ],
     // Ukrainian
     [
@@ -201,21 +201,21 @@ $meta_data = [
         'id_lang' => 16,
         'title' => 'Карта сайту',
         'description' => 'Загубились? Знайдіть те, що шукаєте',
-        'url_rewrite' => 'karta-sajtu'
+        'url_rewrite' => 'sitemap'
     ],
     // ID 4 - Voguimmo real estate pages
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 1, 'title' => ' Real estate in Alicante, it\'s here!', 'description' => 'Our real estate agency brings you the best real estate options in Alicante.', 'url_rewrite' => '' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 2, 'title' => 'Inmobiliaria en Alicante, ¡ya está aquí!', 'description' => 'Te ofrece las mejores opciones inmobiliarias en Alicante.', 'url_rewrite' => '' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 3, 'title' => 'Agence Immo - L’immobilier à Alicante, c’est ici !', 'description' => 'Notre agence vous propose les meilleures options immobilières à Alicante.', 'url_rewrite' => '' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 4, 'title' => 'Immobilien in Alicante gibt es hier!', 'description' => 'Bietet dir die besten Immobilienoptionen in Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 1, 'title' => 'Real Estate Agency Alicante Cheaper Houses Spain', 'description' => 'Our real estate agency brings you the best real estate options in Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 2, 'title' => 'Agencia Inmobiliaria Alicante Casas baratas España', 'description' => 'Te ofrece las mejores opciones inmobiliarias en Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 3, 'title' => 'Agence immobilière Alicante Maison moins cher Espagne', 'description' => 'Notre agence vous propose les meilleures options immobilières à Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 4, 'title' => 'Immobilienagentur Alicante Günstige Häuser Spanien', 'description' => 'Bietet dir die besten Immobilienoptionen in Alicante.', 'url_rewrite' => '' ],
     [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 5, 'title' => 'Onroerend goed in Alicante, hier is het!', 'description' => 'Biedt de beste vastgoedopties in Alicante.', 'url_rewrite' => '' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 6, 'title' => 'Nieruchomości w Alicante, to tutaj!', 'description' => 'Oferuje najlepsze opcje nieruchomości w Alicante.', 'url_rewrite' => '' ],
+    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 6, 'title' => 'Agencja nieruchomości Alicante Tanie domy Hiszpania', 'description' => 'Oferuje najlepsze opcje nieruchomości w Alicante.', 'url_rewrite' => '' ],
     // English (United Kingdom)
     [ 
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 7, 
-        'title' => 'Real estate in Alicante, it\'s here!', 
+        'title' => 'Real Estate Agency Alicante Cheaper Houses Spain', 
         'description' => 'We brings you the best real estate options in Alicante.', 
         'url_rewrite' => '' 
     ],
@@ -224,7 +224,7 @@ $meta_data = [
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 8, 
-        'title' => 'Kiinteistöt Alicantessa, täällä se on!', 
+        'title' => 'Asuntojen välitys Alicante Edulliset talot Espanja', 
         'description' => 'tuo sinulle parhaat kiinteistövaihtoehdot Alicantessa.', 
         'url_rewrite' => '' 
     ],
@@ -233,7 +233,7 @@ $meta_data = [
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 9, 
-        'title' => 'Eiendom i Alicante, det er her!', 
+        'title' => 'Eiendomsmegler Alicante Billige hus Spania', 
         'description' => 'gir deg de beste eiendomsmulighetene i Alicante.', 
         'url_rewrite' => '' 
     ],
@@ -242,7 +242,7 @@ $meta_data = [
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 10, 
-        'title' => 'Immobili a Alicante, è qui!', 
+        'title' => 'Agenzia Immobiliare Alicante Case economiche Spagna', 
         'description' => 'ti offre le migliori opzioni immobiliari a Alicante.', 
         'url_rewrite' => '' 
     ],
@@ -251,7 +251,7 @@ $meta_data = [
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 11, 
-        'title' => 'Imóveis em Alicante, está aqui!', 
+        'title' => 'Imobiliária Alicante Casas baratas Espanha', 
         'description' => 'traz as melhores opções imobiliárias em Alicante.', 
         'url_rewrite' => '' 
     ],
@@ -260,7 +260,7 @@ $meta_data = [
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 12, 
-        'title' => 'Fastigheter i Alicante, här är det!', 
+        'title' => 'Fastighetsbyrå Alicante Billiga hus Spanien', 
         'description' => 'erbjuder de bästa fastighetsalternativen i Alicante.', 
         'url_rewrite' => '' 
     ],
@@ -269,7 +269,7 @@ $meta_data = [
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 13, 
-        'title' => 'Ejendom i Alicante, her er det!', 
+        'title' => 'Ejendomsmægler Alicante Billige huse Spanien', 
         'description' => 'tilbyder de bedste ejendomsmuligheder i Alicante.', 
         'url_rewrite' => '' 
     ],
@@ -278,7 +278,7 @@ $meta_data = [
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 14, 
-        'title' => 'Imobiliare în Alicante, este aici!', 
+        'title' => 'Agent imobiliar Alicante Case ieftine Spania', 
         'description' => 'îți aduce cele mai bune opțiuni imobiliare din Alicante.', 
         'url_rewrite' => '' 
     ],
@@ -287,7 +287,7 @@ $meta_data = [
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 15, 
-        'title' => 'Недвижимость в Аликанте, это здесь!', 
+        'title' => 'Недвижимость в Аликанте Дома дешевле Испания', 
         'description' => 'предлагает вам лучшие варианты недвижимости в Аликанте.', 
         'url_rewrite' => '' 
     ],
@@ -296,7 +296,7 @@ $meta_data = [
         'id_meta' => 4, 
         'id_shop' => 1, 
         'id_lang' => 16, 
-        'title' => 'Нерухомість в Аліканте, ось тут!', 
+        'title' => 'Нерухомість в Аліканте Будинки дешевше Іспанія', 
         'description' => 'пропонує найкращі варіанти нерухомості в Аліканте.', 
         'url_rewrite' => '' 
     ],
