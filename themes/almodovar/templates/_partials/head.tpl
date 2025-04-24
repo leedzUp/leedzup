@@ -1,38 +1,24 @@
-{**
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *}
-{block name='head_charset'}
-  <meta charset="utf-8">
-{/block}
 
-{block name='head_ie_compatibility'}
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+{block name='head_charset'}<meta charset="utf-8"><title>{block name='head_seo_title'}{$page.meta.title}{/block}</title>
 {/block}
-
+{block name='head_ie_compatibility'}<meta http-equiv="x-ua-compatible" content="ie=edge">{/block}
 {block name='head_seo'}
   {block name='head_preload'}
     {include file='_partials/preload.tpl'}
   {/block}
 
-  <title>{block name='head_seo_title'}{$page.meta.title}{/block}</title>
-
   {block name='hook_after_title_tag'}
     {hook h='displayAfterTitleTag'}
   {/block}
-
   <meta name="description" content="{block name='head_seo_description'}{$page.meta.description}{/block}">
-
   <meta name="site_name" content="{$shop.name|escape:'htmlall':'UTF-8'}">
-
   {if $page.meta.robots !== 'index'}
     <meta name="robots" content="{$page.meta.robots}">
   {/if}
-
   {if $page.canonical}
-    <link rel="canonical" href="{$page.canonical}">
+    {assign var='canonical_url' value=$page.canonical|split:'?'}
+    <link rel="canonical" href="{$canonical_url[0]}">
   {/if}
-
   {block name='head_hreflang'}
     <link rel="alternate" href="{$urls.alternative_langs.fr}" hreflang="x-default">
     {foreach from=$urls.alternative_langs item=pageUrl key=code}
