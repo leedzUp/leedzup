@@ -69,7 +69,7 @@ padding-bottom: 60px;
    </form>
  </div>
 
- {hook h='displayCategoryMap'}
+ {include file="{$smarty.const._PS_THEME_DIR_}modules/ps_searchbar/themes-column-{$language.id}.tpl"}
 
 </div>
 

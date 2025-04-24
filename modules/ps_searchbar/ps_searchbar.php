@@ -68,26 +68,130 @@ class Ps_Searchbar extends Module implements WidgetInterface
 
     public function install()
     {
-        // Migrate data from 1.6 equivalent module (if applicable), then uninstall
-        if (Module::isInstalled(self::PS_16_EQUIVALENT_MODULE)) {
-            $oldModule = Module::getInstanceByName(self::PS_16_EQUIVALENT_MODULE);
-            if ($oldModule) {
-                $oldModule->uninstall();
-            }
-        }
-
         return parent::install()
             && $this->registerHook('displayTop')
             && $this->registerHook('displaySearch')
-            && $this->registerHook('displayCategoryMap')
             && $this->registerHook('displayHeader')
             && $this->registerHook('actionProductSearchProviderRunQueryAfter')
             && $this->registerHook('filterProductSearch')
-            && $this->reloadContainer(); // Recharge les services
-        ;
+            && $this->reloadContainer() // Recharge les services
+            && $this->generateTplThemesColumn(); // Generation des tpl dans le dossier themes/almodovar/modules/ps_searchbar
+        
     }
 
-    public function hookDisplayCategoryMap()
+
+    private function generateTplThemesColumn() {
+
+        // à l'installation on va ecrire le tpl de themes-column-id_lang.tpl dans le dossier themes/almodovar/modules/ps_searchbar
+        $langs = Language::getLanguages(false);
+        $themeDir = _PS_THEME_DIR_; // exemple : /themes/almodovar/
+        $moduleDir = $this->getLocalPath(); // /modules/ps_searchbar/
+        $sourceTplPath = $moduleDir; // source dans ton module
+
+        foreach ($langs as $lang) {
+            $data = $this->getDataListCat($lang['id_lang']);
+            $destinationTplPath = $themeDir . 'modules/ps_searchbar/themes-column-' . $lang['id_lang'] . '.tpl';
+
+            // on supprime le fichier s il existe
+            if (file_exists($destinationTplPath)) {
+                unlink($destinationTplPath);
+            }
+            
+            $renderedContent = '<div class="container my-5">
+            <div class="row g-4">';
+            // ---- TYPE DE BIEN ----
+            $renderedContent .= '<div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-black text-white">
+                <h2 class="h5 mb-0">Type de bien</h2>
+                </div>
+                <div class="card-body">
+                <ul class="list-group list-group-flush">';
+            foreach ($data['types']['items'] as $item) {
+                if ($item['count'] > 0) {
+
+                    $renderedContent .= '<li class="list-group-item border-0 d-flex justify-content-between align-items-center">
+                    <a href="' . $item['url'] . '" class="text-decoration-none">' . htmlspecialchars($item['label']) . '</a>
+                    <span class="badge bg-primary rounded-pill">' . $item['count'] . '</span>
+                    </li>';
+                }
+            }
+            $renderedContent .= '</ul>
+                </div>
+            </div>
+            </div>';
+            
+            // ---- LOCALISATION ----
+            $renderedContent .= '<div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-black text-white">
+                <h2 class="h5 mb-0">Localisation</h2>
+                </div>
+                <div class="card-body">
+                <ul class="list-group list-group-flush">';
+            foreach ($data['locations']['items'] as $region) {
+                $renderedContent .= '<li class="list-group-item border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="' . $region['url'] . '" class="text-decoration-none">' . htmlspecialchars($region['label']) . '</a>
+                    <span class="badge bg-primary rounded-pill">' . $region['count'] . '</span>
+                </div>';
+                if (!empty($region['children'])) {
+                    $renderedContent .= '<ul class="list-unstyled ms-4 mt-2">';
+                    foreach ($region['children'] as $city) {
+                        $renderedContent .= '<li class="mb-1 d-flex justify-content-between align-items-center">
+                        <a href="' . $city['url'] . '" class="text-decoration-none small">' . htmlspecialchars($city['label']) . '</a>
+                        <span class="badge bg-primary rounded-pill" style="font-size: 0.7rem;">' . $city['count'] . '</span>
+                        </li>';
+                    }
+                    $renderedContent .= '</ul>';
+                }
+                $renderedContent .= '</li>';
+            }
+            $renderedContent .= '</ul>
+                </div>
+            </div>
+            </div>';
+            
+            // ---- STYLE DE VIE ----
+            $renderedContent .= '<div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-black text-white">
+                <h2 class="h5 mb-0">Style de vie</h2>
+                </div>
+                <div class="card-body">
+                <ul class="list-group list-group-flush">';
+            foreach ($data['lifestyles']['items'] as $item) {
+                $renderedContent .= '<li class="list-group-item border-0 d-flex justify-content-between align-items-center">
+                <a href="' . $item['url'] . '" class="text-decoration-none">' . htmlspecialchars($item['label']) . '</a>
+                <span class="badge bg-primary rounded-pill">' . $item['count'] . '</span>
+                </li>';
+            }
+            $renderedContent .= '</ul><ul class="list-group list-group-flush">';
+            foreach ($data['tourism']['items'] as $item) {
+                $renderedContent .= '<li class="list-group-item border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="' . $item['url'] . '" class="text-decoration-none">' . htmlspecialchars($item['label']) . '</a>
+                    <span class="badge bg-primary rounded-pill">' . $item['count'] . '</span>
+                </div>
+                </li>';
+            }
+            $renderedContent .= '</ul>
+                </div>
+            </div>
+            </div>';
+            
+            $renderedContent .= '</div></div>';
+
+            if (!is_dir(dirname($destinationTplPath))) {
+                mkdir(dirname($destinationTplPath), 0755, true);
+            }
+            
+            // Ensuite, tu peux enregistrer ce HTML dans un fichier :
+            file_put_contents($destinationTplPath, $renderedContent);
+        }
+    }
+
+    private function getDataListCat($id_lang)
     {
         $categoryIds = [
             'types' => 3,
@@ -116,9 +220,9 @@ class Ps_Searchbar extends Module implements WidgetInterface
                 'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['tourism'])
             ]
         ];
+
+        return $themes;
     
-        $this->context->smarty->assign(['themes' => $themes]);
-        return $this->display(__FILE__, 'themes-columns.tpl');
     }
     
     protected function getCategoriesWithCountById($categories, $id_category)
@@ -152,8 +256,6 @@ class Ps_Searchbar extends Module implements WidgetInterface
         return $category->getProducts(null, null, null, null, null, true);
     }
 
-
-    
     public function getCategoriesLinks()
     {
         $id_lang = $this->context->language->id;
@@ -162,9 +264,7 @@ class Ps_Searchbar extends Module implements WidgetInterface
 
     public function hookDisplayHeader()
     {
-        // $this->context->controller->addJqueryUI('ui.autocomplete');
         $this->context->controller->registerStylesheet('modules-searchbar', 'modules/' . $this->name . '/ps_searchbar.css');
-        // $this->context->controller->registerJavascript('modules-searchbar', 'modules/' . $this->name . '/ps_searchbar.js', ['position' => 'bottom', 'priority' => 150]);
     }
 
     public function getWidgetVariables($hookName, array $configuration = [])
