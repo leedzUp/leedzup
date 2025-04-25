@@ -203,103 +203,24 @@ $meta_data = [
         'description' => 'Загубились? Знайдіть те, що шукаєте',
         'url_rewrite' => 'sitemap'
     ],
-    // ID 4 - Voguimmo real estate pages
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 1, 'title' => 'Real Estate Agency Alicante Cheaper Houses Spain', 'description' => 'Our real estate agency brings you the best real estate options in Alicante.', 'url_rewrite' => '' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 2, 'title' => 'Agencia Inmobiliaria Alicante Casas baratas España', 'description' => 'Te ofrece las mejores opciones inmobiliarias en Alicante.', 'url_rewrite' => '' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 3, 'title' => 'Agence immobilière Alicante Maison moins cher Espagne', 'description' => 'Notre agence vous propose les meilleures options immobilières à Alicante.', 'url_rewrite' => '' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 4, 'title' => 'Immobilienagentur Alicante Günstige Häuser Spanien', 'description' => 'Bietet dir die besten Immobilienoptionen in Alicante.', 'url_rewrite' => '' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 5, 'title' => 'Onroerend goed in Alicante, hier is het!', 'description' => 'Biedt de beste vastgoedopties in Alicante.', 'url_rewrite' => '' ],
-    [ 'id_meta' => 4, 'id_shop' => 1, 'id_lang' => 6, 'title' => 'Agencja nieruchomości Alicante Tanie domy Hiszpania', 'description' => 'Oferuje najlepsze opcje nieruchomości w Alicante.', 'url_rewrite' => '' ],
-    // English (United Kingdom)
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 7, 
-        'title' => 'Real Estate Agency Alicante Cheaper Houses Spain', 
-        'description' => 'We brings you the best real estate options in Alicante.', 
-        'url_rewrite' => '' 
-    ],
-    // Finnish
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 8, 
-        'title' => 'Asuntojen välitys Alicante Edulliset talot Espanja', 
-        'description' => 'tuo sinulle parhaat kiinteistövaihtoehdot Alicantessa.', 
-        'url_rewrite' => '' 
-    ],
-    // Norwegian Bokmål
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 9, 
-        'title' => 'Eiendomsmegler Alicante Billige hus Spania', 
-        'description' => 'gir deg de beste eiendomsmulighetene i Alicante.', 
-        'url_rewrite' => '' 
-    ],
-    // Italian
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 10, 
-        'title' => 'Agenzia Immobiliare Alicante Case economiche Spagna', 
-        'description' => 'ti offre le migliori opzioni immobiliari a Alicante.', 
-        'url_rewrite' => '' 
-    ],
-    // Portuguese PT
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 11, 
-        'title' => 'Imobiliária Alicante Casas baratas Espanha', 
-        'description' => 'traz as melhores opções imobiliárias em Alicante.', 
-        'url_rewrite' => '' 
-    ],
-    // Swedish
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 12, 
-        'title' => 'Fastighetsbyrå Alicante Billiga hus Spanien', 
-        'description' => 'erbjuder de bästa fastighetsalternativen i Alicante.', 
-        'url_rewrite' => '' 
-    ],
-    // Danish
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 13, 
-        'title' => 'Ejendomsmægler Alicante Billige huse Spanien', 
-        'description' => 'tilbyder de bedste ejendomsmuligheder i Alicante.', 
-        'url_rewrite' => '' 
-    ],
-    // Romanian
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 14, 
-        'title' => 'Agent imobiliar Alicante Case ieftine Spania', 
-        'description' => 'îți aduce cele mai bune opțiuni imobiliare din Alicante.', 
-        'url_rewrite' => '' 
-    ],
-    // Russian
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 15, 
-        'title' => 'Недвижимость в Аликанте Дома дешевле Испания', 
-        'description' => 'предлагает вам лучшие варианты недвижимости в Аликанте.', 
-        'url_rewrite' => '' 
-    ],
-    // Ukrainian
-    [ 
-        'id_meta' => 4, 
-        'id_shop' => 1, 
-        'id_lang' => 16, 
-        'title' => 'Нерухомість в Аліканте Будинки дешевше Іспанія', 
-        'description' => 'пропонує найкращі варіанти нерухомості в Аліканте.', 
-        'url_rewrite' => '' 
-    ],
+
+    // SEO HOMEPAGE - Mots clefs cible Immobilier Alicante
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 1, 'title' => 'Real Estate in Alicante – Second Home for Sale in Spain',                 'description' => 'Our real estate agency brings you the best real estate options in Alicante.',      'url_rewrite' => '' ],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 2, 'title' => 'Inmobiliaria en Alicante – Segunda residencia en venta en España',        'description' => 'Descubre las mejores oportunidades inmobiliarias en Alicante con nosotros.',       'url_rewrite' => '' ],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 3, 'title' => 'Immobilier Alicante – Résidence secondaire à vendre en Espagne',          'description' => 'Trouvez votre maison idéale à Alicante grâce à notre sélection d\'annonces.',      'url_rewrite' => '' ],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 4, 'title' => 'Immobilien in Alicante – Zweitwohnsitz zu verkaufen in Spanien',          'description' => 'Finden Sie Ihre Traumimmobilie in Alicante – wir bieten die besten Angebote.',           'url_rewrite' => '' ],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 5, 'title' => 'Onroerend goed in Alicante – Betaalbare huizen te koop in Spanje',        'description' => 'Ontdek betaalbare woningen en topvastgoed in Alicante met onze makelaars.',                           'url_rewrite' => '' ],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 6, 'title' => 'Agencja nieruchomości Alicante Tanie domy Hiszpania',                     'description' => 'Znajdź idealny dom w Alicante – najlepsze oferty nieruchomości w Hiszpanii.',                     'url_rewrite' => '' ],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 7,  'title' => 'Real Estate Agency in Alicante – Cheap Houses for Sale in Spain',        'description' => 'Find your dream property in Alicante with the best real estate deals in Spain.',               'url_rewrite' => ''],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 8,  'title' => 'Kiinteistönvälitys Alicante – Edullisia asuntoja Espanjassa',            'description' => 'Löydä unelmiesi koti Alicantesta – parhaat kiinteistötarjoukset Espanjassa.',               'url_rewrite' => ''],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 9,  'title' => 'Eiendomsmegler i Alicante – Rimelige boliger i Spania',                  'description' => 'Finn drømmeboligen din i Alicante – vi tilbyr de beste eiendomsmulighetene.',                     'url_rewrite' => ''],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 10, 'title' => 'Agenzia immobiliare ad Alicante – Case economiche in vendita in Spagna', 'description' => 'Scopri le migliori case in vendita ad Alicante con la nostra agenzia.',                'url_rewrite' => ''],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 11, 'title' => 'Imobiliária em Alicante – Casas baratas à venda na Espanha',             'description' => 'Encontre casas acessíveis em Alicante com as melhores ofertas do mercado.',                   'url_rewrite' => ''],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 12, 'title' => 'Fastighetsbyrå i Alicante – Billiga hus till salu i Spanien',            'description' => 'Hitta ditt nya hem i Alicante – vi har de bästa fastighetsalternativen.',                'url_rewrite' => ''],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 13, 'title' => 'Ejendomsmægler i Alicante – Billige huse til salg i Spanien',            'description' => 'Find din drømmebolig i Alicante – vi tilbyder de bedste muligheder.',                   'url_rewrite' => ''],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 14, 'title' => 'Agent imobiliar Alicante Case ieftine Spania',                           'description' => 'Găsește cele mai bune oferte imobiliare din Alicante pentru a doua ta casă.',             'url_rewrite' => ''],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 15, 'title' => 'Недвижимость в Аликанте – Дешёвые дома на продажу в Испании',            'description' => 'Найдите лучшие предложения недвижимости в Аликанте с нашей помощью.',             'url_rewrite' => ''],
+    ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 16, 'title' => 'Нерухомість в Аліканте – Дешеві будинки на продаж в Іспанії',             'description' => 'Знайдіть доступне житло в Аліканте – вигідні пропозиції від нашої агенції.',                  'url_rewrite' => '']
 
 ];
 
