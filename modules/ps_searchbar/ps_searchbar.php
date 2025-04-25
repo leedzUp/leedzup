@@ -77,17 +77,12 @@ class Ps_Searchbar extends Module implements WidgetInterface
             $this->context->language = new Language(Configuration::get('PS_LANG_DEFAULT'));
         }
 
-
-        // Génère les templates avant l'installation
-        if (!$this->generateTplThemesColumn()) {
-            return false;
-        }
-
         return parent::install()
             && $this->registerHook('displayTop')
             && $this->registerHook('displaySearch')
             && $this->registerHook('displayHeader')
             && $this->registerHook('actionProductSearchProviderRunQueryAfter')
+            && $this->generateTplThemesColumn()
             && $this->registerHook('filterProductSearch');
 
     }

@@ -2,11 +2,11 @@
 
 
 {if $page.page_name == 'category'}
-    {block name='sort_by'}
+    {*{block name='sort_by'}
     <div class="d-flex align-items-center justify-content-md-end sort-by-row">
     {include file='catalog/_partials/sort-orders.tpl' sort_orders=$listing.sort_orders}
               </div>
-  {/block}
+  {/block}*}
 
 {capture assign="productClasses"}col-12 col-md-4{/capture}
 <div class="mt-2 products row">
