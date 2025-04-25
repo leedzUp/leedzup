@@ -6,11 +6,10 @@ padding-bottom: 60px;
  <div class="container mt-5">
  <div class="search-widgets js-search-widget" data-search-controller-url="{$search_controller_url}">
  <h1 class="fw-bold text-center mb-2 text-white text-shadow" style="text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);">{l s='slogan' d='Shop.Theme.Almodovar'}</h1>
- <p class="text-center text-white fs-4">{l s='Nous trouvons pour vous la <strong>maison à vendre en Espagne</strong> qui correspond à vos critères,<br>
- forts de notre <strong>expertise exclusive</strong> sur la <strong>province d\'Alicante</strong> depuis 2004.' d='Shop.Theme.Almodovar'}</p>
+ <p class="text-center text-white fs-4">{l s='home_hat' d='Shop.Theme.Almodovar'}</p>
    <form class="pt-3 mx-auto w-75" method="get" action="{$search_controller_url}">
      <input type="hidden" name="controller" value="search">
-     <div class="bg-white {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-pill ps-5 {else}rounded-4 px-4{/if} d-flex flex-wrap align-items-center gap-2">
+     <div class="shadow bg-white {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-pill ps-5 {else}rounded-4 px-4{/if} d-flex flex-wrap align-items-center gap-2">
      <!-- Localisation -->
      <div class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}mt-3{else}mt-1 border-end{/if} mb-1 col-12 col-md-3">
        <label for="search-location" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Localisation' d='Shop.Theme.Almodovar'}</label>
@@ -18,12 +17,10 @@ padding-bottom: 60px;
          placeholder="{l s='Region Department City' d='Shop.Theme.Almodovar'}" 
          aria-label="{l s='Search' d='Shop.Theme.Almodovar'}">
      </div>
-
        <!-- Type de bien -->
        <div class="mt-1 mb-1 col-12 col-md-2 {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}border-end{/if}">
        <label for="propertyType" class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} fw-bold form-label">{l s='Property type' d='Shop.Theme.Almodovar'}</label>
        
- 
        {if isset($properties_types) && $properties_types|@count > 0}
         <select class="{if Context::getContext()->detectDeviceByUserAgent() == 'mobile'}fs-2{/if} form-select border-0 p-0 shadow-none" name="property_type" id="propertyType">
             <option value="">{l s='To choose' d='Shop.Theme.Almodovar'}...</option>
@@ -61,7 +58,7 @@ padding-bottom: 60px;
 
      <div class="p-3">
 
-     <button type="submit" class="fw-bold fs-5 btn text-white btn btn-transparent">
+     <button type="submit" class="fw-bold fs-5 text-white btn btn-transparent">
        {l s='Search' d='Shop.Theme.Almodovar'}
      </button>
      </div>
