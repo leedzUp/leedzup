@@ -68,22 +68,15 @@ class Ps_Searchbar extends Module implements WidgetInterface
 
     public function install()
     {
-        // Initialise le contexte si nécessaire
-        if ($this->context == null) {
-            $this->context = Context::getContext();
-        }
-
-        if ($this->context->language == null) {
-            $this->context->language = new Language(Configuration::get('PS_LANG_DEFAULT'));
-        }
+       
+        $this->registerHook('filterProductSearch');
 
         return parent::install()
             && $this->registerHook('displayTop')
             && $this->registerHook('displaySearch')
             && $this->registerHook('displayHeader')
             && $this->registerHook('actionProductSearchProviderRunQueryAfter')
-            && $this->generateTplThemesColumn()
-            && $this->registerHook('filterProductSearch');
+            && $this->generateTplThemesColumn();
 
     }
 
@@ -514,6 +507,12 @@ class Ps_Searchbar extends Module implements WidgetInterface
 
     public function hookActionProductSearchProviderRunQueryAfter(&$params)
     {
+
+         // Vérifiez que la classe override est bien chargée
+        if (!class_exists('Ps_Searchbar\Search\SearchProductSearchProviderOverride')) {
+            require_once __DIR__.'/src/Search/SearchProductSearchProviderOverride.php';
+        }
+
         // Récupération manuelle du contexte
         $context = new ProductSearchContext(\Context::getContext());
         $query = $params['query'];
