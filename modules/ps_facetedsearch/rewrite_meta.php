@@ -221,58 +221,6 @@ $meta_data = [
     ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 14, 'title' => 'Agent imobiliar Alicante Case ieftine Spania',                           'description' => 'Găsește cele mai bune oferte imobiliare din Alicante pentru a doua ta casă.',             'url_rewrite' => ''],
     ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 15, 'title' => 'Недвижимость в Аликанте – Дешёвые дома на продажу в Испании',            'description' => 'Найдите лучшие предложения недвижимости в Аликанте с нашей помощью.',             'url_rewrite' => ''],
     ['id_meta' => 4, 'id_shop' => 1, 'id_lang' => 16, 'title' => 'Нерухомість в Аліканте – Дешеві будинки на продаж в Іспанії',             'description' => 'Знайдіть доступне житло в Аліканте – вигідні пропозиції від нашої агенції.',                  'url_rewrite' => '']
-    // SEO HOMEPAGE - Mots clefs cible Immobilier Alicante
-    // id_lang= 3 h1 --- Votre agence immobilière à Alicante – Trouvez la maison idéale en Espagne
-    // id_lang= 3 HAT --- Depuis 2004, <span itemprop="name"><strong>notre agence immobilière à Alicante</strong></span> met son <strong>expertise locale</strong> au service de votre projet <strong>immobilier à Alicante</strong>. Découvrez les meilleures <strong>maisons à vendre en Espagne</strong>, sélectionnées selon vos critères pour faire de votre <strong>résidence secondaire</strong> une réalité ensoleillée.
-    
-    // SEO HOMEPAGE - Mots clefs cible Immobilier Alicante
-    // id_lang= 1 h1 --- Your Real Estate Agency in Alicante – Find Your Ideal Home in Spain
-    // id_lang= 1 HAT --- Since 2004, <span itemprop="name"><strong>our real estate agency in Alicante</strong></span> has been putting its <strong>local expertise</strong> at the service of your <strong>real estate project in Alicante</strong>. Discover the best <strong>homes for sale in Spain</strong>, carefully selected to make your <strong>second home</strong> a sunny reality.
-
-    // id_lang= 2 h1 --- Tu inmobiliaria en Alicante – Encuentra la casa ideal en España
-    // id_lang= 2 HAT --- Desde 2004, <span itemprop="name"><strong>nuestra inmobiliaria en Alicante</strong></span> pone su <strong>experiencia local</strong> al servicio de tu proyecto <strong>inmobiliario en Alicante</strong>. Descubre las mejores <strong>casas en venta en España</strong>, seleccionadas para convertir tu <strong>segunda residencia</strong> en una realidad soleada.
-
-    // id_lang= 3 h1 --- Votre agence immobilière à Alicante – Trouvez la maison idéale en Espagne
-    // id_lang= 3 HAT --- Depuis 2004, <span itemprop="name"><strong>notre agence immobilière à Alicante</strong></span> met son <strong>expertise locale</strong> au service de votre projet <strong>immobilier à Alicante</strong>. Découvrez les meilleures <strong>maisons à vendre en Espagne</strong>, sélectionnées selon vos critères pour faire de votre <strong>résidence secondaire</strong> une réalité ensoleillée.
-
-    // id_lang= 4 h1 --- Ihre Immobilienagentur in Alicante – Finden Sie Ihr Traumhaus in Spanien
-    // id_lang= 4 HAT --- Seit 2004 stellt <span itemprop="name"><strong>unsere Immobilienagentur in Alicante</strong></span> ihre <strong>lokale Expertise</strong> in den Dienst Ihres <strong>Immobilienprojekts in Alicante</strong>. Entdecken Sie die besten <strong>Häuser zum Verkauf in Spanien</strong>, ausgewählt nach Ihren Wünschen für ein <strong>sonniges Zweitwohnsitz</strong>.
-
-    // id_lang= 5 h1 --- Uw vastgoedkantoor in Alicante – Vind uw ideale woning in Spanje
-    // id_lang= 5 HAT --- Sinds 2004 stelt <span itemprop="name"><strong>ons vastgoedkantoor in Alicante</strong></span> zijn <strong>lokale expertise</strong> ten dienste van uw <strong>vastgoedproject in Alicante</strong>. Ontdek de beste <strong>huizen te koop in Spanje</strong>, geselecteerd volgens uw wensen voor een zonnige <strong>tweede verblijfplaats</strong>.
-
-    // id_lang= 6 h1 --- Twoje biuro nieruchomości w Alicante – Znajdź idealny dom w Hiszpanii
-    // id_lang= 6 HAT --- Od 2004 roku <span itemprop="name"><strong>nasze biuro nieruchomości w Alicante</strong></span> wykorzystuje swoje <strong>lokalne doświadczenie</strong> w realizacji Twojego <strong>projektu nieruchomości w Alicante</strong>. Odkryj najlepsze <strong>domy na sprzedaż w Hiszpanii</strong>, wybrane według Twoich kryteriów, by spełnić marzenie o <strong>drugim domu w słońcu</strong>.
-
-    // id_lang= 7 h1 --- Real Estate Agency in Alicante – Find the Best Properties in Spain
-    // id_lang= 7 HAT --- Since 2004, <span itemprop="name"><strong>our Alicante real estate agency</strong></span> has used its <strong>local expertise</strong> to help you with your <strong>property project in Alicante</strong>. Browse the top <strong>homes for sale in Spain</strong>, selected to turn your <strong>second home dream</strong> into a sunny reality.
-
-    // id_lang= 8 h1 --- Kiinteistönvälittäjä Alicantessa – Löydä unelmiesi koti Espanjasta
-    // id_lang= 8 HAT --- Vuodesta 2004 lähtien <span itemprop="name"><strong>kiinteistönvälitystoimistomme Alicantessa</strong></span> on käyttänyt <strong>paikallista asiantuntemustaan</strong> tukenasi <strong>asuntohankkeessasi Alicantessa</strong>. Löydä parhaat <strong>asunnot myytävänä Espanjassa</strong> ja toteuta unelmasi <strong>aurinkoisesta kakkoskodista</strong>.
-
-    // id_lang= 9 h1 --- Din eiendomsmegler i Alicante – Finn drømmeboligen i Spania
-    // id_lang= 9 HAT --- Siden 2004 har <span itemprop="name"><strong>vårt eiendomsmeglerkontor i Alicante</strong></span> brukt sin <strong>lokale ekspertise</strong> til å hjelpe deg med ditt <strong>eiendomsprosjekt i Alicante</strong>. Finn de beste <strong>boligene til salgs i Spania</strong>, tilpasset dine ønsker – for et <strong>solfylt hjem nummer to</strong>.
-
-    // id_lang= 10 h1 --- La tua agenzia immobiliare ad Alicante – Trova la casa ideale in Spagna
-    // id_lang= 10 HAT --- Dal 2004, <span itemprop="name"><strong>la nostra agenzia immobiliare ad Alicante</strong></span> mette la sua <strong>esperienza locale</strong> al servizio del tuo <strong>progetto immobiliare ad Alicante</strong>. Scopri le migliori <strong>case in vendita in Spagna</strong>, selezionate per trasformare la tua <strong>seconda casa</strong> in una realtà al sole.
-
-    // id_lang= 11 h1 --- Sua imobiliária em Alicante – Encontre a casa ideal na Espanha
-    // id_lang= 11 HAT --- Desde 2004, <span itemprop="name"><strong>nossa imobiliária em Alicante</strong></span> oferece sua <strong>experiência local</strong> para o seu <strong>projeto imobiliário em Alicante</strong>. Descubra as melhores <strong>casas à venda na Espanha</strong>, selecionadas para transformar sua <strong>segunda residência</strong> em uma realidade ensolarada.
-
-    // id_lang= 12 h1 --- Din fastighetsbyrå i Alicante – Hitta ditt drömhem i Spanien
-    // id_lang= 12 HAT --- Sedan 2004 har <span itemprop="name"><strong>vår fastighetsbyrå i Alicante</strong></span> använt sin <strong>lokala expertis</strong> för att hjälpa dig med ditt <strong>bostadsprojekt i Alicante</strong>. Utforska de bästa <strong>husen till salu i Spanien</strong> – ditt <strong>andra hem</strong> i solen väntar.
-
-    // id_lang= 13 h1 --- Din ejendomsmægler i Alicante – Find dit drømmehus i Spanien
-    // id_lang= 13 HAT --- Siden 2004 har <span itemprop="name"><strong>vores ejendomsmægler i Alicante</strong></span> brugt sin <strong>lokale ekspertise</strong> til at hjælpe med dit <strong>boligprojekt i Alicante</strong>. Se de bedste <strong>huse til salg i Spanien</strong>, nøje udvalgt til din <strong>solrige bolig nr. to</strong>.
-
-    // id_lang= 14 h1 --- Agenția ta imobiliară din Alicante – Găsește casa ideală în Spania
-    // id_lang= 14 HAT --- Din 2004, <span itemprop="name"><strong>agenția noastră imobiliară din Alicante</strong></span> îți oferă <strong>expertiză locală</strong> pentru proiectul tău <strong>imobiliar în Alicante</strong>. Descoperă cele mai bune <strong>case de vânzare în Spania</strong> și transformă-ți <strong>casa de vacanță</strong> într-o realitate însorită.
-
-    // id_lang= 15 h1 --- Ваше агентство недвижимости в Аликанте – Найдите дом мечты в Испании
-    // id_lang= 15 HAT --- С 2004 года <span itemprop="name"><strong>наше агентство недвижимости в Аликанте</strong></span> предлагает свою <strong>локальную экспертизу</strong> для вашего <strong>проекта недвижимости в Аликанте</strong>. Откройте для себя лучшие <strong>дома на продажу в Испании</strong> и воплотите в жизнь свою мечту о <strong>втором доме на солнце</strong>.
-
-    // id_lang= 16 h1 --- Ваш рієлтор у Аліканте – Знайдіть дім мрії в Іспанії
-    // id_lang= 16 HAT --- З 2004 року <span itemprop="name"><strong>наша агенція нерухомості в Аліканте</strong></span> використовує свій <strong>локальний досвід</strong> для вашого <strong>проєкту з нерухомості в Аліканте</strong>. Дивіться найкращі <strong>будинки на продаж в Іспанії</strong> і втільте мрію про <strong>другий дім на сонці</strong> в реальність.
 ];
 
 foreach ($meta_data as $data) {
@@ -291,3 +239,173 @@ foreach ($meta_data as $data) {
         echo "Échec de la mise à jour pour l'ID meta {$data['id_meta']} et la langue {$data['id_lang']}.<br>";
     }
 }
+
+
+// Données de traduction à insérer
+$translations = [
+    [
+        'id_lang' => 1,
+        'key' => 'home_hat',
+        'translation' => 'Since 2004, <span ><strong>our real estate agency in Alicante</strong></span> has been putting its <strong>local expertise</strong> at the service of your <strong>real estate project in Alicante</strong>. Discover the best <strong>homes for sale in Spain</strong>, carefully selected to make your <strong>second home</strong> a sunny reality.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 2,
+        'key' => 'home_hat',
+        'translation' => 'Desde 2004, <span ><strong>nuestra inmobiliaria en Alicante</strong></span> pone su <strong>experiencia local</strong> al servicio de tu proyecto <strong>inmobiliario en Alicante</strong>. Descubre las mejores <strong>casas en venta en España</strong>, seleccionadas para convertir tu <strong>segunda residencia</strong> en una realidad soleada.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 3,
+        'key' => 'home_hat',
+        'translation' => 'Depuis 2004, <span ><strong>notre agence immobilière à Alicante</strong></span> met son <strong>expertise locale</strong> au service de votre projet <strong>immobilier à Alicante</strong>. Découvrez les meilleures <strong>maisons à vendre en Espagne</strong>, sélectionnées selon vos critères pour faire de votre <strong>résidence secondaire</strong> une réalité ensoleillée.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 4,
+        'key' => 'home_hat',
+        'translation' => 'Seit 2004 stellt <span ><strong>unsere Immobilienagentur in Alicante</strong></span> ihre <strong>lokale Expertise</strong> in den Dienst Ihres <strong>Immobilienprojekts in Alicante</strong>. Entdecken Sie die besten <strong>Häuser zum Verkauf in Spanien</strong>, ausgewählt nach Ihren Wünschen für ein <strong>sonniges Zweitwohnsitz</strong>.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 5,
+        'key' => 'home_hat',
+        'translation' => 'Sinds 2004 stelt <span ><strong>ons vastgoedkantoor in Alicante</strong></span> zijn <strong>lokale expertise</strong> ten dienste van uw <strong>vastgoedproject in Alicante</strong>. Ontdek de beste <strong>huizen te koop in Spanje</strong>, geselecteerd volgens uw wensen voor een zonnige <strong>tweede verblijfplaats</strong>.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 6,
+        'key' => 'home_hat',
+        'translation' => 'Od 2004 roku <span ><strong>nasze biuro nieruchomości w Alicante</strong></span> wykorzystuje swoje <strong>lokalne doświadczenie</strong> w realizacji Twojego <strong>projektu nieruchomości w Alicante</strong>. Odkryj najlepsze <strong>domy na sprzedaż w Hiszpanii</strong>, wybrane według Twoich kryteriów, by spełnić marzenie o <strong>drugim domu w słońcu</strong>.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 7,
+        'key' => 'home_hat',
+        'translation' => 'Since 2004, <span ><strong>our Alicante real estate agency</strong></span> has used its <strong>local expertise</strong> to help you with your <strong>property project in Alicante</strong>. Browse the top <strong>homes for sale in Spain</strong>, selected to turn your <strong>second home dream</strong> into a sunny reality.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 8,
+        'key' => 'home_hat',
+        'translation' => 'Vuodesta 2004 lähtien <span ><strong>kiinteistönvälitystoimistomme Alicantessa</strong></span> on käyttänyt <strong>paikallista asiantuntemustaan</strong> tukenasi <strong>asuntohankkeessasi Alicantessa</strong>. Löydä parhaat <strong>asunnot myytävänä Espanjassa</strong> ja toteuta unelmasi <strong>aurinkoisesta kakkoskodista</strong>.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 9,
+        'key' => 'home_hat',
+        'translation' => 'Siden 2004 har <span ><strong>vårt eiendomsmeglerkontor i Alicante</strong></span> brukt sin <strong>lokale ekspertise</strong> til å hjelpe deg med ditt <strong>eiendomsprosjekt i Alicante</strong>. Finn de beste <strong>boligene til salgs i Spania</strong>, tilpasset dine ønsker – for et <strong>solfylt hjem nummer to</strong>.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 10,
+        'key' => 'home_hat',
+        'translation' => 'Dal 2004, <span ><strong>la nostra agenzia immobiliare ad Alicante</strong></span> mette la sua <strong>esperienza locale</strong> al servizio del tuo <strong>progetto immobiliare ad Alicante</strong>. Scopri le migliori <strong>case in vendita in Spagna</strong>, selezionate per trasformare la tua <strong>seconda casa</strong> in una realtà al sole.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 11,
+        'key' => 'home_hat',
+        'translation' => 'Desde 2004, <span ><strong>nossa imobiliária em Alicante</strong></span> oferece sua <strong>experiência local</strong> para o seu <strong>projeto imobiliário em Alicante</strong>. Descubra as melhores <strong>casas à venda na Espanha</strong>, selecionadas para transformar sua <strong>segunda residência</strong> em uma realidade ensolarada.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 12,
+        'key' => 'home_hat',
+        'translation' => 'Sedan 2004 har <span ><strong>vår fastighetsbyrå i Alicante</strong></span> använt sin <strong>lokala expertis</strong> för att hjälpa dig med ditt <strong>bostadsprojekt i Alicante</strong>. Utforska de bästa <strong>husen till salu i Spanien</strong> – ditt <strong>andra hem</strong> i solen väntar.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 13,
+        'key' => 'home_hat',
+        'translation' => 'Siden 2004 har <span ><strong>vores ejendomsmægler i Alicante</strong></span> brugt sin <strong>lokale ekspertise</strong> til at hjælpe med dit <strong>boligprojekt i Alicante</strong>. Se de bedste <strong>huse til salg i Spanien</strong>, nøje udvalgt til din <strong>solrige bolig nr. to</strong>.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 14,
+        'key' => 'home_hat',
+        'translation' => 'Din 2004, <span ><strong>agenția noastră imobiliară din Alicante</strong></span> îți oferă <strong>expertiză locală</strong> pentru proiectul tău <strong>imobiliar în Alicante</strong>. Descoperă cele mai bune <strong>case de vânzare în Spania</strong> și transformă-ți <strong>casa de vacanță</strong> într-o realitate însorită.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 15,
+        'key' => 'home_hat',
+        'translation' => 'С 2004 года <span ><strong>наше агентство недвижимости в Аликанте</strong></span> предлагает свою <strong>локальную экспертизу</strong> для вашего <strong>проекта недвижимости в Аликанте</strong>. Откройте для себя лучшие <strong>дома на продажу в Испании</strong> и воплотите в жизнь свою мечту о <strong>втором доме на солнце</strong>.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ],
+
+    [
+        'id_lang' => 16,
+        'key' => 'home_hat',
+        'translation' => 'З 2004 року <span ><strong>наша агенція нерухомості в Аліканте</strong></span> використовує свій <strong>локальний досвід</strong> для вашого <strong>проєкту з нерухомості в Аліканте</strong>. Дивіться найкращі <strong>будинки на продаж в Іспанії</strong> і втільте мрію про <strong>другий дім на сонці</strong> в реальність.',
+        'domain' => 'ShopThemeAlmodovar',
+        'theme' => 'almodovar'
+    ]
+];
+
+foreach ($translations as $translation) {
+    // Vérifier si la traduction existe déjà
+    $existing = Db::getInstance()->getValue('
+        SELECT id_translation 
+        FROM '._DB_PREFIX_.'translation 
+        WHERE id_lang = '.(int)$translation['id_lang'].'
+        AND `key` = "'.pSQL($translation['key']).'"
+        AND domain = "'.pSQL($translation['domain']).'"
+        AND theme = "'.pSQL($translation['theme']).'"
+    ');
+
+    if ($existing) {
+        // Mise à jour si existe déjà
+        $result = Db::getInstance()->update('translation', [
+            'translation' => pSQL($translation['translation'], true)
+        ], 'id_translation = '.(int)$existing);
+        
+        echo $result 
+            ? "Traduction mise à jour pour la langue ID ".$translation['id_lang']."\n"
+            : "Erreur lors de la mise à jour pour la langue ID ".$translation['id_lang']."\n";
+    } else {
+        // Insertion si n'existe pas
+        $result = Db::getInstance()->insert('translation', [
+            'id_lang' => (int)$translation['id_lang'],
+            'key' => pSQL($translation['key']),
+            'translation' => pSQL($translation['translation'], true),
+            'domain' => pSQL($translation['domain']),
+            'theme' => pSQL($translation['theme'])
+        ]);
+        
+        echo $result 
+            ? "Nouvelle traduction insérée pour la langue ID ".$translation['id_lang']."\n"
+            : "Erreur lors de l'insertion pour la langue ID ".$translation['id_lang']."\n";
+    }
+}
+
+echo "Import des traductions terminé.\n";
