@@ -16,8 +16,8 @@
     <meta name="robots" content="{$page.meta.robots}">
   {/if}
   {if $page.canonical}
-    {assign var='canonical_url' value=$page.canonical|split:'?'}
-    <link rel="canonical" href="{$canonical_url[0]}">
+    {assign var='canonical_url' value=$page.canonical|regex_replace:"/\?.*/":""}
+    <link rel="canonical" href="{$canonical_url}">
   {/if}
   {block name='head_hreflang'}
     <link rel="alternate" href="{$urls.alternative_langs.fr}" hreflang="x-default">
