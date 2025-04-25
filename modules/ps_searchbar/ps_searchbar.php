@@ -68,198 +68,410 @@ class Ps_Searchbar extends Module implements WidgetInterface
 
     public function install()
     {
+        // Initialise le contexte si nécessaire
+        if ($this->context == null) {
+            $this->context = Context::getContext();
+        }
+
+        if ($this->context->language == null) {
+            $this->context->language = new Language(Configuration::get('PS_LANG_DEFAULT'));
+        }
+
+
+        // Génère les templates avant l'installation
+        if (!$this->generateTplThemesColumn()) {
+            return false;
+        }
+
         return parent::install()
             && $this->registerHook('displayTop')
             && $this->registerHook('displaySearch')
             && $this->registerHook('displayHeader')
             && $this->registerHook('actionProductSearchProviderRunQueryAfter')
-            && $this->registerHook('filterProductSearch')
-            && $this->reloadContainer() // Recharge les services
-            && $this->generateTplThemesColumn(); // Generation des tpl dans le dossier themes/almodovar/modules/ps_searchbar
-        
+            && $this->registerHook('filterProductSearch');
+
     }
 
 
-    private function generateTplThemesColumn() {
-
-        // à l'installation on va ecrire le tpl de themes-column-id_lang.tpl dans le dossier themes/almodovar/modules/ps_searchbar
+    private function generateTplThemesColumn()
+    {
         $langs = Language::getLanguages(false);
-        $themeDir = _PS_THEME_DIR_; // exemple : /themes/almodovar/
-        $moduleDir = $this->getLocalPath(); // /modules/ps_searchbar/
-        $sourceTplPath = $moduleDir; // source dans ton module
+        $themeDir = _PS_THEME_DIR_ . 'modules/ps_searchbar/';
+
+        // Création du répertoire si nécessaire
+        if (!file_exists($themeDir)) {
+            if (!mkdir($themeDir, 0755, true)) {
+                PrestaShopLogger::addLog('Failed to create directory: ' . $themeDir, 3);
+                return false;
+            }
+        }
 
         foreach ($langs as $lang) {
+            // try {
             $data = $this->getDataListCat($lang['id_lang']);
-            $destinationTplPath = $themeDir . 'modules/ps_searchbar/themes-column-' . $lang['id_lang'] . '.tpl';
 
-            // on supprime le fichier s il existe
-            if (file_exists($destinationTplPath)) {
-                unlink($destinationTplPath);
-            }
-            
-            $renderedContent = '<div class="container my-5">
-            <div class="row g-4">';
-            // ---- TYPE DE BIEN ----
-            $renderedContent .= '<div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-black text-white">
-                <h2 class="h5 mb-0">Type de bien</h2>
-                </div>
-                <div class="card-body">
-                <ul class="list-group list-group-flush">';
-            foreach ($data['types']['items'] as $item) {
-                if ($item['count'] > 0) {
 
-                    $renderedContent .= '<li class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                    <a href="' . $item['url'] . '" class="text-decoration-none">' . htmlspecialchars($item['label']) . '</a>
-                    <span class="badge bg-primary rounded-pill">' . $item['count'] . '</span>
-                    </li>';
-                }
+            // Validation des données
+            if (empty($data)) {
+                throw new Exception('Empty data for language '.$lang['id_lang']);
             }
-            $renderedContent .= '</ul>
-                </div>
-            </div>
-            </div>';
-            
-            // ---- LOCALISATION ----
-            $renderedContent .= '<div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-black text-white">
-                <h2 class="h5 mb-0">Localisation</h2>
-                </div>
-                <div class="card-body">
-                <ul class="list-group list-group-flush">';
-            foreach ($data['locations']['items'] as $region) {
-                $renderedContent .= '<li class="list-group-item border-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <a href="' . $region['url'] . '" class="text-decoration-none">' . htmlspecialchars($region['label']) . '</a>
-                    <span class="badge bg-primary rounded-pill">' . $region['count'] . '</span>
-                </div>';
-                if (!empty($region['children'])) {
-                    $renderedContent .= '<ul class="list-unstyled ms-4 mt-2">';
-                    foreach ($region['children'] as $city) {
-                        $renderedContent .= '<li class="mb-1 d-flex justify-content-between align-items-center">
-                        <a href="' . $city['url'] . '" class="text-decoration-none small">' . htmlspecialchars($city['label']) . '</a>
-                        <span class="badge bg-primary rounded-pill" style="font-size: 0.7rem;">' . $city['count'] . '</span>
-                        </li>';
-                    }
-                    $renderedContent .= '</ul>';
-                }
-                $renderedContent .= '</li>';
-            }
-            $renderedContent .= '</ul>
-                </div>
-            </div>
-            </div>';
-            
-            // ---- STYLE DE VIE ----
-            $renderedContent .= '<div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-black text-white">
-                <h2 class="h5 mb-0">Style de vie</h2>
-                </div>
-                <div class="card-body">
-                <ul class="list-group list-group-flush">';
-            foreach ($data['lifestyles']['items'] as $item) {
-                $renderedContent .= '<li class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                <a href="' . $item['url'] . '" class="text-decoration-none">' . htmlspecialchars($item['label']) . '</a>
-                <span class="badge bg-primary rounded-pill">' . $item['count'] . '</span>
-                </li>';
-            }
-            $renderedContent .= '</ul><ul class="list-group list-group-flush">';
-            foreach ($data['tourism']['items'] as $item) {
-                $renderedContent .= '<li class="list-group-item border-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <a href="' . $item['url'] . '" class="text-decoration-none">' . htmlspecialchars($item['label']) . '</a>
-                    <span class="badge bg-primary rounded-pill">' . $item['count'] . '</span>
-                </div>
-                </li>';
-            }
-            $renderedContent .= '</ul>
-                </div>
-            </div>
-            </div>';
-            
-            $renderedContent .= '</div></div>';
 
+            $destinationTplPath = $themeDir . 'themes-column-' . $lang['id_lang'] . '.tpl';
+
+            // Suppression de l'ancien fichier
+            if (file_exists($destinationTplPath) && !unlink($destinationTplPath)) {
+                throw new Exception('Failed to delete old template file');
+            }
+
+            // Construction du contenu HTML
+            $htmlContent = $this->buildHtmlContent($data);
+
+            // Création des sous-répertoires si nécessaire
             if (!is_dir(dirname($destinationTplPath))) {
-                mkdir(dirname($destinationTplPath), 0755, true);
+                if (!mkdir(dirname($destinationTplPath), 0755, true)) {
+                    throw new Exception('Failed to create subdirectories');
+                }
             }
-            
-            // Ensuite, tu peux enregistrer ce HTML dans un fichier :
-            file_put_contents($destinationTplPath, $renderedContent);
+
+            // Écriture du fichier
+            if (file_put_contents($destinationTplPath, $htmlContent) === false) {
+                throw new Exception('Failed to write template file');
+            }
+
+            /*} catch (Exception $e) {
+                PrestaShopLogger::addLog(
+                    'Error generating template for lang '.$lang['id_lang'].': '.$e->getMessage(),
+                    3
+                );
+                continue; // Continue avec les autres langues malgré l'erreur
+            }*/
         }
+
+        return true;
+    }
+
+    private function buildHtmlContent($data)
+    {
+        // Vérification des données requises
+        $requiredSections = ['types', 'locations', 'lifestyles', 'tourism'];
+        foreach ($requiredSections as $section) {
+            if (!isset($data[$section]['items'])) {
+                throw new Exception('Missing data section: '.$section);
+            }
+        }
+
+        // Construction du HTML
+        $html = '<div class="container my-5">
+        <div class="row g-4">';
+        // Section Types de biens
+        $html .= '<div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-black text-white">
+            <h2 class="h5 mb-0">'.$data['types']['title'].'</h2>
+            </div>
+            <div class="card-body">
+            '.$data['types']['desc_short'].'
+
+            <ul class="list-group list-group-flush">';
+
+        foreach ($data['types']['items'] as $item) {
+            if ($item['count'] > 0) {
+                $html .= $this->buildListItemHtml($item);
+            }
+        }
+
+        $html .= '</ul></div></div></div>';
+
+       
+
+        // Section Localisation
+        $html .= '<div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-black text-white">
+            <h2 class="h5 mb-0">'.$data['locations']['title'].'</h2>
+            </div>
+            <div class="card-body">
+            '.$data['locations']['desc_short'].'
+
+            <ul class="list-group list-group-flush">';
+
+             $html .= '<li class="list-group-item border-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="'.$data['locations']['main_url'].'">'.$data['locations']['title'].'</a>
+                <span class="badge bg-primary rounded-pill">'.$data['locations']['main_count'].'</span>
+            </div>';
+
+        foreach ($data['locations']['items'] as $region) {
+            $html .= '<li class="list-group-item border-0">
+            <div class="d-flex justify-content-between align-items-center">
+                '.$this->buildLinkHtml($region).'
+                <span class="badge bg-primary rounded-pill">'.$region['count'].'</span>
+            </div>';
+
+            
+
+            $html .= '</li>';
+        }
+        foreach ($data['tourism']['items'] as $item) {
+            $html .= '<li class="list-group-item border-0">
+            <div class="d-flex justify-content-between align-items-center">
+                '.$this->buildLinkHtml($item).'
+                <span class="badge bg-primary rounded-pill">'.$item['count'].'</span>
+            </div>
+            </li>';
+        }
+
+        $html .= '</ul></div></div></div>';
+
+        // Section Style de vie
+        $html .= '<div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-black text-white">
+            <h2 class="h5 mb-0">'.$data['lifestyles']['title'].'</h2>
+            </div>
+            <div class="card-body">
+            '.$data['lifestyles']['desc_short'].'
+
+            <ul class="list-group list-group-flush">';
+
+        foreach ($data['lifestyles']['items'] as $item) {
+            $html .= $this->buildListItemHtml($item);
+        }
+
+        $html .= '</ul></div></div></div></div></div>';
+
+        return $html;
+    }
+
+    private function buildListItemHtml($item)
+    {
+        return '<li class="list-group-item border-0 d-flex justify-content-between align-items-center">
+        '.$this->buildLinkHtml($item).'
+        <span class="badge bg-primary rounded-pill">'.$item['count'].'</span>
+        </li>';
+    }
+
+    private function buildLinkHtml($item, $small = false)
+    {
+        $class = $small ? 'text-decoration-none small' : 'text-decoration-none';
+        return '<a href="'.htmlspecialchars($item['url']).'" class="'.$class.'">'
+            .htmlspecialchars($item['label']).'</a>';
     }
 
     private function getDataListCat($id_lang)
     {
+
+        // Vérification du contexte
+        if ($this->context == null) {
+            $this->context = Context::getContext();
+        }
+
+        // Vérification de la langue
+        if (!Validate::isLoadedObject($this->context->language)) {
+            $this->context->language = new Language($id_lang);
+        }
+
+        // IDs des catégories principales
         $categoryIds = [
             'types' => 3,
             'locations' => 7,
             'lifestyles' => 4,
             'tourism' => 5
         ];
-    
-        $categories = $this->getCategoriesLinks();
-        $mainCategories = $categories[0]['children'] ?? [];
-    
-        $themes = [
+
+        // Récupération des catégories
+        $categories = $this->getCategoriesLinks($id_lang);
+
+
+        // Debug: Log la structure complète des catégories
+        PrestaShopLogger::addLog('Categories structure: '.print_r($categories, true), 1);
+
+        if (empty($categories)) {
+            PrestaShopLogger::addLog('No categories found for lang '.$id_lang, 2);
+            return [];
+        }
+
+        // Trouve les enfants de la catégorie racine
+        $mainCategories = [];
+        foreach ($categories as $category) {
+            if (isset($category['children']) && is_array($category['children'])) {
+                $mainCategories = array_merge($mainCategories, $category['children']);
+            }
+        }
+
+        // Construction des données thématiques
+        return [
             'types' => [
-                'title' => $this->trans('Property Type', [], 'Shop.Theme.Almodovar'),
-                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['types'])
+                'title' => $this->getCategoryName($categoryIds['types'], $id_lang),
+                'desc_short' => $this->getCategoryDescription($categoryIds['types'], $id_lang),
+                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['types'], $id_lang)
             ],
             'locations' => [
-                'title' => $this->trans('Location', [], 'Shop.Theme.Almodovar'),
-                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['locations'])
+                'title' => $this->getCategoryName($categoryIds['locations'], $id_lang),
+                'desc_short' => $this->getCategoryDescription($categoryIds['locations'], $id_lang),
+                'main_url' => $this->getCategoryUrl($categoryIds['locations'], $id_lang),
+                'main_count' => $this->getProductCount($categoryIds['locations']),
+
+                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['locations'], $id_lang)
             ],
             'lifestyles' => [
-                'title' => $this->trans('Lifestyle', [], 'Shop.Theme.Almodovar'),
-                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['lifestyles'])
+                'title' => $this->getCategoryName($categoryIds['lifestyles'], $id_lang),
+                'desc_short' => $this->getCategoryDescription($categoryIds['lifestyles'], $id_lang),
+
+                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['lifestyles'], $id_lang)
             ],
             'tourism' => [
-                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['tourism'])
+                'title' => 'Tourism',
+                'items' => $this->getCategoriesWithCountById($mainCategories, $categoryIds['tourism'], $id_lang)
             ]
         ];
-
-        return $themes;
-    
     }
-    
-    protected function getCategoriesWithCountById($categories, $id_category)
+
+    protected function getCategoryName($id_category, $id_lang)
     {
+        $category = new Category($id_category, $id_lang);
+        return Validate::isLoadedObject($category) ? $category->name : '';
+    }
+
+    protected function getCategoryUrl($id_category, $id_lang)
+    {
+        $link = new Link();
+        $category = new Category($id_category, $id_lang);
+        return $link->getCategoryLink((int)$id_category,null,(int)$id_lang);
+    }
+
+    protected function getCategoryDescription($id_category, $id_lang)
+    {
+        $category = new Category($id_category, $id_lang);
+        return Validate::isLoadedObject($category) ? $category->description : '';
+    }
+
+    protected function getCategoriesWithCountById($categories, $id_category, $id_lang = null)
+    {
+        if (!is_array($categories)) {
+            PrestaShopLogger::addLog('Invalid categories format in getCategoriesWithCountById', 2);
+            return [];
+        }
+
         foreach ($categories as $category) {
-            $current_id = (int)str_replace('category-page-', '', $category['id']);
-            if ($current_id === $id_category) {
+            // Nouvelle méthode d'extraction plus robuste
+            $current_id = $this->extractCategoryId($category['id']);
+
+            if ($current_id == $id_category) { // == au lieu de === pour être plus souple
                 $items = $category['children'] ?? [];
-                
+
+                if (!is_array($items)) {
+                    return [];
+                }
+
                 foreach ($items as &$item) {
-                    $item_id = (int)str_replace('category-page-', '', $item['id']);
+                    $item_id = $this->extractCategoryId($item['id']);
                     $item['count'] = $this->getProductCount($item_id);
-                    
+
+                    if (empty($item['url'])) {
+                        $item['url'] = $this->context->link->getCategoryLink($item_id, null, $id_lang);
+                    }
+
                     if (!empty($item['children'])) {
                         foreach ($item['children'] as &$child) {
-                            $child_id = (int)str_replace('category-page-', '', $child['id']);
+                            $child_id = $this->extractCategoryId($child['id']);
                             $child['count'] = $this->getProductCount($child_id);
+
+                            if (empty($child['url'])) {
+                                $child['url'] = $this->context->link->getCategoryLink($child_id, null, $id_lang);
+                            }
                         }
                     }
                 }
-                
+
                 return $items;
             }
         }
+
+        // Debug avancé
+        $available = array_map(function ($cat) {
+            return $this->extractCategoryId($cat['id']).':'.$cat['label'];
+        }, $categories);
+
+        PrestaShopLogger::addLog(
+            "Category $id_category not found. Available: ".implode(', ', $available),
+            3
+        );
+
         return [];
+    }
+
+    protected function extractCategoryId($id)
+    {
+        // Cas 1: ID numérique direct
+        if (is_numeric($id)) {
+            return (int)$id;
+        }
+
+        // Cas 2: Chaîne avec format category-page-XX
+        if (is_string($id)) {
+            // Nouveau pattern plus permissif
+            if (preg_match('/(\d+)/', $id, $matches)) {
+                return (int)$matches[1];
+            }
+        }
+
+        // Cas 3: Format inattendu - log détaillé
+        $debug = is_object($id) ? get_class($id) : gettype($id).':'.$id;
+        PrestaShopLogger::addLog("ID extraction failed for: $debug", 3);
+
+        return 0;
     }
 
     protected function getProductCount($id_category)
     {
-        $category = new Category($id_category, $this->context->language->id);
-        return $category->getProducts(null, null, null, null, null, true);
+        $id_category = (int)$id_category;
+        $id_shop = (int)Context::getContext()->shop->id;
+
+        $sql = "SELECT COUNT(DISTINCT cp.id_product) 
+                FROM "._DB_PREFIX_."category_product cp
+                INNER JOIN "._DB_PREFIX_."product_shop ps ON (
+                    ps.id_product = cp.id_product AND 
+                    ps.id_shop = $id_shop AND 
+                    ps.active = 1
+                )
+                WHERE cp.id_category = $id_category";
+
+        return (int)Db::getInstance()->getValue($sql);
     }
 
-    public function getCategoriesLinks()
+    public function getCategoriesLinks($id_lang)
     {
-        $id_lang = $this->context->language->id;
-        return [Category::getRootCategory()->recurseLiteCategTree(0, 0, $id_lang, null, 'sitemap')];
+            // Récupération des catégories
+        $categories = Category::getRootCategory()->recurseLiteCategTree(0, 0, $id_lang, null, 'sitemap');
+        
+        // Chargement de la langue
+        $language = new Language($id_lang);
+        
+        // Vérification que la langue est active
+        if (Validate::isLoadedObject($language) && $language->active && $language->id !=3) {
+            $prefix = $language->iso_code.'/';
+            $base_url = Tools::getCurrentUrlProtocolPrefix().$this->context->shop->domain.$this->context->shop->physical_uri;
+            
+            // Modification récursive des URLs
+            array_walk_recursive($categories, function(&$value, $key) use ($prefix, $base_url) {
+                if ($key === 'url' && !empty($value)) {
+                    // Standardisation de l'URL avant modification
+                    $value = str_replace(
+                        ['http://', 'https://'],
+                        [Tools::getCurrentUrlProtocolPrefix(), Tools::getCurrentUrlProtocolPrefix()],
+                        $value
+                    );
+                    
+                    // Ajout du préfixe de langue si absent
+                    if (strpos($value, $prefix) === false) {
+                        $value = str_replace($base_url, $base_url.$prefix, $value);
+                    }
+                }
+            });
+        }
+    
+        return [$categories];
     }
 
     public function hookDisplayHeader()
@@ -303,11 +515,7 @@ class Ps_Searchbar extends Module implements WidgetInterface
         return $this->fetch($this->templateFile);
     }
 
-    protected function reloadContainer()
-    {
-        $sfContainer = SymfonyContainer::getInstance();
-        $sfContainer->reset();
-    }
+
 
     public function hookActionProductSearchProviderRunQueryAfter(&$params)
     {

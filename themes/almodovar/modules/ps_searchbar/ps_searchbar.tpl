@@ -4,8 +4,10 @@ background:linear-gradient(to bottom, #9c6d92, #457b9d);
 padding-bottom: 60px;
 ">  
  <div class="container mt-5">
- <div class="search-widgets js-search-widget mt-5" data-search-controller-url="{$search_controller_url}">
- <h1 class="fw-bold text-center mb-5 text-white text-shadow" style="text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);">{l s='slogan' d='Shop.Theme.Almodovar'}</h1>
+ <div class="search-widgets js-search-widget" data-search-controller-url="{$search_controller_url}">
+ <h1 class="fw-bold text-center mb-2 text-white text-shadow" style="text-shadow: 2px 2px 5px rgb(0 0 0 / 29%);">{l s='slogan' d='Shop.Theme.Almodovar'}</h1>
+ <p class="text-center text-white fs-4">{l s='Nous trouvons pour vous la <strong>maison à vendre en Espagne</strong> qui correspond à vos critères,<br>
+ forts de notre <strong>expertise exclusive</strong> sur la <strong>province d\'Alicante</strong> depuis 2004.' d='Shop.Theme.Almodovar'}</p>
    <form class="pt-3 mx-auto w-75" method="get" action="{$search_controller_url}">
      <input type="hidden" name="controller" value="search">
      <div class="bg-white {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}rounded-pill ps-5 {else}rounded-4 px-4{/if} d-flex flex-wrap align-items-center gap-2">
