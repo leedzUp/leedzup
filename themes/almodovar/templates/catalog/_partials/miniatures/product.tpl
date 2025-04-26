@@ -116,7 +116,7 @@
               <p class="overflow-auto" style="max-height: 100px;">{$product.description_short}</p>
 
             {/block}
-            {hook h="displayProductFeatures" product=$product}
+            {include file="module:code_featuresonlist/views/templates/cache/hook-{$product.id_product}-{$language.id}.tpl"}
           </div>
           {if $page.page_name == 'category'}
           <div class="{$componentName}__infos__bottom  d-flex justify-content-end">

@@ -68,16 +68,14 @@ class Ps_Searchbar extends Module implements WidgetInterface
 
     public function install()
     {
-       
-        $this->registerHook('filterProductSearch');
+        $this->generateTplThemesColumn();
 
         return parent::install()
             && $this->registerHook('displayTop')
             && $this->registerHook('displaySearch')
             && $this->registerHook('displayHeader')
             && $this->registerHook('actionProductSearchProviderRunQueryAfter')
-            && $this->generateTplThemesColumn();
-
+            && $this->registerHook('filterProductSearch');
     }
 
 
