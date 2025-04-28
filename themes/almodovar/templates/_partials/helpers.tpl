@@ -4,11 +4,11 @@
  *}
 
 {function renderLogo}
-    <img style="max-width: 305px;"
+    <img style="max-width: 305px;max-height: 64px;"
       class="logo img-fluid"
       src="{$shop.logo_details.src}"
       alt="{$shop.name}"
-      width="{$shop.logo_details.width}"
-      height="{$shop.logo_details.height}"
+      width="305"
+      height="64"
     >
 {/function}
