@@ -35,7 +35,7 @@ padding-bottom: 60px;
      </div>
 
      <!-- Surface minimale -->
-     <div class="mt-1 mb-1 col-12 col-md-2">
+     <div class="mt-1 mb-1 col-12 col-md-3">
        <label for="min-surface" class="fw-bold form-label">{l s='Minimum area' d='Shop.Theme.Almodovar'}</label>
        <div class="input-group">
          <input id="min-surface" class="form-control border-0 p-0 shadow-none" type="text" name="min_surface" 
@@ -54,14 +54,10 @@ padding-bottom: 60px;
            placeholder="{l s='Max price' d='Shop.Theme.Almodovar'}">
        </div>
      </div>
-     <div class="bg-primary mx-auto rounded-4 mb-2 rounded-md-end-pill ms-md-auto">
-
-     <div class="p-3">
-
-     <button type="submit" class="fw-bold fs-5 text-white btn btn-transparent">
+     <div class="ms-auto">
+     <button type="submit" class="fw-bold fs-5 text-white btn btn-primary h-100 rounded-end-pill px-4 py-3">
        {l s='Search' d='Shop.Theme.Almodovar'}
      </button>
-     </div>
      </div>
      </div>
      
