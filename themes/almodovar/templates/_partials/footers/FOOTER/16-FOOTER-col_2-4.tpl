@@ -1,1 +1,0 @@
-<div class="" id="target-4"><h3 class="fw-bold">Агенція</h3><ul class="link_list"><li><a href="about-voguimmo-11">Про нас</a></li><li><a href="/sitemap">Карта сайту</a></li><li><a href="/privacy-policy-1">Політика конфіденційності</a></li><li><a href="/legal-notices-2">Юридична інформація</a></li></ul></div>

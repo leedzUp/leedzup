@@ -1,1 +1,0 @@
-<div><h3>Ota yhteyttä</h3><p>Avenida Arquitecto felix Candela,<br>30 - 03540 Alicante</p><p>+33 647 201 109</p><p>contact@voguimmo.com</p></div>

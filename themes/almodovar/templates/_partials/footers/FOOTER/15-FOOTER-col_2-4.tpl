@@ -1,1 +1,0 @@
-<div class="" id="target-4"><h3 class="fw-bold">Агентство</h3><ul class="link_list"><li><a href="about-voguimmo-11">О нас</a></li><li><a href="/sitemap">Карта сайта</a></li><li><a href="/privacy-policy-1">Политика конфиденциальности</a></li><li><a href="/legal-notices-2">Юридическая информация</a></li></ul></div>
