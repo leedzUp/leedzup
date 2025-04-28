@@ -4,7 +4,7 @@
  *}
 
 {function renderLogo}
-    <img style="max-width: 305px;max-height: 64px;"
+    <img
       class="logo img-fluid"
       src="{$shop.logo_details.src}"
       alt="{$shop.name}"
