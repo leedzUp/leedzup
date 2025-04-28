@@ -4,8 +4,15 @@
 background:linear-gradient(to bottom, #9c6d92, #457b9d);
 padding-bottom: 60px;
 }
-
+@media (min-width: 1015px) {
+  .w-75-lg {
+    width: 85%!important;
+  }
+}
 @media (min-width: 768px) {
+  .form-label {
+    margin-bottom: 0;
+}
   .border-end-lg {
     border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;
 }
@@ -22,11 +29,12 @@ padding-bottom: 60px;
   .ms-auto-lg {
     margin-left: auto!important;
 }
-  .w-75-lg {
-    width: 75%!important;
-  }
+  
 }
 @media (max-width: 768px) {
+  .w-100-xs {
+    width: 100%!important;
+  }
   .search-box-xs {
     padding:20px;
     border-radius: 30px;
@@ -102,8 +110,8 @@ padding-bottom: 60px;
            placeholder="{l s='Max price' d='Shop.Theme.Almodovar'}">
        </div>
      </div>
-     <div class="ms-auto-lg">
-     <button type="submit" class="rounded-xs-pill mt-xs-2 fw-bold fs-5 text-white btn btn-primary h-100 rounded-end-pill px-4 py-3">
+     <div class="w-100-xs ms-auto-lg">
+     <button type="submit" class="rounded-xs-pill mt-xs-2 fw-bold fs-5 text-white btn btn-primary h-100 rounded-end-pill py-3 w-100">
        {l s='Search' d='Shop.Theme.Almodovar'}
      </button>
      </div>
