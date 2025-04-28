@@ -124,8 +124,6 @@ $link-hover-color: darken($primary, 10%);
       width: 100%;
       height: 2px; // Épaisseur de l'underline
       background-color: transparent; // Invisible par défaut
-      position: absolute;
-      bottom: -5px; // Distance par rapport au texte
       left: 0;
       transition: background-color 0.3s ease, transform 0.3s ease;
       transform: scaleX(0); // Cache l'underline au départ
