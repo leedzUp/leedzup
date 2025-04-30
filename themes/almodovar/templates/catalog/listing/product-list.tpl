@@ -51,6 +51,9 @@
         {include file=$category_id_tpl}
   {/if}
 
+
+
+
 {else}
 {hook h="displayProductListMap" category=$listing_search}
 

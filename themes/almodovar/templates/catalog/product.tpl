@@ -37,58 +37,53 @@
    <div class="container">
      {* FIRST PART - PHOTO, NAME, PRICES, ADD TO CART*}
      <div class="row g-4 g-xl-5 product js-product-container">
-       <div class="product__left col-md-8">
+       <div class="order-2 product__left col-md-8">
  
          {block name='product_header'}
            <h1 class="fs-1">{block name='page_title'}{$page.meta.title}{/block}</h1>
          {/block}
  
          {block name='product_features'}
-           {if $product.grouped_features}
-             <div class="mt-4 info" id="product-features">
-               <h2 class="info__title fs-3" id="product-details-heading">
-                 {l s='Features' d='Shop.Theme.Almodovar'}:
-               </h2>
-               <div class="info__content">
-                 <div class="row">
-                   {assign var="allowed_features" value=[
-                     'feat_type_du_bien', 'feat_ville', 'feat_surface_habitable', 'feat_superficie_du_terrain',
-                     'feat_ascenseur', 'feat_acces_handicape', 'feat_cave', 'feat_climatisation',
-                     'feat_etage', 'feat_garage', 'feat_jardin', 'feat_piscine',
-                     'feat_nombre_de_chambres', 'feat_nombre_de_salle_de_bain', 'feat_parking',
-                     'feat_quartier', 'feat_region', 'feat_pays'
-                   ]}
-         
-                   {foreach from=$product.grouped_features item=feature key=featureKey}
-                     {assign var="featureValue" value=$feature.value}
-         
-                     {if in_array($featureKey, $allowed_features) && $featureValue !== "Non" && $featureValue !== "0" && ($featureValue == "Oui" || $featureValue|floatval > 0)}
-                       <div class="col-12 col-md-4 mb-3">
-                         <div class="detail">
-                           <div class="detail__left">
-                             <span class="detail__title fw-bold">
-                               {l s=$featureKey d='Shop.Theme.Almodovar'}
-                             </span>
-                           </div>
-                           <div class="detail__right">
-                             <span>
-                               {if $featureValue != "Oui"}
-                                 {$featureValue}
-                                 {if $featureKey == 'feat_surface_habitable' || $featureKey == 'feat_superficie_du_terrain'}
-                                   m²
-                                 {/if}
-                               {/if}
-                             </span>
-                           </div>
-                         </div>
-                       </div>
-                     {/if}
-                   {/foreach}
-                 </div>
-               </div>
-             </div>
-           {/if}
-         {/block}
+          {if $product.grouped_features}
+            <section class="mt-4" id="product-features">
+              <h2 class="fs-3 mb-4">{l s='Features' d='Shop.Theme.Almodovar'}:</h2>
+              
+              {assign var="allowed_features" value=[
+                'feat_type_du_bien', 'feat_ville', 'feat_surface_habitable', 'feat_superficie_du_terrain',
+                'feat_ascenseur', 'feat_acces_handicape', 'feat_cave', 'feat_climatisation',
+                'feat_etage', 'feat_garage', 'feat_jardin', 'feat_piscine',
+                'feat_nombre_de_chambres', 'feat_nombre_de_salle_de_bain', 'feat_parking',
+                'feat_quartier', 'feat_region', 'feat_pays'
+              ]}
+              
+              <ul class="list-unstyled row row-cols-1 row-cols-md-3 g-3">
+                {foreach from=$product.grouped_features item=feature key=featureKey}
+                  {assign var="featureValue" value=$feature.value}
+                  
+                  {if in_array($featureKey, $allowed_features) && $featureValue !== "Non" && $featureValue !== "0" && ($featureValue == "Oui" || $featureValue|floatval > 0)}
+                    <li class="col">
+                      <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded mb-2">
+                        <span class="fw-bold text-capitalize">
+                          {l s=$featureKey d='Shop.Theme.Almodovar'}
+                        </span>
+                        <span class="badge bg-success bg-opacity-10 text-black">
+                          {if $featureValue != "Oui"}
+                            {$featureValue}
+                            {if $featureKey == 'feat_surface_habitable' || $featureKey == 'feat_superficie_du_terrain'}
+                              m²
+                            {/if}
+                          {else}
+                            <i class="bi bi-check-lg"></i>
+                          {/if}
+                        </span>
+                      </div>
+                    </li>
+                  {/if}
+                {/foreach}
+              </ul>
+            </section>
+          {/if}
+        {/block}
          
  
          {* SECOND PART - REASSURANCE, TABS *}
@@ -121,7 +116,7 @@
                    {foreach from=$product.images item=image key=key}
                      {if $key < 6}
                        <li data-bs-toggle="modal" data-bs-target="#product-modal" data-bs-slide-to="{$key}"
-                         class="cursor-pointer thumbnail js-thumb-container col-3 col-md-3"
+                         class="cursor-pointer thumbnail js-thumb-container col-6 col-md-3"
                          aria-label="{l s='Product image %number%' d='Shop.Theme.Catalog' sprintf=['%number%' => $key]}">
                          <img
                            class="img-fluid js-thumb{if $image.id_image == $product.default_image.id_image} js-thumb-selected{/if}"
@@ -277,7 +272,7 @@
              {block name='product_attachments'}
                {if $product.attachments}
                  <div class="info" id="attachments">
-                   <h2 class="info__title fs-3" id="product-attachments-heading">
+                   <h2 class="info__title fs-3 mt-4" id="product-attachments-heading">
  
                      {l s='Download' d='Shop.Theme.Actions'}
                    </h2>
@@ -332,8 +327,106 @@
  
          {block name='product_prices'}
            {include file='catalog/_partials/product-prices.tpl'}
-           {*{include file='catalog/_partials/product-flags.tpl'}*}
          {/block}
+
+         <div id="product-details" class="info__content">
+         <div>
+           <ul class="product__details">
+             {block name='product_manufacturer'}
+               {if isset($product_manufacturer->id)}
+                 <li>
+                   <div class="detail__left">
+                     <span class="detail__title">{l s='Brand' d='Shop.Theme.Catalog'}</span>
+                   </div>
+     
+                   <div class="detail__right">
+                     {if isset($manufacturer_image_url)}
+                       <a href="{$product_brand_url}">
+                         <img src="{$manufacturer_image_url}" class="img-fluid detail__manufacturer-logo" alt="{$product_manufacturer->name}" loading="lazy" width="98" height="50">
+                       </a>
+                     {else}
+                       <a href="{$product_brand_url}">{$product_manufacturer->name}</a>
+                     {/if}
+                   </div>
+                 </li>
+               {/if}
+             {/block}
+     
+             {block name='product_reference'}
+               {if !empty($product.reference_to_display)}
+                 <li>
+                   <div class="detail__left">
+                     <span class="detail__title">{l s='Reference' d='Shop.Theme.Catalog'}</span>
+                   </div>
+     
+                   <div class="detail__right">
+                     <span>{$product.reference_to_display}</span>
+                   </div>
+                 </li>
+               {/if}
+             {/block}
+     
+             {block name='product_quantities'}
+               {if $product.show_quantities}
+                 <li class="detail">
+                   <div class="detail__left">
+                     <span class="detail__title">{l s='In stock' d='Shop.Theme.Catalog'}</span>
+                   </div>
+     
+                   <div class="detail__right">
+                     <span data-stock="{$product.quantity}" data-allow-oosp="{$product.allow_oosp}">{$product.quantity} {$product.quantity_label}</span>
+                   </div>
+                 </li>
+               {/if}
+             {/block}
+     
+             {block name='product_availability_date'}
+               {if $product.availability_date}
+                 <li class="detail">
+                   <div class="detail__left">
+                     <span class="detail__title">{l s='Availability date:' d='Shop.Theme.Catalog'}</span>
+                   </div>
+     
+                   <div class="detail__right">
+                     <span>{$product.availability_date}</span>
+                   </div>
+                 </li>
+               {/if}
+             {/block}
+     
+             {* if product have specific references, a table will be added to product details section *}
+             {block name='product_condition'}
+              {* {if $product.condition}
+                 <li class="detail">
+                   <div class="detail__left">
+                     <span class="detail__title">{l s='Condition' d='Shop.Theme.Catalog'}</span>
+                   </div>
+     
+                   <div class="detail__right">
+                     <span>{$product.condition.label}</span>
+                   </div>
+                 </li>
+               {/if}*}
+             {/block}
+     
+             {block name='product_specific_references'}
+               {if !empty($product.specific_references)}
+                 {foreach from=$product.specific_references item=reference key=key}
+                   <li class="detail">
+                     <div class="detail__left">
+                       <span class="detail__title">{$key}</span>
+                     </div>
+     
+                     <div class="detail__right">
+                       <span>{$reference}</span>
+                     </div>
+                   </li>
+                 {/foreach}
+               {/if}
+             {/block}
+           </ul>
+         </div>
+       </div>
  
            {widget name="code_childleadsform" product=$product}
            {widget name="ps_sharebuttons"}
@@ -345,9 +438,6 @@
            {/block}
          </div>
  
-         <div class="product__actions js-product-actions">
- 
-         </div>{* /product-actions *}
        </div>{* /col *}
      </div>{* /row *}
      {* END OF FIRST PART *}

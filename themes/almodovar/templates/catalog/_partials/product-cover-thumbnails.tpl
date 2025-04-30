@@ -7,9 +7,6 @@
 <div class="product__images js-images-container">
   {if $product.images|@count > 0}
     <div
-      {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
-      style="height: calc(100vh - 245px); min-height: calc(100vh - 245px);"
-      {/if}
       id="product-images"
       class="carousel slide js-product-carousel"
       data-bs-ride="carousel"
@@ -33,24 +30,35 @@
             {if $image.id_image == $product.default_image.id_image}
             <div class="carousel-item{if $image.id_image == $product.default_image.id_image} active{/if}"
               data-bs-target="#product-images-modal"
-              data-bs-slide-to="{$key}"
-              >
-                <img
-                  class="img-fluid"
-                  src="{if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}{$image.bySize.product_main.url|replace:'medium':'wide'}{else}{$image.bySize.product_main.url|replace:'medium':'small'}{/if}" 
-                  {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
-                  width="1930"
-                  height="718"
-                  {else}
+              data-bs-slide-to="{$key}">
+                <picture>
+                  <!-- Desktop - large image (wide) -->
+                  <source 
+                    media="(min-width: 992px)" 
+                    srcset="{$image.bySize.product_main.url|replace:'medium':'wide'}"
+                    width="800"
+                    height="450">
+                  
+                  <!-- Tablet - medium image -->
+                  <source 
+                    media="(min-width: 768px)" 
+                    srcset="{$image.bySize.product_main.url}"
+                    width="500"
+                    height="280">
+                    
+                  <!-- Mobile - smaller image (medium) -->
+                  <img
+                    class="img-fluid rounded"
+                    src="{$image.bySize.product_main.url}"
                     width="320"
                     height="180"
-                  {/if}
-                  loading="{if $smarty.foreach.productImages.first}eager{else}lazy{/if}"
-                  alt="{$image.legend}"
-                  title="{$image.legend}"
-                >
+                    loading="{if $smarty.foreach.productImages.first}eager{else}lazy{/if}"
+                    alt="{$image.legend}"
+                    decoding="async"
+                  >
+                </picture>
             </div>
-              {/if}
+            {/if}
           {/foreach}
         {/block}
       </div>

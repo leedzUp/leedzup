@@ -4,8 +4,8 @@
  *}
 <div class="modal fade js-product-images-modal" id="product-modal">
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
+    <div class="rounded-4 modal-content">
+      <div class="p-0 modal-body">
         <div
           id="product-images-modal"
           class="carousel slide js-product-images-modal-carousel"
@@ -28,7 +28,7 @@
               {if $key < 6}
               <div class="carousel-item{if $image.id_image == $product.default_image.id_image} active{/if}">
                   <img
-                    class="img-fluid"
+                    class="rounded-4 img-fluid"
                     {if Context::getContext()->detectDeviceByUserAgent() != 'mobile'}
                     src="{$image.bySize.product_main.url|replace:'medium':'large'}" 
                     width="1280"
