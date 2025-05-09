@@ -20,7 +20,7 @@
     <link rel="canonical" href="{$canonical_url}">
   {/if}
   {block name='head_hreflang'}
-    <link rel="alternate" href="{$urls.alternative_langs.fr}" hreflang="x-default">
+   
     {foreach from=$urls.alternative_langs item=pageUrl key=code}
       <link rel="alternate" href="{$pageUrl}" hreflang="{if $code == 'fr'}fr-FR{else}{$code}{/if}">
     {/foreach}
