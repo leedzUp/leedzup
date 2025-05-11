@@ -86,7 +86,7 @@
         {if $product.condition == 'used'}"itemCondition": "https://schema.org/UsedCondition",{/if}
         {if $product.condition == 'refurbished'}"itemCondition": "https://schema.org/RefurbishedCondition",{/if}
       {/if}
-      "availability": "{$product.seo_availability}",
+      "availability": "https://schema.org/InStock",
       "seller": {
         "@type": "Organization",
         "name": "{$shop.name}"
