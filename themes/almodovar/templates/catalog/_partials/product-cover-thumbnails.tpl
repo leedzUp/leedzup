@@ -52,6 +52,7 @@
                     src="{$image.bySize.product_main.url}"
                     width="320"
                     height="180"
+                    fetchpriority="{if $smarty.foreach.productImages.first}high{else}auto{/if}"
                     loading="{if $smarty.foreach.productImages.first}eager{else}lazy{/if}"
                     alt="{$image.legend}"
                     decoding="async"
